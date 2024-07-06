@@ -119,9 +119,6 @@ def get_question():
     category = request.args.get('category', None)
     if category:
         questions = trivia_questions.get(category, [])
-    else:
-        # Get all questions if no category specified
-        questions = sum(trivia_questions.values(), [])
     if questions:
         random_question = random.choice(questions)
         return jsonify(random_question)
