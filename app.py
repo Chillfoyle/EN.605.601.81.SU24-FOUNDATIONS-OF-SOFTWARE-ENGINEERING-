@@ -10,11 +10,6 @@ app = Flask(__name__)
 # Define path to the database
 DATABASE = os.path.join(os.path.dirname(__file__), 'trivial_compute.db')
 
-
-# TODO:
-# Option 1: replace this with database and modify the app using the database instead of this dictionary
-# Option 2: modify the app to allow user t add data to the dictionary
-# This is for temporary testing purpose
 trivia_questions = {
     "yellow": [
         {"question": "Which country is the world's greatest producer of wine?", "answer": "Italy"},
@@ -30,12 +25,10 @@ trivia_questions = {
     ]
 }
 
-
 players = []
 max_players = 4
 current_player = 0
 numquest = 0
-
 
 # Utility function to initialize database
 def init_db():
@@ -45,24 +38,20 @@ def init_db():
             db.cursor().executescript(f.read())
         db.commit()
 
-
 # Utility function for database operations
 def get_db():
    db = sqlite3.connect(DATABASE)
    db.row_factory = sqlite3.Row
    return db
 
-
 # Initialize database if not exists
 if not os.path.exists(DATABASE):
    init_db()
-
 
 # Routes
 @app.route('/')
 def index():
    return render_template('index.html')
-
 
 @app.route('/game')
 def game():
@@ -76,43 +65,36 @@ def game():
     }
     return render_template('game.html', game_state=game_state)
 
-
 @app.route('/create_category', methods=['GET', 'POST'])
 def create_category():
     if request.method == 'POST':
         category_name = request.form['category_name']
-        category_color = request.form['category_color']
+        category_color = "None"
         # Insert category into database
         db = get_db()
         db.execute("INSERT INTO categories (name, color) VALUES (?, ?)", (category_name, category_color))
         db.commit()
         db.close()
-        # Redirect to homepage after category creation
-        return redirect(url_for('index'))
     return render_template('create_category.html')
-
 
 @app.route('/create_question', methods=['GET', 'POST'])
 def create_question():
     if request.method == 'POST':
-        category_id = request.form['category_id']
+        name = request.form['name']
         question_text = request.form['question_text']
         correct_answer = request.form['correct_answer']
         # Insert question into database
         db = get_db()
-        db.execute("INSERT INTO questions (category_id, question_text, correct_answer) VALUES (?, ?, ?)",
-                    (category_id, question_text, correct_answer))
+        db.execute("INSERT INTO questions (name, question_text, correct_answer) VALUES (?, ?, ?)",
+                    (name, question_text, correct_answer))
         db.commit()
         db.close()
-        return redirect(url_for('index'))  # Redirect to homepage after question creation
-
 
     # Retrieve categories from database for dropdown
     db = get_db()
     categories = db.execute("SELECT * FROM categories").fetchall()
     db.close()
     return render_template('create_question.html', categories=categories)
-
 
 @app.route('/get_question', methods=['GET'])
 def get_question():
@@ -125,7 +107,6 @@ def get_question():
     else:
         return jsonify({"question": "", "answer": ""})
 
-
 @app.route('/add_question', methods=['POST'])
 def add_question():
     data = request.get_json()
@@ -133,7 +114,6 @@ def add_question():
     new_question = {"question": data['question'], "answer": data['answer']}
     trivia_questions[category].append(new_question)
     return jsonify({"message": "Question added successfully!"})
-
 
 @app.route('/add_player', methods=['POST'])
 def add_player():
@@ -145,13 +125,11 @@ def add_player():
     else:
         return jsonify({"message": f"Cannot add more than {max_players} players."})
 
-
 @app.route('/next_player', methods=['GET'])
 def next_player():
     global current_player, players
     current_player = (current_player + 1) % len(players)
     return jsonify({"current_player": players[current_player]['name']})
-
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -2,14 +2,68 @@
 <html lang="en">
     <head>
     <meta charset="UTF-8">
+    <style>
+        * {
+          box-sizing: border-box;
+        }
+        
+        body {
+          font-family: Arial, Helvetica, sans-serif;
+        }
+        
+        /* Style the header */
+        header {
+          background-color: #0baec3;
+          padding: 30px;
+          text-align: center;
+          font-size: 35px;
+          color: white;
+        }
+        
+        .bttg button {
+            background-color: #0baec3; 
+            border: 4px solid rgb(0, 85, 128);
+            color: rgb(253, 253, 253); 
+            padding: 10px 24px; 
+            cursor: pointer;
+            width: 20%;
+            margin: 0 auto;
+            display: block;
+        }
+
+        .bttg button:not(:last-child) {
+            border-bottom: none;
+        }
+
+        .bttg button:hover {
+            background-color: #3e838e;
+        }
+        img {
+            width: 50%;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }   
+    </style>
     <title>Trivial Compute</title>
     </head>
     <body>
-        <h1>Welcome to Trivial Compute</h1>
-        <a href="/game">Start Game</a>
-        <br>
-        <a href="/create_category">Create Category</a>
-        <br>
-        <a href="/create_question">Create Question</a>
+        <header>
+            <h1>Welcome to Trivial Compute</h1>
+        </header>
+        <p> <img src="{{url_for('static', filename='/photos/howtoplay.jpeg')}}"></p>
+        <div class="bttg">
+            <a href="/create_question" class="bttg" style="text-decoration:none;">
+                <button style="font-weight:bold; font-size: 20px;";>Create Question</button>
+            </a>
+            <br>
+            <a href="/create_category" class="bttg" style="text-decoration:none;">
+                <button style="font-weight:bold; font-size: 20px;";>Create Category</button>
+            </a>
+            <br>
+            <a href="/game" class="bttg" style="text-decoration:none;">
+                <button style="font-weight:bold; font-size: 20px;";>Start Game</button>
+            </a>
+        </div>
     </body>
 </html>

@@ -241,7 +241,7 @@
 
     <!-- <div id="game-board"> -->
     <div class="game-board">
-        <!-- TODO: replace these squares by buttons with actions. -->
+        <!-- TODO: -->
         <!-- Display game board, player tokens, etc. -->
         <!-- First row -->
         <div class="square white"></div>
@@ -359,27 +359,11 @@
 
     </div>
 
-
-    <!-- FIXME1:
-    <div id="question-window">
-        <h2>{{ game_state.current_question }}</h2>
-        <form id="answer-form">
-            {% for answer in game_state.answers %}
-                <input type="radio" name="answer" value="{{ answer }}"> {{ answer }}<br>
-            {% endfor %}
-            <button type="submit">Submit Answer</button>
-        </form>
-    </div>
-    -->
-
-
-    <!-- Delete this when FIXME1 gets resolved-->
     <div id="question-container">
-        <!-- <h1 style="color:rgb(0, 170, 255);">...???...</h1> -->
         <p id="question"></p>
         <input type="text" id="answer" placeholder="Your Answer">
         <select id="category">
-            <option value="">All Categories</option>
+            <option value="">Choose the color that matches to your position</option>
             <option value="yellow">Yellow</option>
             <option value="green">Green</option>
             <option value="red">Red</option>
