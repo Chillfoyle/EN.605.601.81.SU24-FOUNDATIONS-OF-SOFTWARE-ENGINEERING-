@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="580d08a7-5876-40d9-a66b-c154442bd569" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/static/css/setup_styles.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/js/client_side_classes.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/js/setup_script.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/py/server_side_classes.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/setup_screen.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/index.html" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "git-widget-placeholder": "2507-minimal-setup-and-classes-andrea",
+    "last_opened_file_path": "C:/Users/Andre/Documents/GitHub/EN.605.601.81.SU24-FOUNDATIONS-OF-SOFTWARE-ENGINEERING-/static/css"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Andre\Documents\GitHub\EN.605.601.81.SU24-FOUNDATIONS-OF-SOFTWARE-ENGINEERING-\static\css" />
+      <recent name="C:\Users\Andre\Documents\GitHub\EN.605.601.81.SU24-FOUNDATIONS-OF-SOFTWARE-ENGINEERING-\templates" />
+      <recent name="C:\Users\Andre\Documents\GitHub\EN.605.601.81.SU24-FOUNDATIONS-OF-SOFTWARE-ENGINEERING-\static\js" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Andre\Documents\GitHub\EN.605.601.81.SU24-FOUNDATIONS-OF-SOFTWARE-ENGINEERING-\static\py" />
+    </key>
+  </component>
+  <component name="TaskManager">
+    <servers />
+  </component>
+</project>

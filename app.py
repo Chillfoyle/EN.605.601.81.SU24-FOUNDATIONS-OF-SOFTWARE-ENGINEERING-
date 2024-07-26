@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, jsonify, redirect, url_for
 import sqlite3
 import os
 import random
+from static.py.server_side_classes import GameStateManager
 
 
 app = Flask(__name__)
@@ -53,6 +54,38 @@ if not os.path.exists(DATABASE):
 def index():
    return render_template('index.html')
 
+
+@app.route("/start_game", methods=["POST"])
+def start_game():
+
+    # TODO: Will get rid of this eventually
+    game_state = {
+        'categories': ['History', 'Science', 'Geography', 'Art'],
+        'players': [{'name': 'Player 1', 'score': 0},
+                    {'name': 'Player 2', 'score': 0}],
+        'current_player': 'Player 1',
+        'current_question': 'What is the capital of France?',
+        'answers': ['Paris', 'London', 'Berlin', 'Madrid']
+    }
+
+    global game_state_manager
+
+    # Get JSON data from the request
+    data = request.get_json()
+
+    # Extract players and categories from the data
+    players = data.get('players', [])
+    categories = data.get('categories', [])
+
+    # Create a new GameStateManager instance
+    game_state_manager = GameStateManager(players, categories)
+
+    # Return a success response
+    return jsonify({"message": "Game started successfully",
+                    "game_state": str(game_state_manager)})
+
+
+
 @app.route('/game')
 def game():
     # Retrieve game state from database
@@ -64,6 +97,10 @@ def game():
         'answers': ['Paris', 'London', 'Berlin', 'Madrid']
     }
     return render_template('game.html', game_state=game_state)
+
+@app.route('/setup_screen')
+def setup_screen():
+   return render_template('setup_screen.html')
 
 @app.route('/create_category', methods=['GET', 'POST'])
 def create_category():
@@ -95,6 +132,14 @@ def create_question():
     categories = db.execute("SELECT * FROM categories").fetchall()
     db.close()
     return render_template('create_question.html', categories=categories)
+
+@app.route('/get_categories', methods=['GET'])
+def get_categories():
+    db = get_db()
+    categories = db.execute("SELECT id, name FROM categories").fetchall()
+    categories = [{'id': row[0], 'name': row[1]} for row in categories]
+    db.close()
+    return jsonify(categories)
 
 @app.route('/get_question', methods=['GET'])
 def get_question():

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Game Setup Screen</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Setup Screen</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/setup_styles.css') }}">
+</head>
+<body>
+
+    <header class="header">
+        <h1 class="title">Let's get started...</h1>
+        <div class="header-button-container">
+            <button class="header-button">Help</button>
+            <a href="/" class="header-button">Main Menu</a>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <div class="table-container">
+
+            <div class="player-container">
+                <h2 class="player-title">Add Players</h2>
+                <table class="player-table" id="playerTable">
+                    <thead>
+                        <tr>
+                            <th>Player</th>
+                            <th>Name</th>
+                            <th>Token Color</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td><input type="text" name="player_name[]"></td>
+                            <td>
+                                <select name="token_color[]">
+                                    <option value="" disabled selected></option>
+                                    <option value="red">Red</option>
+                                    <option value="yellow">Yellow</option>
+                                    <option value="green">Green</option>
+                                    <option value="blue">Blue</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td><input type="text" name="player_name[]"></td>
+                            <td>
+                                <select name="token_color[]">
+                                    <option value="" disabled selected></option>
+                                    <option value="red">Red</option>
+                                    <option value="yellow">Yellow</option>
+                                    <option value="green">Green</option>
+                                    <option value="blue">Blue</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td><input type="text" name="player_name[]"></td>
+                            <td>
+                                <select name="token_color[]">
+                                    <option value="" disabled selected></option>
+                                    <option value="red">Red</option>
+                                    <option value="yellow">Yellow</option>
+                                    <option value="green">Green</option>
+                                    <option value="blue">Blue</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td><input type="text" name="player_name[]"></td>
+                            <td>
+                                <select name="token_color[]">
+                                    <option value="" disabled selected></option>
+                                    <option value="red">Red</option>
+                                    <option value="yellow">Yellow</option>
+                                    <option value="green">Green</option>
+                                    <option value="blue">Blue</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="category-container">
+                <h2 class="category-title">Choose 4 Categories</h2>
+                <table class="category-table" id="categoryTable">
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <select class="dropdown" name='category[]'>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <select class="dropdown" name='category[]'>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <select class="dropdown" name='category[]'>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <select class="dropdown" name='category[]'>
+                                </select>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="play-button" id="playButton">Let's Play!</div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/client_side_classes.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/setup_script.js') }}"></script>
+</body>
+</html>
