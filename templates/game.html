@@ -8,6 +8,9 @@
 <body>
     <h1 style="color:rgb(0, 170, 255)";>Trivial Compute Game</h1>
     <script>
+
+        <!-- Moved this function to Die.js -->
+
 <!--        let players = [];-->
 
 <!--        // Function to simulate rolling dice visually-->
@@ -100,7 +103,10 @@
             });
         }
 
-<!--        document.addEventListener('DOMContentLoaded', function () {-->
+<!-- Delete after confirming that other functionality works -->
+
+<!--        document.addEventListener('DOMContentLoaded', () => {-->
+
 <!--            // Prompt for adding players-->
 <!--            let numPlayers = prompt('Enter number of players (1 to 4):');-->
 <!--            if (numPlayers && numPlayers >= 1 && numPlayers <= 4) {-->
@@ -132,34 +138,34 @@
 <!--                window.location.href = '/';  // Reload the page to restart-->
 <!--            }-->
 
-            fetchQuestion();
-            document.getElementById('add-question-form').addEventListener('submit', function (event) {
-                event.preventDefault();
-                let newQuestion = document.getElementById('new-question').value.trim();
-                let newAnswer = document.getElementById('new-answer').value.trim();
-                let newCategory = document.getElementById('new-category').value;
+<!--            fetchQuestion();-->
+<!--            document.getElementById('add-question-form').addEventListener('submit', function (event) {-->
+<!--                event.preventDefault();-->
+<!--                let newQuestion = document.getElementById('new-question').value.trim();-->
+<!--                let newAnswer = document.getElementById('new-answer').value.trim();-->
+<!--                let newCategory = document.getElementById('new-category').value;-->
 
 
-                if (newQuestion && newAnswer && newCategory) {
-                    fetch('/add_question', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ question: newQuestion, answer: newAnswer, category: newCategory })
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        alert(data.message);
-                        document.getElementById('add-question-form').reset();
-                        fetchQuestion();  // Fetch next question after adding new question
-                    })
-                    .catch(error => console.error('Error:', error));
-                } else {
-                    alert('Please enter both question, answer, and select a category.');
-                }
-            });
-        });
+<!--                if (newQuestion && newAnswer && newCategory) {-->
+<!--                    fetch('/add_question', {-->
+<!--                        method: 'POST',-->
+<!--                        headers: {-->
+<!--                            'Content-Type': 'application/json'-->
+<!--                        },-->
+<!--                        body: JSON.stringify({ question: newQuestion, answer: newAnswer, category: newCategory })-->
+<!--                    })-->
+<!--                    .then(response => response.json())-->
+<!--                    .then(data => {-->
+<!--                        alert(data.message);-->
+<!--                        document.getElementById('add-question-form').reset();-->
+<!--                        fetchQuestion();  // Fetch next question after adding new question-->
+<!--                    })-->
+<!--                    .catch(error => console.error('Error:', error));-->
+<!--                } else {-->
+<!--                    alert('Please enter both question, answer, and select a category.');-->
+<!--                }-->
+<!--            });-->
+<!--        });-->
     </script>
 
 
@@ -296,8 +302,9 @@
         <div class="square green"></div>
         <div class="square white"></div>
 
-        <div class="window" id="window1">
-            <div class="player-name">Player 1</div>
+        <!--- <div class="hide-window" id="red-hide-window"></div>--->
+        <div class="window" id="red-window">
+            <div class="player-name" id="red-player"></div>
             <div class="score-grid" id="grid1">
                 <div class="score-square" data-id="1"></div>
                 <div class="score-square" data-id="2"></div>
@@ -306,8 +313,9 @@
             </div>
         </div>
 
-        <div class="window" id="window2">
-            <div class="player-name">Player 2</div>
+        <!--- <div class="hide-window" id="yellow-hide-window"></div> --->
+        <div class="window" id="yellow-window">
+            <div class="player-name" id="yellow-player"></div>
             <div class="score-grid" id="grid2">
                 <div class="score-square" data-id="1"></div>
                 <div class="score-square" data-id="2"></div>
@@ -316,8 +324,9 @@
             </div>
         </div>
 
-        <div class="window" id="window3">
-            <div class="player-name">Player 3</div>
+        <!--- <div class="hide-window" id="green-hide-window"></div>--->
+        <div class="window" id="green-window">
+            <div class="player-name" id="green-player"></div>
             <div class="score-grid" id="grid3">
                 <div class="score-square" data-id="1"></div>
                 <div class="score-square" data-id="2"></div>
@@ -326,8 +335,9 @@
             </div>
         </div>
 
-        <div class="window" id="window4">
-            <div class="player-name">Player 4</div>
+        <!--- <div class="hide-window" id="blue-hide-window"></div>--->
+        <div class="window" id="blue-window">
+            <div class="player-name" id="blue-player"></div>
             <div class="score-grid" id="grid4">
                 <div class="score-square" data-id="1"></div>
                 <div class="score-square" data-id="2"></div>
@@ -353,4 +363,7 @@
         <button class="button" onclick="checkAnswer()">Submit Answer</button>
     </div>
 </body>
+<script src="{{ url_for('static', filename='js/classes/GameUIController.js') }}"></script>
+<script src="{{ url_for('static', filename='js/classes/Die.js') }}"></script>
+<script src="{{ url_for('static', filename='js/game_script.js') }}"></script>
 </html>

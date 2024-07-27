@@ -88,6 +88,7 @@ def start_game():
 @app.route('/get_players', methods=['GET'])
 def get_players():
     players_info = game_state_manager.get_players_info()
+    print(f"Get Players Info: {players_info}")
     return jsonify(players_info)
 
 @app.route('/game')
@@ -173,6 +174,12 @@ def add_player():
         return jsonify({"message": f"Player '{player_name}' added successfully!"})
     else:
         return jsonify({"message": f"Cannot add more than {max_players} players."})
+
+@app.route('/get_current_player', methods=['GET'])
+def get_current_player():
+    current_player_info = game_state_manager.get_current_player_info()
+    print(f"App Current Player Info: {current_player_info}")
+    return jsonify(current_player_info)
 
 @app.route('/next_player', methods=['GET'])
 def next_player():

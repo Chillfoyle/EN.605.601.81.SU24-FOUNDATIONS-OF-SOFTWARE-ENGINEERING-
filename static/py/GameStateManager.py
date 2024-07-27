@@ -8,15 +8,19 @@ class GameStateManager:
     def __init__(self, player_inputs, category_ids):
         """Constructor"""
 
-        self.current_player = 0
+        self.current_player_idx = 0
         self.winning_category_set = category_ids
         self.category_colors = ["red", "yellow", "green", "blue"]
         self.start_loc = (4, 4)
 
         # Initialize Players
         self.player_list = []
-        for name, token_color in player_inputs:
-            self.player_list.append(Player(name, token_color, self.start_loc))
+        print(f"Player Inputs: {player_inputs}")
+        for player in player_inputs:
+            print(player)
+            new_player = Player(player["name"], player["tokenColor"],
+                                self.start_loc)
+            self.player_list.append(new_player)
 
         # Initialize GameCategories
         self.category_list = []
@@ -41,6 +45,11 @@ class GameStateManager:
     def get_players_info(self):
         return [{"name": player.name, "token_color": player.token_color} for
                 player in self.player_list]
+
+    def get_current_player_info(self):
+        player = self.player_list[self.current_player_idx]
+        print("GSM Current Player Info", {"name": player.name, "token_color": player.token_color})
+        return {"name": player.name, "token_color": player.token_color}
 
     # TODO: Add other functions
 

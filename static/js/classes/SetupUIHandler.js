@@ -39,6 +39,7 @@ class SetupUIHandler {
     }
 
     submitInputs() {
+        console.log("Saving player inputs");
         this.savePlayerInputs();
         this.saveCategoryInputs();
 
@@ -64,10 +65,13 @@ class SetupUIHandler {
 
         try {  // Use player names and tokens to initialize Player objects
             const playerInputs = document.querySelectorAll("#playerTable tbody tr");
-
+            console.log("got player inputs");
+            console.log(playerInputs);
             playerInputs.forEach(row => {
                 const name = row.querySelector("input[name='player_name[]']").value;
                 const tokenColor = row.querySelector("select[name='token_color[]']").value;
+                console.log(name);
+                console.log(tokenColor);
 
                 if (name && tokenColor) {  // Initialize Player object
                     this.playerList.push({name, tokenColor});

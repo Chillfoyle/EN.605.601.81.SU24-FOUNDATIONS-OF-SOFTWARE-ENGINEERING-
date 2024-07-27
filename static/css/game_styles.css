@@ -61,36 +61,49 @@
 /* Style for each window */
 .window {
     position: absolute;
-    width: 27%; /* Adjust size as needed */
-    height: 27%; /* Adjust size as needed */
+    width: 9%; /* Adjust size as needed */
+    height: 18%; /* Adjust size as needed */
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 }
 
-#window1 {
-    top: 47%;
-    left: -3.5%;
-    border: 4px solid var(--game-red);
+.hide-window {
+    position: absolute;
+    width: 9%; /* Adjust size as needed */
+    height: 18%; /* Adjust size as needed */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    z-index: 10;
+    display: none;
 }
 
-#window2 {
-    top: 47%;
-    left: 11%;
-    border: 4px solid var(--game-yellow);
+#red-window {
+    top: 62%;
+    left: 5.5%;
+    border: 4px solid red;
 }
 
-#window3 {
-    bottom: -7%;
-    left: -3.5%;
-    border: 4px solid var(--game-green);
+#yellow-window {
+    top: 62%;
+    left: 20%;
+    border: 4px solid yellow;
 }
 
-#window4 {
-    bottom: -7%;
-    left: 11%;
-    border: 4px solid var(--game-blue);
+#green-window {
+    bottom: -15%;
+    left: 5.5%;
+    border: 4px solid green;
+}
+
+#blue-window {
+    bottom: -15%;
+    left: 20%;
+    border: 4px solid blue;
 }
 
 /* Style for player names and squares */
@@ -137,3 +150,4 @@
 .score-square.filled-blue {
     background-color: var(blue);
 }
+

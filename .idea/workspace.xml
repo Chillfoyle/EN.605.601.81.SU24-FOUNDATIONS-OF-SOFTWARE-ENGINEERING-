@@ -5,13 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="580d08a7-5876-40d9-a66b-c154442bd569" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/static/css/game_styles.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/js/game_script.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/css/game_styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/css/game_styles.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/js/classes/Die.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/classes/Die.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/static/js/classes/GameUIController.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/classes/GameUIController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/py/GameCategory.py" beforeDir="false" afterPath="$PROJECT_DIR$/static/py/GameCategory.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/js/classes/SetupUIHandler.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/classes/SetupUIHandler.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/js/setup_script.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/setup_script.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/static/py/GameStateManager.py" beforeDir="false" afterPath="$PROJECT_DIR$/static/py/GameStateManager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/py/Player.py" beforeDir="false" afterPath="$PROJECT_DIR$/static/py/Player.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/game.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/game.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

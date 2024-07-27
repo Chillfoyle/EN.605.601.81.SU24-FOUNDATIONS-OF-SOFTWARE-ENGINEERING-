@@ -6,7 +6,7 @@ class Die {
         this.element = document.getElementById(elementId);
     }
 
-    function roll() {
+    roll() {
     // Function to simulate rolling dice visually
 
         this.display("Rolling...");
@@ -17,7 +17,7 @@ class Die {
         }, 1000); // Simulate die roll delay for 1 second
     }
 
-    function displayValue(value) {
+    displayValue(value) {
     /// Displays the given value
         this.element.textContent = value;
     }
