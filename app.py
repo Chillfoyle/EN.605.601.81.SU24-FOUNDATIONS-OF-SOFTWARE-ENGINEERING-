@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, jsonify, redirect, url_for
 import sqlite3
 import os
 import random
-from static.py.server_side_classes import GameStateManager
+from static.py.GameStateManager import GameStateManager
 
 
 app = Flask(__name__)

@@ -5,8 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="580d08a7-5876-40d9-a66b-c154442bd569" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/static/js/classes/CategoryUIHandler.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/js/classes/Die.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/js/classes/GameUIController.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/js/classes/QuestionUIHandler.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/py/DataBaseManager.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/py/GameCategory.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/py/GameStateManager.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/py/Player.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/py/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/py/server_side_classes.py" beforeDir="false" afterPath="$PROJECT_DIR$/static/py/server_side_classes.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/js/client_side_classes.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/classes/SetupUIHandler.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/js/setup_script.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/setup_script.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/py/server_side_classes.py" beforeDir="false" afterPath="$PROJECT_DIR$/static/py/MoveCalculator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/setup_screen.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/setup_screen.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,7 +52,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "2507-minimal-setup-and-classes-andrea",
-    "last_opened_file_path": "C:/Users/Andre/Documents/GitHub/EN.605.601.81.SU24-FOUNDATIONS-OF-SOFTWARE-ENGINEERING-/static/css"
+    "last_opened_file_path": "C:/Users/Andre/Documents/GitHub/EN.605.601.81.SU24-FOUNDATIONS-OF-SOFTWARE-ENGINEERING-"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -49,10 +62,33 @@
       <recent name="C:\Users\Andre\Documents\GitHub\EN.605.601.81.SU24-FOUNDATIONS-OF-SOFTWARE-ENGINEERING-\static\js" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Andre\Documents\GitHub\EN.605.601.81.SU24-FOUNDATIONS-OF-SOFTWARE-ENGINEERING-\static\js\classes" />
       <recent name="C:\Users\Andre\Documents\GitHub\EN.605.601.81.SU24-FOUNDATIONS-OF-SOFTWARE-ENGINEERING-\static\py" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Python.app">
+    <configuration name="app" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="EN.605.601.81.SU24-FOUNDATIONS-OF-SOFTWARE-ENGINEERING-" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="SDK_NAME" value="Python 3.11" />
+      <option name="WORKING_DIRECTORY" value="C:\Users\Andre\Documents\GitHub\EN.605.601.81.SU24-FOUNDATIONS-OF-SOFTWARE-ENGINEERING-" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/app.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="test" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="EN.605.601.81.SU24-FOUNDATIONS-OF-SOFTWARE-ENGINEERING-" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -75,6 +111,10 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="Python.test" />
+      <item itemvalue="Python.app" />
+    </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -86,16 +126,5 @@
       <updated>1722057991742</updated>
     </task>
     <servers />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/test.py</url>
-          <line>34</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

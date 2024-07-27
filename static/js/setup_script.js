@@ -1,12 +1,12 @@
 // Main code
 
 document.addEventListener("DOMContentLoaded", () => {
-    const setupManager = new SetupManager();
+    const setupUIHandler = new SetupUIHandler();
 
-    setupManager.initializeSetupScreen();
+    setupUIHandler.initializeSetupScreen();
 
     document.getElementById("playButton").addEventListener("click", () => {
-        setupManager.submitInputs();
+        setupUIHandler.submitInputs();
     });
 });
 

@@ -1,4 +1,4 @@
-class SetupManager {
+class SetupUIHandler {
 
     constructor() {
         this.playerList = []
