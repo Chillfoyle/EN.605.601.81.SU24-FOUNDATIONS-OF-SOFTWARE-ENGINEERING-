@@ -2,6 +2,7 @@ class GameUIController {
 
     constructor() {
         // Get players from GSM
+        this.die = new Die("die");
     }
 
     initializeGameScreen() {
@@ -13,6 +14,16 @@ class GameUIController {
     displayInGameMessage(messageType) {
         // Display start message, prompt player to take turn,
         // provide any instructions or feedback
+        if (messageType === "roll-die-prompt") {
+            const msg = `${this.currentPlayerName}, roll the die!`
+            document.getElementById("player-prompt-text").innerHTML = msg;
+        }
+
+        if (messageType === "select-dest-prompt") {
+            const msg = `${this.currentPlayerName}, where will you move your token?<br>Click a highlighted square.`
+            document.getElementById("player-prompt-text").innerHTML = msg;
+        }
+
     }
 
     displayPopUp(message) {
@@ -23,8 +34,14 @@ class GameUIController {
 
     }
 
-    rollDie() {
-
+    rollDie() {  // Some of this code belongs somewhere else...
+        this.die.roll().then(() => {
+            // send number to server side?
+            // get back and display valid move set
+            this.displayInGameMessage("select-dest-prompt");
+        });
+        // player selects square, send location to server
+        // server updates location, triggers UIcontroller to move token
     }
 
     highlightAvailableDestinations() {
@@ -85,6 +102,8 @@ class GameUIController {
             .then(response => response.json())
             .then(data => {
                 document.getElementById('current-player').innerText = data.name;
+                this.currentPlayerName = data.name;
+                this.displayInGameMessage("roll-die-prompt");
                 console.log("Successfully updated current player name");
             })
             .catch(error => console.error('Error fetching players:', error));

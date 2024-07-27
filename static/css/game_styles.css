@@ -58,7 +58,28 @@
     margin-bottom: 10px;
 }
 
-/* Style for each window */
+.player-action-window {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+}
+
+.die-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.player-prompt-text {
+    font-size: 20px; /* Adjust font size as needed */
+    margin-bottom: 10px;
+    font-weight: bold;
+    height: 100%;
+}
+
+/* Style for each score window */
 .window {
     position: absolute;
     width: 9%; /* Adjust size as needed */

@@ -12,4 +12,11 @@ document.addEventListener("DOMContentLoaded", () => {
         gameUIController.updateCurrentPlayer();
     })();
 
+    const rollButton = document.getElementById('rollDieButton');
+    if (rollButton) {
+        rollButton.addEventListener('click', () => {
+            gameUIController.rollDie();
+        });
+    }
+
 });

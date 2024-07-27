@@ -15,9 +15,7 @@ class GameStateManager:
 
         # Initialize Players
         self.player_list = []
-        print(f"Player Inputs: {player_inputs}")
         for player in player_inputs:
-            print(player)
             new_player = Player(player["name"], player["tokenColor"],
                                 self.start_loc)
             self.player_list.append(new_player)
@@ -48,7 +46,6 @@ class GameStateManager:
 
     def get_current_player_info(self):
         player = self.player_list[self.current_player_idx]
-        print("GSM Current Player Info", {"name": player.name, "token_color": player.token_color})
         return {"name": player.name, "token_color": player.token_color}
 
     # TODO: Add other functions
