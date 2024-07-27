@@ -38,6 +38,10 @@ class GameStateManager:
         self.game_board = [row0, row1, row2, row3, row4, row5,
                            row6, row7, row8]
 
+    def get_players_info(self):
+        return [{"name": player.name, "token_color": player.token_color} for
+                player in self.player_list]
+
     # TODO: Add other functions
 
     def __repr__(self):

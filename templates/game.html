@@ -3,84 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title>Trivial Compute Game</title>
-    <style>
-        .game-board {
-            width: 450px; /* Total width of the board */
-            height: 450px; /* Total height of the board */
-            display: grid;
-            grid-template-columns: repeat(9, 1fr); /* 9 columns */
-            grid-template-rows: repeat(9, 1fr); /* 9 rows */
-            border: 2px solid black;
-        }
-
-        .square {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 24px;
-            font-weight: bold;
-            border: 1px solid black;
-        }
-
-        .square-empty {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 24px;
-            font-weight: bold;
-        }
-
-        .red { background-color: red; }
-        .green { background-color: green; }
-        .blue { background-color: blue; }
-        .yellow { background-color: yellow; }
-        .white { background-color: white; }
-
-        .dice {
-            width: 50px;
-            height: 50px;
-            background-color: white;
-            border: 2px solid black;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 24px;
-            margin-top: 10px;
-        }
-
-        .button {
-            background-color: rgb(0, 170, 255);
-            border: none;
-            color: white;
-        }
-
-        #players-list {
-            list-style-type: none;
-            padding: 0;
-        }
-
-
-        #players-list li {
-            margin-bottom: 10px;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/game_styles.css') }}">
 </head>
 <body>
     <h1 style="color:rgb(0, 170, 255)";>Trivial Compute Game</h1>
     <script>
-        let players = [];
+<!--        let players = [];-->
 
-        // Function to simulate rolling dice visually
-        function rollDice() {
-            const diceElement = document.getElementById('dice');
-            diceElement.textContent = 'Rolling...';
-            
-            setTimeout(() => {
-                const diceRoll = Math.floor(Math.random() * 6) + 1; // Roll dice from 1 to 6
-                diceElement.textContent = diceRoll;
-                document.getElementById('last-roll').textContent = diceRoll;
-            }, 1000); // Simulate dice roll delay for 1 second
-        }
+<!--        // Function to simulate rolling dice visually-->
+<!--        function rollDice() {-->
+<!--            const diceElement = document.getElementById('dice');-->
+<!--            diceElement.textContent = 'Rolling...';-->
+<!--            -->
+<!--            setTimeout(() => {-->
+<!--                const diceRoll = Math.floor(Math.random() * 6) + 1; // Roll dice from 1 to 6-->
+<!--                diceElement.textContent = diceRoll;-->
+<!--                document.getElementById('last-roll').textContent = diceRoll;-->
+<!--            }, 1000); // Simulate dice roll delay for 1 second-->
+<!--        }-->
 
         function fetchQuestion() {
             let category = document.getElementById('category').value;
@@ -160,37 +100,37 @@
             });
         }
 
-        document.addEventListener('DOMContentLoaded', function () {
-            // Prompt for adding players
-            let numPlayers = prompt('Enter number of players (1 to 4):');
-            if (numPlayers && numPlayers >= 1 && numPlayers <= 4) {
-                for (let i = 0; i < numPlayers; i++) {
-                    let playerName = prompt(`Enter name for Player ${i + 1}:`);
-                    if (playerName) {
-                        fetch('/add_player', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({ name: playerName })
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            alert(data.message);
-                            players.push({ name: playerName, score: 0, current: false });
-                            if (players.length === 1) {
-                                players[0].current = true;  // First player starts as current player
-                                document.getElementById('current-player').innerText = playerName;
-                            }
-                            updatePlayerScores();
-                        })
-                        .catch(error => console.error('Error:', error));
-                    }
-                }
-            } else {
-                alert('Invalid number of players. Game requires 1 to 4 players.');
-                window.location.href = '/';  // Reload the page to restart
-            }
+<!--        document.addEventListener('DOMContentLoaded', function () {-->
+<!--            // Prompt for adding players-->
+<!--            let numPlayers = prompt('Enter number of players (1 to 4):');-->
+<!--            if (numPlayers && numPlayers >= 1 && numPlayers <= 4) {-->
+<!--                for (let i = 0; i < numPlayers; i++) {-->
+<!--                    let playerName = prompt(`Enter name for Player ${i + 1}:`);-->
+<!--                    if (playerName) {-->
+<!--                        fetch('/add_player', {-->
+<!--                            method: 'POST',-->
+<!--                            headers: {-->
+<!--                                'Content-Type': 'application/json'-->
+<!--                            },-->
+<!--                            body: JSON.stringify({ name: playerName })-->
+<!--                        })-->
+<!--                        .then(response => response.json())-->
+<!--                        .then(data => {-->
+<!--                            alert(data.message);-->
+<!--                            players.push({ name: playerName, score: 0, current: false });-->
+<!--                            if (players.length === 1) {-->
+<!--                                players[0].current = true;  // First player starts as current player-->
+<!--                                document.getElementById('current-player').innerText = playerName;-->
+<!--                            }-->
+<!--                            updatePlayerScores();-->
+<!--                        })-->
+<!--                        .catch(error => console.error('Error:', error));-->
+<!--                    }-->
+<!--                }-->
+<!--            } else {-->
+<!--                alert('Invalid number of players. Game requires 1 to 4 players.');-->
+<!--                window.location.href = '/';  // Reload the page to restart-->
+<!--            }-->
 
             fetchQuestion();
             document.getElementById('add-question-form').addEventListener('submit', function (event) {
@@ -355,6 +295,46 @@
         <div class="square red"></div>
         <div class="square green"></div>
         <div class="square white"></div>
+
+        <div class="window" id="window1">
+            <div class="player-name">Player 1</div>
+            <div class="score-grid" id="grid1">
+                <div class="score-square" data-id="1"></div>
+                <div class="score-square" data-id="2"></div>
+                <div class="score-square" data-id="3"></div>
+                <div class="score-square" data-id="4"></div>
+            </div>
+        </div>
+
+        <div class="window" id="window2">
+            <div class="player-name">Player 2</div>
+            <div class="score-grid" id="grid2">
+                <div class="score-square" data-id="1"></div>
+                <div class="score-square" data-id="2"></div>
+                <div class="score-square" data-id="3"></div>
+                <div class="score-square" data-id="4"></div>
+            </div>
+        </div>
+
+        <div class="window" id="window3">
+            <div class="player-name">Player 3</div>
+            <div class="score-grid" id="grid3">
+                <div class="score-square" data-id="1"></div>
+                <div class="score-square" data-id="2"></div>
+                <div class="score-square" data-id="3"></div>
+                <div class="score-square" data-id="4"></div>
+            </div>
+        </div>
+
+        <div class="window" id="window4">
+            <div class="player-name">Player 4</div>
+            <div class="score-grid" id="grid4">
+                <div class="score-square" data-id="1"></div>
+                <div class="score-square" data-id="2"></div>
+                <div class="score-square" data-id="3"></div>
+                <div class="score-square" data-id="4"></div>
+            </div>
+        </div>
 
 
     </div>

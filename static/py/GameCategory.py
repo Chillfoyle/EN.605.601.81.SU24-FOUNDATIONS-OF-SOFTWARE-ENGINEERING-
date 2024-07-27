@@ -4,13 +4,13 @@ class GameCategory:
     def __init__(self, cat_id, color):
         """Constructor"""
         self.cat_id = cat_id  # Category ID (from database)
-        self.name = "" # self.retrieve_name(cat_id)  # Category name (from database)
+        self.name = "" # self.fetch_name(cat_id)  # Category name (from database)
         self.color = color  # From GSM
         self.question_list = []
         self.current_question = 0
 
     # TODO: Complete
-    def retrieve_name(self, cat_id):
+    def fetch_name(self, cat_id):
         """Get name from database"""
         pass
 
@@ -23,7 +23,7 @@ class GameCategory:
         return self.color
 
     # TODO: Complete
-    def retrieve_cat_questions(self):
+    def fetch_cat_questions(self):
         """Get list of questions from the database"""
         pass
 

@@ -4,7 +4,7 @@ class Player:
     def __init__(self, name, token_color, starting_location):
         """Constructor"""
         self.name = name  # Player name (user input)
-        self.token_name = token_color + "_token"  # Token color (user input)
+        self.token_color = token_color  # Token color (user input)
         self.categories_earned = set()
         self.token_location = starting_location
 
@@ -12,9 +12,9 @@ class Player:
         """Return name"""
         return self.name
 
-    def get_token_name(self):
+    def get_token_color(self):
         """Return token name"""
-        return self.token_name
+        return self.token_color
 
     def get_token_location(self):
         """Return token location"""
@@ -34,4 +34,4 @@ class Player:
 
     def __repr__(self):
         """Return a string representation of the Player object"""
-        return str({"name": self.name, "token_name": self.token_name})
+        return str({"name": self.name, "token_color": self.token_color})

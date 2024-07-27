@@ -85,6 +85,10 @@ def start_game():
                     "game_state": str(game_state_manager)})
 
 
+@app.route('/get_players', methods=['GET'])
+def get_players():
+    players_info = game_state_manager.get_players_info()
+    return jsonify(players_info)
 
 @app.route('/game')
 def game():
