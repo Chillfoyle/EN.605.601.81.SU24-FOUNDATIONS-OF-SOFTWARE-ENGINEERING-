@@ -56,6 +56,9 @@ class GameStateManager:
     def get_valid_destinations(self, player_loc, num_steps):
         return self.move_calculator.get_valid_destinations(player_loc, num_steps)
 
+    def update_current_player_location(self, new_location):
+        self.player_list[self.current_player_idx].token_location = tuple(new_location)
+
     # TODO: Add other functions
 
     def __repr__(self):

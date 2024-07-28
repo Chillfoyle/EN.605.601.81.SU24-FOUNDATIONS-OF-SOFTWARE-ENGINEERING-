@@ -7,7 +7,19 @@ class MoveHandler {
         this.gameUIController = gameUIController;
         this.die = new Die();
         this.squares = document.querySelectorAll(".game-board .square, .square-empty");
-        this.tokens = Array.from(document.querySelectorAll(".token"));
+        this.tokens = [];
+    }
+
+    setCurrentPlayerTokenId(token_color) {
+        this.currentPlayerTokenId = `${token_color}-token`;
+    }
+
+    initializeToken(player) {
+        const token = document.createElement("div");
+        token.classList.add("token", player.token_color, `${player.token_color}-corner`);
+        token.id = `${player.token_color}-token`;
+        this.placeOnSquare(token, 4, 4);
+        this.tokens.push(token);
     }
 
     handleDieRoll(playerLoc) {
@@ -25,18 +37,21 @@ class MoveHandler {
         // Create each player's token and put it in the starting location
             const star = document.createElement("div");
             star.classList.add("star");
+            star.addEventListener('click', () => {
+                this.moveCurrentPlayerToken(validLoc[0], validLoc[1]);
+                this.gameUIController.displayInGameMessage("");  // Clear text
+                document.querySelectorAll('.star').forEach(star => star.remove());  // Clear stars
+            });
             this.placeOnSquare(star, validLoc[0], validLoc[1]);
         });
     }
 
     /* TODO: For MINIMAL - Finish movePlayerToken */
-    movePlayerToken(token) {
-        // player selects square
-        // send location to server
-        // server updates location, triggers UIcontroller to move token
-        // this.MoveHandler.placeTokenOnSquare(token, squareRow, squareCol)
+    moveCurrentPlayerToken(row, col) {
+        const token = document.getElementById(this.currentPlayerTokenId);
+        this.placeOnSquare(token, row, col);
+        this.gameUIController.updateCurrentPlayerLocation(row, col);
     }
-
 
     getSquare(row, col) {
     // Derive the index of grid square in list given row and column

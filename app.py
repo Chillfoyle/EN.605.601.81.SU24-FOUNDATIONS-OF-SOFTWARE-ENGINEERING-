@@ -105,6 +105,13 @@ def get_valid_destinations():
     return jsonify([list(dest) for dest in valid_destinations])
 
 
+@app.route('/update_current_player_location', methods=['POST'])
+def update_current_player_location():
+    data = request.json
+    game_state_manager.update_current_player_location(data)
+    return jsonify({'status': 'success', 'message': 'Player location updated'})
+
+
 @app.route('/game')
 def game():
     # Retrieve game state from database

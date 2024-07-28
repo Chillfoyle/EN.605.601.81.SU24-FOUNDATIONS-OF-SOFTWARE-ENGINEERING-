@@ -3,8 +3,6 @@ class GameUIController {
     constructor() {
     // Create new GameUIController object
         this.moveHandler = new MoveHandler(this);
-        this.boardSquares = document.querySelectorAll(".game-board .square, .square-empty");
-        this.tokens = Array.from(document.querySelectorAll(".token"));
         this.initializeGameScreen();
         this.setUpEventListeners();
     }
@@ -13,6 +11,7 @@ class GameUIController {
     // How to handle all button clicks
 
         document.getElementById("rollDieButton").addEventListener('click', () => this.moveHandler.handleDieRoll());
+
         // Add as needed
     }
 
@@ -24,14 +23,9 @@ class GameUIController {
         console.log("Displaying player names in score window");
         this.displayPlayerNames();
         console.log("Showing current player name on screen");
+        this.players.forEach(player => {this.moveHandler.initializeToken(player)});
+        console.log("Tokens placed on start");
         this.startPlayerTurn();
-
-        this.players.forEach(player => {
-        // Create each player's token and put it in the starting location
-            const token = document.createElement("div");
-            token.classList.add("token", player.token_color, `${player.token_color}-corner`);
-            this.moveHandler.placeOnSquare(token, 4, 4);
-        });
     }
 
     displayPlayerNames() {
@@ -104,10 +98,22 @@ class GameUIController {
                 document.getElementById('current-player').innerText = data.name;
                 this.currentPlayerName = data.name;
                 this.currentPlayerLocation = data.token_location;
+                this.moveHandler.setCurrentPlayerTokenId(data.token_color);
                 this.displayInGameMessage("roll-die-prompt");
                 console.log("Successfully updated current player name");
             })
             .catch(error => console.error('Error fetching players:', error));
+    }
+
+    async updateCurrentPlayerLocation(newRow, newCol) {
+        this.currentPlayerLocation = [newRow, newCol];  // Update internally
+        const response = await fetch('/update_current_player_location', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(this.currentPlayerLocation)
+        });
     }
 
     /* TODO: For MINIMAL - Finish updatePlayerScore */
@@ -126,6 +132,10 @@ class GameUIController {
         if (messageType === "select-dest-prompt") {
             const msg = `${this.currentPlayerName}, where will you move your token?<br>Click a highlighted square.`
             document.getElementById("player-prompt-text").innerHTML = msg;
+        }
+
+        if (messageType === "") {  // Clear
+            document.getElementById("player-prompt-text").innerHTML = "";
         }
 
         /* TODO: For MINIMAL - Add messages for Roll Again, HQ, Trivial Compute squares, winning */
