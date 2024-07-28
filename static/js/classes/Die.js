@@ -1,15 +1,15 @@
 class Die {
 // Class for the die rolled during the game
 
-    constructor(elementId) {
+    constructor() {
     // Attaches JavaScript class to the die on the screen
-        this.element = document.getElementById(elementId);
+        this.element = document.getElementById("die");
         console.log("Die initialized");
     }
 
     roll() {
     // Function to simulate rolling dice visually
-        return new Promise((resolve) => {
+        return new Promise((resolve) => {  // "Promise" so function waits for it to finish
             console.log("Rolling die");
             this.displayValue("Rolling...");
 
@@ -22,7 +22,7 @@ class Die {
     }
 
     displayValue(value) {
-    /// Displays the given value
+    /// Displays the given value for the die
         this.element.textContent = value;
     }
 }

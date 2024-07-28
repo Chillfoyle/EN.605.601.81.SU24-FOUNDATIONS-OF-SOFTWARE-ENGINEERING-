@@ -1,66 +1,41 @@
 class GameUIController {
 
     constructor() {
-        // Get players from GSM
-        this.die = new Die("die");
+    // Create new GameUIController object
+
+        this.die = new Die();
+        this.tokenMover = new TokenMover();
+        this.initializeGameScreen();
+        this.setUpEventListeners();
     }
 
-    initializeGameScreen() {
-        // Tokens
-        // Scores
-        // Category list
+    setUpEventListeners() {
+    // How to handle all button clicks
+
+        document.getElementById("rollDieButton").addEventListener('click', () => this.manageDieRoll());
+        // Add as needed
     }
 
-    displayInGameMessage(messageType) {
-        // Display start message, prompt player to take turn,
-        // provide any instructions or feedback
-        if (messageType === "roll-die-prompt") {
-            const msg = `${this.currentPlayerName}, roll the die!`
-            document.getElementById("player-prompt-text").innerHTML = msg;
-        }
+    async initializeGameScreen() {
+    // Set up the game screen
 
-        if (messageType === "select-dest-prompt") {
-            const msg = `${this.currentPlayerName}, where will you move your token?<br>Click a highlighted square.`
-            document.getElementById("player-prompt-text").innerHTML = msg;
-        }
+        console.log("Fetching player information from GSM");
+        await this.fetchPlayers();
+        console.log("Displaying player names in score window");
+        this.displayPlayerNames();
+        console.log("Showing current player name on screen");
+        this.startPlayerTurn();
 
-    }
-
-    displayPopUp(message) {
-
-    }
-
-    updateTurnIndicator() {
-
-    }
-
-    rollDie() {  // Some of this code belongs somewhere else...
-        this.die.roll().then(() => {
-            // send number to server side?
-            // get back and display valid move set
-            this.displayInGameMessage("select-dest-prompt");
+        this.players.forEach(player => {
+        // Create each player's token and put it in the starting location
+            const token = document.createElement("div");
+            token.classList.add("token", player.token_color, `${player.token_color}-corner`);
+            this.tokenMover.placeTokenOnSquare(token, 4, 4);
         });
-        // player selects square, send location to server
-        // server updates location, triggers UIcontroller to move token
     }
 
-    highlightAvailableDestinations() {
-
-    }
-
-    movePlayerToken() {
-
-    }
-
-    displayTriviaQuestion() {
-
-    }
-
-    displayTriviaAnswer() {
-
-    }
-
-    displayPlayerNames() {  // Display player names in list and in score windows
+    displayPlayerNames() {
+    // Display player names in list and in score windows
 
         let playersList = document.getElementById('players-list');
         playersList.innerHTML = '';
@@ -74,8 +49,7 @@ class GameUIController {
         });
         console.log("Successfully displayed player names on screen");
 
-        // Want to eventually hide any score windows with colors that are
-        // not being used
+        /* TODO: For TARGET - Hide score windows that are not used*/
 
         //let colorList = ["red", "yellow", "green", "blue"];
         //let playerColors = [];
@@ -97,7 +71,9 @@ class GameUIController {
         console.log("Successfully fetched player information from GSM");
     }
 
-    updateCurrentPlayer() {
+    startPlayerTurn() {
+    // Start turn for current player
+
         fetch('/get_current_player')
             .then(response => response.json())
             .then(data => {
@@ -109,8 +85,70 @@ class GameUIController {
             .catch(error => console.error('Error fetching players:', error));
     }
 
+    /* TODO: For MINIMAL - Finish updatePlayerScore */
     updatePlayerScore(playerColor, newCategoryColor) {
 
     }
 
+    displayInGameMessage(messageType) {
+        // Display start message, prompt player to take turn,
+        // provide any instructions or feedback
+        if (messageType === "roll-die-prompt") {
+            const msg = `${this.currentPlayerName}, roll the die!`
+            document.getElementById("player-prompt-text").innerHTML = msg;
+        }
+
+        if (messageType === "select-dest-prompt") {
+            const msg = `${this.currentPlayerName}, where will you move your token?<br>Click a highlighted square.`
+            document.getElementById("player-prompt-text").innerHTML = msg;
+        }
+
+        /* TODO: For MINIMAL - Add messages for Roll Again, HQ, Trivial Compute squares, winning */
+
+    }
+
+    /* TODO: For TARGET - Finish displayPopup */
+    displayPopUp(message) {
+    // For exiting the game early, or when player wins to play again
+    }
+
+    /* TODO: For MINIMAL - Finish updateTurnIndicator */
+    updateTurnIndicator() {
+
+    }
+
+    /* TODO: For MINIMAL - Finish manageDieRoll */
+    manageDieRoll() {
+
+        // Tell player to roll the die
+        this.die.roll()
+        // send roll number to server side
+        // get back valid move set
+        // display valid moves via stars on possible destination squares
+    }
+
+    /* TODO: For MINIMAL - Finish highlightMoveOptions */
+    highlightMoveOptions(validDestinations) {
+        // Clear existing stars
+        // For each destination, add a star to that square
+        this.displayInGameMessage("select-dest-prompt");
+    }
+
+    /* TODO: For MINIMAL - Finish movePlayerToken */
+    movePlayerToken(token) {
+        // player selects square
+        // send location to server
+        // server updates location, triggers UIcontroller to move token
+        // this.tokenMover.placeTokenOnSquare(token, squareRow, squareCol)
+    }
+
+    /* TODO: For MINIMAL - Finish displayTriviaQuestion */
+    displayTriviaQuestion() {
+
+    }
+
+    /* TODO: For MINIMAL - Finish displayTriviaAnswer */
+    displayTriviaAnswer() {
+
+    }
 }

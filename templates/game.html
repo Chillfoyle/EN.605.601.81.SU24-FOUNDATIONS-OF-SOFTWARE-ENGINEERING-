@@ -7,23 +7,11 @@
 </head>
 <body>
     <h1 style="color:rgb(0, 170, 255)";>Trivial Compute Game</h1>
+
+    <!--- TODO for MINIMAL: Replace fetchQuestion/checkAnswer with call to GameCategory --->
+    <!--- TODO for MINIMAL: Add turn logic --->
+    <!--- TODO for MINIMAL: Create Question Creator classes, move add category/question code there --->
     <script>
-
-        <!-- Moved this function to Die.js -->
-
-<!--        let players = [];-->
-
-<!--        // Function to simulate rolling dice visually-->
-<!--        function rollDice() {-->
-<!--            const diceElement = document.getElementById('dice');-->
-<!--            diceElement.textContent = 'Rolling...';-->
-<!--            -->
-<!--            setTimeout(() => {-->
-<!--                const diceRoll = Math.floor(Math.random() * 6) + 1; // Roll dice from 1 to 6-->
-<!--                diceElement.textContent = diceRoll;-->
-<!--                document.getElementById('last-roll').textContent = diceRoll;-->
-<!--            }, 1000); // Simulate dice roll delay for 1 second-->
-<!--        }-->
 
         function fetchQuestion() {
             let category = document.getElementById('category').value;
@@ -41,12 +29,10 @@
                 .catch(error => console.error('Error:', error));
         }
 
-
         function checkAnswer() {
             let userAnswer = document.getElementById('answer').value.trim();
             let correctAnswer = sessionStorage.getItem('currentAnswer');
             let currentPlayer = getCurrentPlayer();
-
 
             if (!userAnswer) {
                 alert('Please enter your answer.');
@@ -188,122 +174,117 @@
 
 
     <!-- <div id="game-board"> -->
-    <div class="game-board">
-        <!-- TODO: -->
-        <!-- Display game board, player tokens, etc. -->
-        <!-- First row -->
-        <div class="square white"></div>
-        <div class="square yellow"></div>
-        <div class="square blue"></div>
-        <div class="square green"></div>
-        <div class="square red"></div>
-        <div class="square yellow"></div>
-        <div class="square blue"></div>
-        <div class="square green"></div>
-        <div class="square white"></div>
+    <div class="game-board-container">
+        <div class="game-board">
+            <!-- Display game board, player tokens, etc. -->
+            <!-- First row -->
+            <div class="square white">Roll<br>Again</div>
+            <div class="square yellow"></div>
+            <div class="square blue"></div>
+            <div class="square green"></div>
+            <div class="square red">HQ</div>
+            <div class="square yellow"></div>
+            <div class="square blue"></div>
+            <div class="square green"></div>
+            <div class="square white">Roll<br>Again</div>
 
 
-        <!-- Second row -->
-        <div class="square red"></div>
-        <div class="square-empty white"></div>
-        <div class="square-empty white"></div>
-        <div class="square-empty white"></div>
-        <div class="square yellow"></div>
-        <div class="square-empty white"></div>
-        <div class="square-empty white"></div>
-        <div class="square-empty white"></div>
-        <div class="square red"></div>
+            <!-- Second row -->
+            <div class="square red"></div>
+            <div class="square-empty white"></div>
+            <div class="square-empty white"></div>
+            <div class="square-empty white"></div>
+            <div class="square yellow"></div>
+            <div class="square-empty white"></div>
+            <div class="square-empty white"></div>
+            <div class="square-empty white"></div>
+            <div class="square red"></div>
 
 
-        <!-- Third row -->
-        <div class="square green"></div>
-        <div class="square-empty white"></div>
-        <div class="square-empty white"></div>
-        <div class="square-empty white"></div>
-        <div class="square blue"></div>
-        <div class="square-empty white"></div>
-        <div class="square-empty white"></div>
-        <div class="square-empty white"></div>
-        <div class="square yellow"></div>
+            <!-- Third row -->
+            <div class="square green"></div>
+            <div class="square-empty white"></div>
+            <div class="square-empty white"></div>
+            <div class="square-empty white"></div>
+            <div class="square blue"></div>
+            <div class="square-empty white"></div>
+            <div class="square-empty white"></div>
+            <div class="square-empty white"></div>
+            <div class="square yellow"></div>
 
 
-        <!-- Fourth row -->
-        <div class="square blue"></div>
-        <div class="square-empty white"></div>
-        <div class="square-empty white"></div>
-        <div class="square-empty white"></div>
-        <div class="square green"></div>
-        <div class="square-empty white"></div>
-        <div class="square-empty white"></div>
-        <div class="square-empty white"></div>
-        <div class="square blue"></div>
+            <!-- Fourth row -->
+            <div class="square blue"></div>
+            <div class="square-empty white"></div>
+            <div class="square-empty white"></div>
+            <div class="square-empty white"></div>
+            <div class="square green"></div>
+            <div class="square-empty white"></div>
+            <div class="square-empty white"></div>
+            <div class="square-empty white"></div>
+            <div class="square blue"></div>
 
 
-        <!-- Fifth row -->
-        <div class="square yellow"></div>
-        <div class="square blue"></div>
-        <div class="square green"></div>
-        <div class="square red"></div>
-        <div class="square white"></div>
-        <div class="square blue"></div>
-        <div class="square yellow"></div>
-        <div class="square red"></div>
-        <div class="square green"></div>
+            <!-- Fifth row -->
+            <div class="square yellow">HQ</div>
+            <div class="square blue"></div>
+            <div class="square green"></div>
+            <div class="square red"></div>
+            <div class="square white">Trivial<br>Compute</div>
+            <div class="square blue"></div>
+            <div class="square yellow"></div>
+            <div class="square red"></div>
+            <div class="square green">HQ</div>
 
 
-        <!-- Sixth row -->
-        <div class="square red"></div>
-        <div class="square-empty white"></div>
-        <div class="square-empty white"></div>
-        <div class="square-empty white"></div>
-        <div class="square yellow"></div>
-        <div class="square-empty white"></div>
-        <div class="square-empty white"></div>
-        <div class="square-empty white"></div>
-        <div class="square red"></div>
+            <!-- Sixth row -->
+            <div class="square red"></div>
+            <div class="square-empty white"></div>
+            <div class="square-empty white"></div>
+            <div class="square-empty white"></div>
+            <div class="square yellow"></div>
+            <div class="square-empty white"></div>
+            <div class="square-empty white"></div>
+            <div class="square-empty white"></div>
+            <div class="square red"></div>
 
 
+            <!-- Seventh row -->
+            <div class="square green"></div>
+            <div class="square-empty white"></div>
+            <div class="square-empty white"></div>
+            <div class="square-empty white"></div>
+            <div class="square red"></div>
+            <div class="square-empty white"></div>
+            <div class="square-empty white"></div>
+            <div class="square-empty white"></div>
+            <div class="square yellow"></div>
 
 
-        <!-- Seventh row -->
-        <div class="square green"></div>
-        <div class="square-empty white"></div>
-        <div class="square-empty white"></div>
-        <div class="square-empty white"></div>
-        <div class="square red"></div>
-        <div class="square-empty white"></div>
-        <div class="square-empty white"></div>
-        <div class="square-empty white"></div>
-        <div class="square yellow"></div>
+            <!-- Eighth row -->
+            <div class="square blue"></div>
+            <div class="square-empty white"></div>
+            <div class="square-empty white"></div>
+            <div class="square-empty white"></div>
+            <div class="square green"></div>
+            <div class="square-empty white"></div>
+            <div class="square-empty white"></div>
+            <div class="square-empty white"></div>
+            <div class="square blue"></div>
 
 
+            <!-- Ninth row -->
+            <div class="square white">Roll<br>Again</div>
+            <div class="square yellow"></div>
+            <div class="square red"></div>
+            <div class="square green"></div>
+            <div class="square blue">HQ</div>
+            <div class="square yellow"></div>
+            <div class="square red"></div>
+            <div class="square green"></div>
+            <div class="square white">Roll<br>Again</div>
 
-
-        <!-- Eighth row -->
-        <div class="square blue"></div>
-        <div class="square-empty white"></div>
-        <div class="square-empty white"></div>
-        <div class="square-empty white"></div>
-        <div class="square green"></div>
-        <div class="square-empty white"></div>
-        <div class="square-empty white"></div>
-        <div class="square-empty white"></div>
-        <div class="square blue"></div>
-
-
-
-
-        <!-- Ninth row -->
-        <div class="square white"></div>
-        <div class="square yellow"></div>
-        <div class="square red"></div>
-        <div class="square green"></div>
-        <div class="square blue"></div>
-        <div class="square yellow"></div>
-        <div class="square red"></div>
-        <div class="square green"></div>
-        <div class="square white"></div>
-
+        </div>
         <!--- <div class="hide-window" id="red-hide-window"></div>--->
         <div class="window" id="red-window">
             <div class="player-name" id="red-player"></div>
@@ -348,7 +329,6 @@
             </div>
         </div>
 
-
     </div>
 
     <div id="question-container">
@@ -365,6 +345,7 @@
         <button class="button" onclick="checkAnswer()">Submit Answer</button>
     </div>
 </body>
+<script src="{{ url_for('static', filename='js/classes/TokenMover.js') }}"></script>
 <script src="{{ url_for('static', filename='js/classes/GameUIController.js') }}"></script>
 <script src="{{ url_for('static', filename='js/classes/Die.js') }}"></script>
 <script src="{{ url_for('static', filename='js/game_script.js') }}"></script>

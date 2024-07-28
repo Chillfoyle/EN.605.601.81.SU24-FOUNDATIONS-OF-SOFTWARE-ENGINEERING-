@@ -28,10 +28,10 @@ class GameCategory:
         pass
 
     def get_next_question(self):
-        """Return next question in question_list"""
+        """Return next question and answer in question_list"""
         next_q = self.question_list[self.current_question]
         self.current_question += 1
-        return next_q
+        return next_q.question_text, next_q.answer_text
 
     def __repr__(self):
         """Return a string representation of the GameCategory object"""

@@ -1,17 +1,41 @@
+
+/* Colors */
+
+/* TODO: Make the colors brighter. They look dull...*/
+.red { background-color: red; }
+.green { background-color: green; }
+.blue { background-color: blue; }
+.yellow { background-color: yellow; }
+.white { background-color: white; }
+
+/* Game Board Styles */
+
+.game-board-container {
+    width: 40vw;
+    height: 85vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+/* TODO: Center the game board more in the window */
 .game-board {
-    width: 450px; /* Total width of the board */
-    height: 450px; /* Total height of the board */
+    width: 100%;
+    height: 100%; 
     display: grid;
     grid-template-columns: repeat(9, 1fr); /* 9 columns */
     grid-template-rows: repeat(9, 1fr); /* 9 rows */
     border: 2px solid black;
 }
 
+/* TODO: Make the font look nicer */
 .square {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 24px;
+    position: relative;
+    font-size: 14px;
     font-weight: bold;
     border: 1px solid black;
 }
@@ -24,12 +48,23 @@
     font-weight: bold;
 }
 
-.red { background-color: red; }
-.green { background-color: green; }
-.blue { background-color: blue; }
-.yellow { background-color: yellow; }
-.white { background-color: white; }
+/* Player Action Styles */
 
+.player-action-window {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+}
+
+.die-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* TODO: Replace with animation. Make it bigger and move it over... */
 .dice {
     width: 50px;
     height: 50px;
@@ -48,52 +83,73 @@
     color: white;
 }
 
-#players-list {
-    list-style-type: none;
-    padding: 0;
-}
-
-
-#players-list li {
-    margin-bottom: 10px;
-}
-
-.player-action-window {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 20px;
-}
-
-.die-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
+/* TODO: Make the font better*/
 .player-prompt-text {
-    font-size: 20px; /* Adjust font size as needed */
+    font-size: 20px;
     margin-bottom: 10px;
     font-weight: bold;
     height: 100%;
 }
 
-/* Style for each score window */
+/* Player List Styles*/
+
+/* TODO: Make this look bigger, move over, different font */
+#players-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+#players-list li {
+    margin-bottom: 10px;
+}
+
+/* Token Styles */
+
+/* TODO: Maybe add a shadow or something... */
+.token {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    border: 2px solid black;
+}
+
+/* Token locations within the grid squares */
+
+.red-corner {
+    top: 0;
+    left: 0;
+}
+.yellow-corner {
+    top: 0;
+    right: 0;
+}
+.green-corner {
+    bottom: 0;
+    left: 0;
+}
+.blue-corner {
+    bottom: 0;
+    right: 0;
+}
+
+/* Score Window Styles */
+
 .window {
     position: absolute;
-    width: 9%; /* Adjust size as needed */
-    height: 18%; /* Adjust size as needed */
+    width: 25%;
+    height: 25%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 }
 
+/* TODO: Cover up the score windows that are not used */
 .hide-window {
     position: absolute;
-    width: 9%; /* Adjust size as needed */
-    height: 18%; /* Adjust size as needed */
+    width: 25%;
+    height: 25%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -104,32 +160,32 @@
 }
 
 #red-window {
-    top: 62%;
-    left: 5.5%;
+    top: 15%;
+    left: 15%;
     border: 4px solid red;
 }
 
 #yellow-window {
-    top: 62%;
-    left: 20%;
+    top: 15%;
+    right: 15%;
     border: 4px solid yellow;
 }
 
 #green-window {
-    bottom: -15%;
-    left: 5.5%;
+    bottom: 15%;
+    left: 15%;
     border: 4px solid green;
 }
 
 #blue-window {
-    bottom: -15%;
-    left: 20%;
+    bottom: 15%;
+    right: 15%;
     border: 4px solid blue;
 }
 
-/* Style for player names and squares */
+/* TODO: Better font */
 .player-name {
-    font-size: 1.5vw; /* Adjust font size as needed */
+    font-size: 1.5vw;
     margin-bottom: 10px;
     border: none !important;
 }
@@ -138,37 +194,21 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr); /* 2 columns */
     grid-template-rows: repeat(2, 1fr);    /* 2 rows */
-    width: 70px; /* Adjust size as needed */
-    height: 70px; /* Adjust size as needed */
+    width: 70px;
+    height: 70px;
     padding: 10px;
     border: transparent !important;
 }
 
+/* TODO: Add logic to fill in squares when players earn categories */
 .score-square {
-    background-color: #fff; /* Default color */
-    border: 2px solid black !important; /* Border around each square */
-    width: 100%; /* Make the square fill the grid cell */
-    height: 100%; /* Make the square fill the grid cell */
+    background-color: #FFF; /* Default color */
+    border: 2px solid black !important; /* So the borders don't look weird */
+    width: 100%;
+    height: 100%;
     transition: background-color 0.3s;
 }
 
-#window1:hover>.score-square {
+#window1:hover>.score-square { /* So the borders don't look weird */
   border-color: transparent;
 }
-
-.score-square.filled-green {
-    background-color: var(green);
-}
-
-.score-square.filled-yellow {
-    background-color: var(yellow);
-}
-
-.score-square.filled-red {
-    background-color: var(red);
-}
-
-.score-square.filled-blue {
-    background-color: var(blue);
-}
-
