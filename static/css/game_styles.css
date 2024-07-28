@@ -212,3 +212,13 @@
 #window1:hover>.score-square { /* So the borders don't look weird */
   border-color: transparent;
 }
+
+.star {
+    position: absolute;
+    width: 50px; /* Adjust size as needed */
+    height: 50px;
+    background-image: url('../images/star.png'); /* Path to your star image */
+    background-size: cover;
+    cursor: pointer; /* To indicate it's clickable */
+    z-index: 100; /* Ensure it’s on top of other elements */
+}

@@ -1,5 +1,6 @@
 from static.py.GameCategory import GameCategory
 from static.py.Player import Player
+from static.py.MoveCalculator import MoveCalculator
 
 
 class GameStateManager:
@@ -40,13 +41,20 @@ class GameStateManager:
         self.game_board = [row0, row1, row2, row3, row4, row5,
                            row6, row7, row8]
 
+        self.move_calculator = MoveCalculator(self.game_board)
+
     def get_players_info(self):
-        return [{"name": player.name, "token_color": player.token_color} for
-                player in self.player_list]
+        return [{"name": player.name, "token_color": player.token_color,
+                 "token_location": player.token_location}
+                for player in self.player_list]
 
     def get_current_player_info(self):
         player = self.player_list[self.current_player_idx]
-        return {"name": player.name, "token_color": player.token_color}
+        return {"name": player.name, "token_color": player.token_color,
+                "token_location": player.token_location}
+
+    def get_valid_destinations(self, player_loc, num_steps):
+        return self.move_calculator.get_valid_destinations(player_loc, num_steps)
 
     # TODO: Add other functions
 

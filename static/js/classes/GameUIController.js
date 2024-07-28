@@ -2,9 +2,9 @@ class GameUIController {
 
     constructor() {
     // Create new GameUIController object
-
-        this.die = new Die();
-        this.tokenMover = new TokenMover();
+        this.moveHandler = new MoveHandler(this);
+        this.boardSquares = document.querySelectorAll(".game-board .square, .square-empty");
+        this.tokens = Array.from(document.querySelectorAll(".token"));
         this.initializeGameScreen();
         this.setUpEventListeners();
     }
@@ -12,7 +12,7 @@ class GameUIController {
     setUpEventListeners() {
     // How to handle all button clicks
 
-        document.getElementById("rollDieButton").addEventListener('click', () => this.manageDieRoll());
+        document.getElementById("rollDieButton").addEventListener('click', () => this.moveHandler.handleDieRoll());
         // Add as needed
     }
 
@@ -30,7 +30,7 @@ class GameUIController {
         // Create each player's token and put it in the starting location
             const token = document.createElement("div");
             token.classList.add("token", player.token_color, `${player.token_color}-corner`);
-            this.tokenMover.placeTokenOnSquare(token, 4, 4);
+            this.moveHandler.placeOnSquare(token, 4, 4);
         });
     }
 
@@ -68,7 +68,31 @@ class GameUIController {
         const response = await fetch('/get_players');
         const data = await response.json();
         this.players = data;
+        console.log(this.players);
         console.log("Successfully fetched player information from GSM");
+    }
+
+    async fetchValidDestinations(dieValue) {
+    console.log(this.currentPlayerLocation);
+        const response = await fetch('/get_valid_destinations', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                location: this.currentPlayerLocation,
+                dieVal: dieValue
+            })
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            console.log("Successfully fetched valid moves from GSM");
+            this.moveHandler.highlightMoveOptions(data);
+            this.displayInGameMessage("select-dest-prompt");
+        } else {
+            console.error("Failed to fetch valid moves from server");
+        }
     }
 
     startPlayerTurn() {
@@ -79,6 +103,7 @@ class GameUIController {
             .then(data => {
                 document.getElementById('current-player').innerText = data.name;
                 this.currentPlayerName = data.name;
+                this.currentPlayerLocation = data.token_location;
                 this.displayInGameMessage("roll-die-prompt");
                 console.log("Successfully updated current player name");
             })
@@ -115,31 +140,6 @@ class GameUIController {
     /* TODO: For MINIMAL - Finish updateTurnIndicator */
     updateTurnIndicator() {
 
-    }
-
-    /* TODO: For MINIMAL - Finish manageDieRoll */
-    manageDieRoll() {
-
-        // Tell player to roll the die
-        this.die.roll()
-        // send roll number to server side
-        // get back valid move set
-        // display valid moves via stars on possible destination squares
-    }
-
-    /* TODO: For MINIMAL - Finish highlightMoveOptions */
-    highlightMoveOptions(validDestinations) {
-        // Clear existing stars
-        // For each destination, add a star to that square
-        this.displayInGameMessage("select-dest-prompt");
-    }
-
-    /* TODO: For MINIMAL - Finish movePlayerToken */
-    movePlayerToken(token) {
-        // player selects square
-        // send location to server
-        // server updates location, triggers UIcontroller to move token
-        // this.tokenMover.placeTokenOnSquare(token, squareRow, squareCol)
     }
 
     /* TODO: For MINIMAL - Finish displayTriviaQuestion */
