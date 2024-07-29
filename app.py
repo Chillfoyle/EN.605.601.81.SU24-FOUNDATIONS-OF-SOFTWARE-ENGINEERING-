@@ -69,20 +69,11 @@ def game():
 def create_category():
     if request.method == 'POST':
         category_name = request.form['category_name']
-        category_color = "None"
         # Insert category into database
         db = get_db()
-        db.execute("INSERT INTO categories (name, color) VALUES (?, ?)", (category_name, category_color))
+        db.execute("INSERT INTO categories VALUES (?)", (category_name,))
         db.commit()
         db.close()
-
-        # delete_name = request.form['delete_name']
-        # print(f"{delete_name}")
-        # if delete_name != "":
-        #     db = get_db()
-        #     db.execute("DELETE from categories where name=?", (delete_name,))
-        #     db.commit()
-        #     db.close()
     
     # Queries categories from database
     db = get_db()

@@ -1,7 +1,5 @@
 CREATE TABLE IF NOT EXISTS categories (
-   id INTEGER PRIMARY KEY,
-   name TEXT NOT NULL,
-   color TEXT NOT NULL
+   name TEXT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS questions (
