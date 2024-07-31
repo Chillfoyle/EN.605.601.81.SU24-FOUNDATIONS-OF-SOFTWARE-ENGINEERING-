@@ -6,7 +6,7 @@ class GameCategory:
         self.cat_id = cat_id  # Category ID (from database)
         self.name = "" # self.fetch_name(cat_id)  # Category name (from database)
         self.color = color  # From GSM
-        self.question_list = []
+        self.question_list = {}
         self.current_question = 0
 
     # TODO: Complete
@@ -31,7 +31,7 @@ class GameCategory:
         """Return next question and answer in question_list"""
         next_q = self.question_list[self.current_question]
         self.current_question += 1
-        return next_q.question_text, next_q.answer_text
+        return next_q["question_text"], next_q["question_text"]
 
     def __repr__(self):
         """Return a string representation of the GameCategory object"""

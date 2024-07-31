@@ -5,7 +5,7 @@ class Player:
         """Constructor"""
         self.name = name  # Player name (user input)
         self.token_color = token_color  # Token color (user input)
-        self.categories_earned = set()
+        self.colors_earned = set()
         self.token_location = starting_location
 
     def get_name(self):
@@ -24,13 +24,13 @@ class Player:
         """Update token location"""
         self.token_location = new_token_location
 
-    def get_categories_earned(self):
-        """Return categories earned"""
-        return self.categories_earned
+    def get_colors_earned(self):
+        """Return colors earned"""
+        return self.colors_earned
 
-    def update_categories_earned(self, new_category):
-        """Add category to categories_earned"""
-        self.categories_earned.update(new_category)
+    def update_colors_earned(self, new_category):
+        """Add color to colors_earned"""
+        self.colors_earned.update(new_category)
 
     def __repr__(self):
         """Return a string representation of the Player object"""

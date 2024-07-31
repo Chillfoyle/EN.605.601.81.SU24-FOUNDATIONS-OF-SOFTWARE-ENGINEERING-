@@ -66,6 +66,13 @@ class GameUIController {
         console.log("Successfully fetched player information from GSM");
     }
 
+    async fetchCategories() {
+        const response = await fetch('/get_categories');
+        const data = await response.json();
+        console.log("Successfully fetched categories from GSM");
+        return data;
+    }
+
     async fetchValidDestinations(dieValue) {
     console.log(this.currentPlayerLocation);
         const response = await fetch('/get_valid_destinations', {
@@ -89,7 +96,7 @@ class GameUIController {
         }
     }
 
-    startPlayerTurn() {
+    startPlayerTurn(prompt="roll-die-prompt") {
     // Start turn for current player
 
         fetch('/get_current_player')
@@ -98,8 +105,9 @@ class GameUIController {
                 document.getElementById('current-player').innerText = data.name;
                 this.currentPlayerName = data.name;
                 this.currentPlayerLocation = data.token_location;
+                this.currentPlayerScore = data.colors_earned;
                 this.moveHandler.setCurrentPlayerTokenId(data.token_color);
-                this.displayInGameMessage("roll-die-prompt");
+                this.displayInGameMessage(prompt);
                 console.log("Successfully updated current player name");
             })
             .catch(error => console.error('Error fetching players:', error));
@@ -114,7 +122,54 @@ class GameUIController {
             },
             body: JSON.stringify(this.currentPlayerLocation)
         });
+
+        if (response.ok) {
+            const data = await response.json();
+            console.log(data.next_action)
+            switch(data.next_action) {
+                case "roll again":
+                    this.startPlayerTurn("roll-again-prompt");
+                    break;
+                case "next player turn":
+                    this.startPlayerTurn();
+                    break;
+                case "ask question hq":
+                    this.fetchQuestion(response.color);
+                    break;
+                case "ask question center":
+                    this.displayInGameMessage("choose-category-prompt");
+                    this.displayCategoryChoices();
+                    break;
+                case "ask winning question":
+                    this.displayInGameMessage("opponents-choose-category-prompt");
+                    this.displayCategoryChoices();
+                    break;
+        }
     }
+    }
+    fetchCategoryColors() {
+        fetch('/get_category_colors')
+        .then(response => response.json())
+        .then(data => createCategoryButtons(data))
+        .catch(error => console.error('Error fetching categories:', error));
+    }
+
+    createCategoryButtons(categories) {
+        const container = document.getElementById('category-select-container');
+        const prompt = document.createElement('p');
+        prompt.textContent = `${playerName}, choose a category.`;
+        container.appendChild(prompt);
+
+        Object.entries(categories).forEach(([color, name]) => {
+            const button = document.createElement('button');
+            button.textContent = name;
+            button.classList.add('category-button');
+            button.style.backgroundColor = color;
+            button.onclick = () => alert(`Category ${name} selected`);
+            container.appendChild(button);
+        });
+    }
+
 
     /* TODO: For MINIMAL - Finish updatePlayerScore */
     updatePlayerScore(playerColor, newCategoryColor) {
@@ -126,6 +181,11 @@ class GameUIController {
         // provide any instructions or feedback
         if (messageType === "roll-die-prompt") {
             const msg = `${this.currentPlayerName}, roll the die!`
+            document.getElementById("player-prompt-text").innerHTML = msg;
+        }
+
+        if (messageType === "roll-again-prompt") {
+            const msg = `${this.currentPlayerName}, roll the die again!`
             document.getElementById("player-prompt-text").innerHTML = msg;
         }
 
