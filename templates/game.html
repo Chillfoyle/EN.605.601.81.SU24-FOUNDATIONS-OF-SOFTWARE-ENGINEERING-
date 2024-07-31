@@ -3,84 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Trivial Compute Game</title>
-    <style>
-        .game-board {
-            width: 450px; /* Total width of the board */
-            height: 450px; /* Total height of the board */
-            display: grid;
-            grid-template-columns: repeat(9, 1fr); /* 9 columns */
-            grid-template-rows: repeat(9, 1fr); /* 9 rows */
-            border: 2px solid black;
-        }
-
-        .square {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 24px;
-            font-weight: bold;
-            border: 1px solid black;
-        }
-
-        .square-empty {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 24px;
-            font-weight: bold;
-        }
-
-        .red { background-color: red; }
-        .green { background-color: green; }
-        .blue { background-color: blue; }
-        .yellow { background-color: yellow; }
-        .white { background-color: white; }
-
-        .dice {
-            width: 50px;
-            height: 50px;
-            background-color: white;
-            border: 2px solid black;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 24px;
-            margin-top: 10px;
-        }
-
-        .button {
-            background-color: rgb(0, 170, 255);
-            border: none;
-            color: white;
-        }
-
-        #players-list {
-            list-style-type: none;
-            padding: 0;
-        }
-
-
-        #players-list li {
-            margin-bottom: 10px;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/game_styles.css') }}">
 </head>
 <body>
     <h1 style="color:rgb(0, 170, 255)";>Trivial Compute Game</h1>
-    <script>
-        let players = [];
 
-        // Function to simulate rolling dice visually
-        function rollDice() {
-            const diceElement = document.getElementById('dice');
-            diceElement.textContent = 'Rolling...';
-            
-            setTimeout(() => {
-                const diceRoll = Math.floor(Math.random() * 6) + 1; // Roll dice from 1 to 6
-                diceElement.textContent = diceRoll;
-                document.getElementById('last-roll').textContent = diceRoll;
-            }, 1000); // Simulate dice roll delay for 1 second
-        }
+    <!--- TODO for MINIMAL: Replace fetchQuestion/checkAnswer with call to GameCategory --->
+    <!--- TODO for MINIMAL: Add turn logic --->
+    <!--- TODO for MINIMAL: Create Question Creator classes, move add category/question code there --->
+    <script>
 
         function fetchQuestion() {
             let category = document.getElementById('category').value;
@@ -98,12 +29,10 @@
                 .catch(error => console.error('Error:', error));
         }
 
-
         function checkAnswer() {
             let userAnswer = document.getElementById('answer').value.trim();
             let correctAnswer = sessionStorage.getItem('currentAnswer');
             let currentPlayer = getCurrentPlayer();
-
 
             if (!userAnswer) {
                 alert('Please enter your answer.');
@@ -160,66 +89,69 @@
             });
         }
 
-        document.addEventListener('DOMContentLoaded', function () {
-            // Prompt for adding players
-            let numPlayers = prompt('Enter number of players (1 to 4):');
-            if (numPlayers && numPlayers >= 1 && numPlayers <= 4) {
-                for (let i = 0; i < numPlayers; i++) {
-                    let playerName = prompt(`Enter name for Player ${i + 1}:`);
-                    if (playerName) {
-                        fetch('/add_player', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({ name: playerName })
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            alert(data.message);
-                            players.push({ name: playerName, score: 0, current: false });
-                            if (players.length === 1) {
-                                players[0].current = true;  // First player starts as current player
-                                document.getElementById('current-player').innerText = playerName;
-                            }
-                            updatePlayerScores();
-                        })
-                        .catch(error => console.error('Error:', error));
-                    }
-                }
-            } else {
-                alert('Invalid number of players. Game requires 1 to 4 players.');
-                window.location.href = '/';  // Reload the page to restart
-            }
+<!-- Delete after confirming that other functionality works -->
 
-            fetchQuestion();
-            document.getElementById('add-question-form').addEventListener('submit', function (event) {
-                event.preventDefault();
-                let newQuestion = document.getElementById('new-question').value.trim();
-                let newAnswer = document.getElementById('new-answer').value.trim();
-                let newCategory = document.getElementById('new-category').value;
+<!--        document.addEventListener('DOMContentLoaded', () => {-->
+
+<!--            // Prompt for adding players-->
+<!--            let numPlayers = prompt('Enter number of players (1 to 4):');-->
+<!--            if (numPlayers && numPlayers >= 1 && numPlayers <= 4) {-->
+<!--                for (let i = 0; i < numPlayers; i++) {-->
+<!--                    let playerName = prompt(`Enter name for Player ${i + 1}:`);-->
+<!--                    if (playerName) {-->
+<!--                        fetch('/add_player', {-->
+<!--                            method: 'POST',-->
+<!--                            headers: {-->
+<!--                                'Content-Type': 'application/json'-->
+<!--                            },-->
+<!--                            body: JSON.stringify({ name: playerName })-->
+<!--                        })-->
+<!--                        .then(response => response.json())-->
+<!--                        .then(data => {-->
+<!--                            alert(data.message);-->
+<!--                            players.push({ name: playerName, score: 0, current: false });-->
+<!--                            if (players.length === 1) {-->
+<!--                                players[0].current = true;  // First player starts as current player-->
+<!--                                document.getElementById('current-player').innerText = playerName;-->
+<!--                            }-->
+<!--                            updatePlayerScores();-->
+<!--                        })-->
+<!--                        .catch(error => console.error('Error:', error));-->
+<!--                    }-->
+<!--                }-->
+<!--            } else {-->
+<!--                alert('Invalid number of players. Game requires 1 to 4 players.');-->
+<!--                window.location.href = '/';  // Reload the page to restart-->
+<!--            }-->
+
+<!--            fetchQuestion();-->
+<!--            document.getElementById('add-question-form').addEventListener('submit', function (event) {-->
+<!--                event.preventDefault();-->
+<!--                let newQuestion = document.getElementById('new-question').value.trim();-->
+<!--                let newAnswer = document.getElementById('new-answer').value.trim();-->
+<!--                let newCategory = document.getElementById('new-category').value;-->
 
 
-                if (newQuestion && newAnswer && newCategory) {
-                    fetch('/add_question', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ question: newQuestion, answer: newAnswer, category: newCategory })
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        alert(data.message);
-                        document.getElementById('add-question-form').reset();
-                        fetchQuestion();  // Fetch next question after adding new question
-                    })
-                    .catch(error => console.error('Error:', error));
-                } else {
-                    alert('Please enter both question, answer, and select a category.');
-                }
-            });
-        });
+<!--                if (newQuestion && newAnswer && newCategory) {-->
+<!--                    fetch('/add_question', {-->
+<!--                        method: 'POST',-->
+<!--                        headers: {-->
+<!--                            'Content-Type': 'application/json'-->
+<!--                        },-->
+<!--                        body: JSON.stringify({ question: newQuestion, answer: newAnswer, category: newCategory })-->
+<!--                    })-->
+<!--                    .then(response => response.json())-->
+<!--                    .then(data => {-->
+<!--                        alert(data.message);-->
+<!--                        document.getElementById('add-question-form').reset();-->
+<!--                        fetchQuestion();  // Fetch next question after adding new question-->
+<!--                    })-->
+<!--                    .catch(error => console.error('Error:', error));-->
+<!--                } else {-->
+<!--                    alert('Please enter both question, answer, and select a category.');-->
+<!--                }-->
+<!--            });-->
+<!--        });-->
     </script>
 
 
@@ -232,131 +164,172 @@
     </div>
 
 
-    <div id="player-actions">
-        <h2></h2>
-        <div class="dice" id="dice">-</div>
-        <button class="button" onclick="rollDice()">Roll Dice</button>
+    <div class="player-action-window" id="player-actions">
+        <div class="die-container">
+            <div class="dice" id="die">-</div>
+            <button class="button" id="rollDieButton">Roll Dice</button>
+        </div>
+        <div class="player-prompt-text" id="player-prompt-text"></div>
     </div>
 
 
     <!-- <div id="game-board"> -->
-    <div class="game-board">
-        <!-- TODO: -->
-        <!-- Display game board, player tokens, etc. -->
-        <!-- First row -->
-        <div class="square white"></div>
-        <div class="square yellow"></div>
-        <div class="square blue"></div>
-        <div class="square green"></div>
-        <div class="square red"></div>
-        <div class="square yellow"></div>
-        <div class="square blue"></div>
-        <div class="square green"></div>
-        <div class="square white"></div>
+    <div class="game-board-container">
+        <div class="game-board">
+            <!-- Display game board, player tokens, etc. -->
+            <!-- First row -->
+            <div class="square white">Roll<br>Again</div>
+            <div class="square yellow"></div>
+            <div class="square blue"></div>
+            <div class="square green"></div>
+            <div class="square red">HQ</div>
+            <div class="square yellow"></div>
+            <div class="square blue"></div>
+            <div class="square green"></div>
+            <div class="square white">Roll<br>Again</div>
 
 
-        <!-- Second row -->
-        <div class="square red"></div>
-        <div class="square-empty white"></div>
-        <div class="square-empty white"></div>
-        <div class="square-empty white"></div>
-        <div class="square yellow"></div>
-        <div class="square-empty white"></div>
-        <div class="square-empty white"></div>
-        <div class="square-empty white"></div>
-        <div class="square red"></div>
+            <!-- Second row -->
+            <div class="square red"></div>
+            <div class="square-empty white"></div>
+            <div class="square-empty white"></div>
+            <div class="square-empty white"></div>
+            <div class="square yellow"></div>
+            <div class="square-empty white"></div>
+            <div class="square-empty white"></div>
+            <div class="square-empty white"></div>
+            <div class="square red"></div>
 
 
-        <!-- Third row -->
-        <div class="square green"></div>
-        <div class="square-empty white"></div>
-        <div class="square-empty white"></div>
-        <div class="square-empty white"></div>
-        <div class="square blue"></div>
-        <div class="square-empty white"></div>
-        <div class="square-empty white"></div>
-        <div class="square-empty white"></div>
-        <div class="square yellow"></div>
+            <!-- Third row -->
+            <div class="square green"></div>
+            <div class="square-empty white"></div>
+            <div class="square-empty white"></div>
+            <div class="square-empty white"></div>
+            <div class="square blue"></div>
+            <div class="square-empty white"></div>
+            <div class="square-empty white"></div>
+            <div class="square-empty white"></div>
+            <div class="square yellow"></div>
 
 
-        <!-- Fourth row -->
-        <div class="square blue"></div>
-        <div class="square-empty white"></div>
-        <div class="square-empty white"></div>
-        <div class="square-empty white"></div>
-        <div class="square green"></div>
-        <div class="square-empty white"></div>
-        <div class="square-empty white"></div>
-        <div class="square-empty white"></div>
-        <div class="square blue"></div>
+            <!-- Fourth row -->
+            <div class="square blue"></div>
+            <div class="square-empty white"></div>
+            <div class="square-empty white"></div>
+            <div class="square-empty white"></div>
+            <div class="square green"></div>
+            <div class="square-empty white"></div>
+            <div class="square-empty white"></div>
+            <div class="square-empty white"></div>
+            <div class="square blue"></div>
 
 
-        <!-- Fifth row -->
-        <div class="square yellow"></div>
-        <div class="square blue"></div>
-        <div class="square green"></div>
-        <div class="square red"></div>
-        <div class="square white"></div>
-        <div class="square blue"></div>
-        <div class="square yellow"></div>
-        <div class="square red"></div>
-        <div class="square green"></div>
+            <!-- Fifth row -->
+            <div class="square yellow">HQ</div>
+            <div class="square blue"></div>
+            <div class="square green"></div>
+            <div class="square red"></div>
+            <div class="square white">Trivial<br>Compute</div>
+            <div class="square blue"></div>
+            <div class="square yellow"></div>
+            <div class="square red"></div>
+            <div class="square green">HQ</div>
 
 
-        <!-- Sixth row -->
-        <div class="square red"></div>
-        <div class="square-empty white"></div>
-        <div class="square-empty white"></div>
-        <div class="square-empty white"></div>
-        <div class="square yellow"></div>
-        <div class="square-empty white"></div>
-        <div class="square-empty white"></div>
-        <div class="square-empty white"></div>
-        <div class="square red"></div>
+            <!-- Sixth row -->
+            <div class="square red"></div>
+            <div class="square-empty white"></div>
+            <div class="square-empty white"></div>
+            <div class="square-empty white"></div>
+            <div class="square yellow"></div>
+            <div class="square-empty white"></div>
+            <div class="square-empty white"></div>
+            <div class="square-empty white"></div>
+            <div class="square red"></div>
 
 
+            <!-- Seventh row -->
+            <div class="square green"></div>
+            <div class="square-empty white"></div>
+            <div class="square-empty white"></div>
+            <div class="square-empty white"></div>
+            <div class="square red"></div>
+            <div class="square-empty white"></div>
+            <div class="square-empty white"></div>
+            <div class="square-empty white"></div>
+            <div class="square yellow"></div>
 
 
-        <!-- Seventh row -->
-        <div class="square green"></div>
-        <div class="square-empty white"></div>
-        <div class="square-empty white"></div>
-        <div class="square-empty white"></div>
-        <div class="square red"></div>
-        <div class="square-empty white"></div>
-        <div class="square-empty white"></div>
-        <div class="square-empty white"></div>
-        <div class="square yellow"></div>
+            <!-- Eighth row -->
+            <div class="square blue"></div>
+            <div class="square-empty white"></div>
+            <div class="square-empty white"></div>
+            <div class="square-empty white"></div>
+            <div class="square green"></div>
+            <div class="square-empty white"></div>
+            <div class="square-empty white"></div>
+            <div class="square-empty white"></div>
+            <div class="square blue"></div>
 
 
+            <!-- Ninth row -->
+            <div class="square white">Roll<br>Again</div>
+            <div class="square yellow"></div>
+            <div class="square red"></div>
+            <div class="square green"></div>
+            <div class="square blue">HQ</div>
+            <div class="square yellow"></div>
+            <div class="square red"></div>
+            <div class="square green"></div>
+            <div class="square white">Roll<br>Again</div>
 
+        </div>
+        <!--- <div class="hide-window" id="red-hide-window"></div>--->
+        <div class="window" id="red-window">
+            <div class="player-name" id="red-player"></div>
+            <div class="score-grid" id="grid1">
+                <div class="score-square" data-id="1"></div>
+                <div class="score-square" data-id="2"></div>
+                <div class="score-square" data-id="3"></div>
+                <div class="score-square" data-id="4"></div>
+            </div>
+        </div>
 
-        <!-- Eighth row -->
-        <div class="square blue"></div>
-        <div class="square-empty white"></div>
-        <div class="square-empty white"></div>
-        <div class="square-empty white"></div>
-        <div class="square green"></div>
-        <div class="square-empty white"></div>
-        <div class="square-empty white"></div>
-        <div class="square-empty white"></div>
-        <div class="square blue"></div>
+        <!--- <div class="hide-window" id="yellow-hide-window"></div> --->
+        <div class="window" id="yellow-window">
+            <div class="player-name" id="yellow-player"></div>
+            <div class="score-grid" id="grid2">
+                <div class="score-square" data-id="1"></div>
+                <div class="score-square" data-id="2"></div>
+                <div class="score-square" data-id="3"></div>
+                <div class="score-square" data-id="4"></div>
+            </div>
+        </div>
 
+        <!--- <div class="hide-window" id="green-hide-window"></div>--->
+        <div class="window" id="green-window">
+            <div class="player-name" id="green-player"></div>
+            <div class="score-grid" id="grid3">
+                <div class="score-square" data-id="1"></div>
+                <div class="score-square" data-id="2"></div>
+                <div class="score-square" data-id="3"></div>
+                <div class="score-square" data-id="4"></div>
+            </div>
+        </div>
 
+        <!--- <div class="hide-window" id="blue-hide-window"></div>--->
+        <div class="window" id="blue-window">
+            <div class="player-name" id="blue-player"></div>
+            <div class="score-grid" id="grid4">
+                <div class="score-square" data-id="1"></div>
+                <div class="score-square" data-id="2"></div>
+                <div class="score-square" data-id="3"></div>
+                <div class="score-square" data-id="4"></div>
+            </div>
+        </div>
 
-
-        <!-- Ninth row -->
-        <div class="square white"></div>
-        <div class="square yellow"></div>
-        <div class="square red"></div>
-        <div class="square green"></div>
-        <div class="square blue"></div>
-        <div class="square yellow"></div>
-        <div class="square red"></div>
-        <div class="square green"></div>
-        <div class="square white"></div>
-
-
+        <div class="category-select-container"></div>
     </div>
 
     <div id="question-container">
@@ -373,4 +346,8 @@
         <button class="button" onclick="checkAnswer()">Submit Answer</button>
     </div>
 </body>
+<script src="{{ url_for('static', filename='js/classes/MoveHandler.js') }}"></script>
+<script src="{{ url_for('static', filename='js/classes/GameUIController.js') }}"></script>
+<script src="{{ url_for('static', filename='js/classes/Die.js') }}"></script>
+<script src="{{ url_for('static', filename='js/game_script.js') }}"></script>
 </html>

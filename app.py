@@ -2,33 +2,26 @@ from flask import Flask, render_template, request, jsonify, redirect, url_for
 import sqlite3
 import os
 import random
-
+from static.py.GameStateManager import GameStateManager
 
 app = Flask(__name__)
-
 
 # Define path to the database
 DATABASE = os.path.join(os.path.dirname(__file__), 'trivial_compute.db')
 
-trivia_questions = {
-    "yellow": [
-        {"question": "Which country is the world's greatest producer of wine?", "answer": "Italy"},
-    ],
-    "green": [
-        {"question": "The first National Basketball Association game was played in which of these years?", "answer": "1946"},
-    ],
-    "red": [
-        {"question": "Which of these countries U.S. , Canada, Russia or Australia has the world's longest coastline?", "answer": "Canada"},
-    ],
-    "blue": [
-        {"question": "What is the largest ocean?", "answer": "Pacific Ocean"},
-    ]
-}
+questions = [
+    {"question": "Which country is the world's greatest producer of wine?", "answer": "Italy"},
+    {"question": "The first National Basketball Association game was played in which of these years?",
+     "answer": "1946"},
+    {"question": "Which of these countries U.S. , Canada, Russia or Australia has the world's longest coastline?",
+     "answer": "Canada"},
+    {"question": "What is the largest ocean?", "answer": "Pacific Ocean"}]
 
 players = []
 max_players = 4
 current_player = 0
 numquest = 0
+
 
 # Utility function to initialize database
 def init_db():
@@ -38,32 +31,97 @@ def init_db():
             db.cursor().executescript(f.read())
         db.commit()
 
+
 # Utility function for database operations
 def get_db():
-   db = sqlite3.connect(DATABASE)
-   db.row_factory = sqlite3.Row
-   return db
+    db = sqlite3.connect(DATABASE)
+    db.row_factory = sqlite3.Row
+    return db
+
 
 # Initialize database if not exists
 if not os.path.exists(DATABASE):
-   init_db()
+    init_db()
+
 
 # Routes
 @app.route('/')
 def index():
-   return render_template('index.html')
+    return render_template('index.html')
+
+
+@app.route("/start_game", methods=["POST"])
+def start_game():
+    # TODO: Will get rid of this eventually
+    game_state = {
+        'categories': ['History', 'Science', 'Geography', 'Art'],
+        'players': [{'name': 'Player 1', 'score': 0},
+                    {'name': 'Player 2', 'score': 0}],
+        'current_player': 'Player 1',
+        'current_question': 'What is the capital of France?',
+        'answers': ['Paris', 'London', 'Berlin', 'Madrid']
+    }
+
+    global game_state_manager
+
+    # Get JSON data from the request
+    data = request.get_json()
+
+    # Extract players and categories from the data
+    players = data.get('players', [])
+    categories = data.get('categories', [])
+
+    # Create a new GameStateManager instance
+    game_state_manager = GameStateManager(players, categories)
+
+    # Return a success response
+    return jsonify({"message": "Game started successfully",
+                    "game_state": str(game_state_manager)})
+
+
+@app.route('/get_players', methods=['GET'])
+def get_players():
+    players_info = game_state_manager.get_players_info()
+    return jsonify(players_info)
+
+
+@app.route('/get_valid_destinations', methods=['POST'])
+def get_valid_destinations():
+    data = request.json
+    player_loc = data["location"]
+    num_steps = data["dieVal"]
+    valid_destinations = game_state_manager.get_valid_destinations(player_loc,
+                                                                   num_steps)
+    print(f"Valid: {valid_destinations}")
+    return jsonify([list(dest) for dest in valid_destinations])
+
+
+@app.route('/update_current_player_location', methods=['POST'])
+def update_current_player_location():
+    data = request.json
+    next_action, color = game_state_manager.update_current_player_location(data)
+    print(next_action, color)
+    return jsonify({'next_action': next_action, 'color': color})
+
 
 @app.route('/game')
 def game():
     # Retrieve game state from database
     game_state = {
         'categories': ['History', 'Science', 'Geography', 'Art'],
-        'players': [{'name': 'Player 1', 'score': 0}, {'name': 'Player 2', 'score': 0}],
+        'players': [{'name': 'Player 1', 'score': 0},
+                    {'name': 'Player 2', 'score': 0}],
         'current_player': 'Player 1',
         'current_question': 'What is the capital of France?',
         'answers': ['Paris', 'London', 'Berlin', 'Madrid']
     }
     return render_template('game.html', game_state=game_state)
+
+
+@app.route('/setup_screen')
+def setup_screen():
+    return render_template('setup_screen.html')
+
 
 @app.route('/create_category', methods=['GET', 'POST'])
 def create_category():
@@ -101,6 +159,7 @@ def delete_category():
     return render_template('create_category.html', table=table)
 
 
+
 @app.route('/create_question', methods=['GET', 'POST'])
 def create_question():
 
@@ -110,8 +169,9 @@ def create_question():
         correct_answer = request.form['correct_answer']
         # Insert question into database
         db = get_db()
-        db.execute("INSERT INTO questions (name, question_text, correct_answer) VALUES (?, ?, ?)",
-                    (name, question_text, correct_answer))
+        db.execute(
+            "INSERT INTO questions (name, question_text, correct_answer) VALUES (?, ?, ?)",
+            (name, question_text, correct_answer))
         db.commit()
         db.close()
 
@@ -171,6 +231,21 @@ def update_dict(chosen_categories):
     }
     return trivia_questions
 
+
+@app.route('/get_categories', methods=['GET'])
+def get_categories():
+    db = get_db()
+    categories = db.execute("SELECT id, name FROM categories").fetchall()
+    categories = [{'id': row[0], 'name': row[1]} for row in categories]
+    db.close()
+    return jsonify(categories)
+
+@app.route('/get_category_colors', methods=['GET'])
+def get_category_colors():
+    colors = game_state_manager.get_category_colors()
+    return jsonify(colors)
+
+
 @app.route('/get_question', methods=['GET'])
 def get_question():
     # TODO: Andrea.
@@ -187,6 +262,7 @@ def get_question():
     else:
         return jsonify({"question": "", "answer": ""})
 
+
 @app.route('/add_question', methods=['POST'])
 def add_question():
     data = request.get_json()
@@ -195,21 +271,32 @@ def add_question():
     trivia_questions[category].append(new_question)
     return jsonify({"message": "Question added successfully!"})
 
+
 @app.route('/add_player', methods=['POST'])
 def add_player():
     global players
     if len(players) < max_players:
         player_name = request.get_json()['name']
         players.append({"name": player_name, "score": 0})
-        return jsonify({"message": f"Player '{player_name}' added successfully!"})
+        return jsonify(
+            {"message": f"Player '{player_name}' added successfully!"})
     else:
-        return jsonify({"message": f"Cannot add more than {max_players} players."})
+        return jsonify(
+            {"message": f"Cannot add more than {max_players} players."})
+
+
+@app.route('/get_current_player', methods=['GET'])
+def get_current_player():
+    current_player_info = game_state_manager.get_current_player_info()
+    return jsonify(current_player_info)
+
 
 @app.route('/next_player', methods=['GET'])
 def next_player():
     global current_player, players
     current_player = (current_player + 1) % len(players)
     return jsonify({"current_player": players[current_player]['name']})
+
 
 if __name__ == '__main__':
     app.run(debug=True)
