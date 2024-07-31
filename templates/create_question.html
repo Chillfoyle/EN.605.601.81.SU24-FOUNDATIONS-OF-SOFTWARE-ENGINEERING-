@@ -26,13 +26,9 @@
             color: rgb(253, 253, 253); 
             padding: 10px 24px; 
             cursor: pointer;
-            width: 20%;
+            width: 10%;
             margin: 0 auto;
             display: block;
-        }
-
-        .bttg button:not(:last-child) {
-            border-bottom: none;
         }
 
         .bttg button:hover {
@@ -71,6 +67,23 @@
                 line-height:30px;
                 margin: 0 auto;
         }
+        table {
+                font-family: arial, sans-serif;
+                border-collapse: collapse;
+                width: 30%;
+                margin: 0 auto;
+                padding-top: 20px;
+                }
+
+                td, th {
+                border: 1px solid #dddddd;
+                text-align: left;
+                padding: 8px;
+                }
+
+                tr:nth-child(even) {
+                background-color: #dddddd;
+        }
     </style>
     <title>Create Question</title>
 </head>
@@ -78,7 +91,7 @@
     <header>
         <h1>Create Question</h1>
     </header>
-    <div class="bttg">
+    <div class="bttg" style="margin-top: 40px;">
         <center><form method="post">
             <label for="category_id" style="color: #0baec3;font-weight: 500;"><strong>Select Category:</strong></label><br>
             <select id="name" name="name" required>
@@ -91,9 +104,33 @@
             <textarea id="question_text" name="question_text" rows="4" cols="50" required></textarea><br><br>
             <label for="correct_answer" style="color: #0baec3;font-weight: 500;"><strong>Correct Answer:</strong></label><br>
             <input type="text" id="correct_answer" name="correct_answer" required><br><br>
-            <button type="submit"><strong>Create Question</strong></button>
+            <button type="submit"><strong>Submit</strong></button>
+            
+            <hr style="margin-top: 40px; background-color: #0baec3;">
+        </form></center>
+
+        <center><form action="/delete_question" method="post">
+            <label for="delete_id" style="color: #0baec3;"><b>Enter ID Number to Delete:</b></label><br>
+            <input type="text" id="delete_id" name="delete_id" required><br><br>
+            <button type="submit"><strong>Delete</strong></button>
+            <p style="margin-top: 40px;">Table Content:</p>
+            <table style="margin-top: 40px;">
+                <tr>
+                    <th>ID Number</th>
+                    <th>Category Name</th>
+                    <th>Question</th>
+                    <th>Correct Answer</th>
+                </tr>
+                {% for row in table %}
+                <tr>
+                  <th> {{ row[0] }}</th>
+                  <th> {{ row[1] }}</th>
+                  <th> {{ row[2] }}</th>
+                  <th> {{ row[3] }}</th>
+                </tr> 
+                {% endfor %}
+            </table>
         </form></center>
     </div>
-
 </body>
 </html>

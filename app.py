@@ -127,18 +127,42 @@ def setup_screen():
 def create_category():
     if request.method == 'POST':
         category_name = request.form['category_name']
-        category_color = "None"
         # Insert category into database
         db = get_db()
-        db.execute("INSERT INTO categories (name, color) VALUES (?, ?)",
-                   (category_name, category_color))
+        db.execute("INSERT INTO categories VALUES (?)", (category_name,))
         db.commit()
         db.close()
-    return render_template('create_category.html')
+    
+    # Queries categories from database
+    db = get_db()
+    table = db.execute("SELECT * from categories").fetchall()
+    db.commit()
+    db.close()
+    return render_template('create_category.html', table=table)
+
+@app.route('/delete_category', methods=['POST'])
+def delete_category():
+    if request.method == 'POST':
+        delete_name = request.form['delete_name']
+        print(f"{delete_name}")
+        if delete_name != "":
+            db = get_db()
+            db.execute("DELETE from categories where name=?", (delete_name,))
+            db.commit()
+            db.close()
+    
+    # Queries categories from database
+    db = get_db()
+    table = db.execute("SELECT * from categories").fetchall()
+    db.commit()
+    db.close()
+    return render_template('create_category.html', table=table)
+
 
 
 @app.route('/create_question', methods=['GET', 'POST'])
 def create_question():
+
     if request.method == 'POST':
         name = request.form['name']
         question_text = request.form['question_text']
@@ -155,7 +179,57 @@ def create_question():
     db = get_db()
     categories = db.execute("SELECT * FROM categories").fetchall()
     db.close()
-    return render_template('create_question.html', categories=categories)
+
+    # Queries questions from database
+    db = get_db()
+    table = db.execute("SELECT * from questions").fetchall()
+    db.commit()
+    db.close()
+    return render_template('create_question.html', categories=categories, table=table)
+
+@app.route('/delete_question', methods=['POST'])
+def delete_question():
+    if request.method == 'POST':
+        delete_id = request.form['delete_id']
+        print(f"{delete_id}")
+        if delete_id != "":
+            db = get_db()
+            db.execute("DELETE from questions where id=?", (delete_id,))
+            db.commit()
+            db.close()
+
+    # Retrieve categories from database for dropdown
+    db = get_db()
+    categories = db.execute("SELECT * FROM categories").fetchall()
+    db.close()
+
+    # Queries categories from database
+    db = get_db()
+    table = db.execute("SELECT * from questions").fetchall()
+    db.commit()
+    db.close()
+    return render_template('create_question.html', categories=categories, table=table)
+
+# This helper fetches questions/answer from the database
+def update_dict(chosen_categories):
+    db = get_db()
+    net_quest_lst = []
+
+    for cate in chosen_categories:
+        data = db.execute("SELECT * FROM questions where name=?", (cate,)).fetchall()
+        sublst = []
+        for row in data:
+            qa = {"question": row['question_text'], "answer": row['correct_answer']}
+            sublst.append(qa)
+        net_quest_lst.append(sublst)
+
+    trivia_questions = {
+        "yellow": net_quest_lst[0],
+        "green": net_quest_lst[1],
+        "red": net_quest_lst[2],
+        "blue": net_quest_lst[3]
+    }
+    return trivia_questions
 
 
 @app.route('/get_categories', methods=['GET'])
@@ -174,6 +248,11 @@ def get_category_colors():
 
 @app.route('/get_question', methods=['GET'])
 def get_question():
+    # TODO: Andrea.
+    # Get a list of 4 categories from user input
+    # to replace this ['History', 'Science', 'Geography', 'Art']
+    # hardcode list.
+    trivia_questions = update_dict(['History', 'Science', 'Geography', 'Art'])
     category = request.args.get('category', None)
     if category:
         questions = trivia_questions.get(category, [])
