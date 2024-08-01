@@ -6,11 +6,10 @@ from static.py.MoveCalculator import MoveCalculator
 class GameStateManager:
     """Class controlling the state of the game on the server side"""
 
-    def __init__(self, player_inputs, category_ids):
+    def __init__(self, player_inputs, category_ids, DATABASE):
         """Constructor"""
 
         self.current_player_idx = 0
-        self.winning_category_set = category_ids
         self.category_colors = ["red", "yellow", "green", "blue"]
         self.start_loc = (4, 4)
 
@@ -22,10 +21,10 @@ class GameStateManager:
             self.player_list.append(new_player)
 
         # Initialize GameCategories
-        self.category_list = []
+        self.category_dict = {}
         for i in range(len(category_ids)):
-            new_cat = GameCategory(category_ids[i], self.category_colors[i])
-            self.category_list.append(new_cat)
+            new_cat = GameCategory(category_ids[i], self.category_colors[i], DATABASE)
+            self.category_dict[self.category_colors[i]] = new_cat
 
         # Initialize game board information
         row8 = [-2, "O", "O", "O", 0, "O", "O", "O", -2]
@@ -47,7 +46,10 @@ class GameStateManager:
         return self.player_list[self.current_player_idx].get_colors_earned() == set(self.category_colors)
 
     def get_category_colors(self):
-        return [(category.get_color(), category.get_name()) for category in self.category_list]
+        return [(category.get_color(), category.get_name()) for category in self.category_dict.values()]
+
+    def get_category_names(self):
+        return [category.get_name() for category in self.category_dict.values()]
 
     def get_players_info(self):
         return [{"name": player.get_name(),
@@ -91,6 +93,7 @@ class GameStateManager:
                     next_action = "ask winning question"
                 else:
                     next_action = "ask question center"
+
             return next_action, category_color
 
     def update_player_colors_earned(self, new_color):
@@ -98,6 +101,9 @@ class GameStateManager:
         current_player.update_colors_earned(new_color)
         return current_player.get_colors_earned() == set(self.category_colors)
 
+    def get_question_from_cat(self, color):
+        return self.category_dict[color].get_next_question()
+
     def __repr__(self):
         """Return string representation of GSM information"""
-        return f"GSM(player={self.player_list}, category={self.category_list})"
+        return f"GSM(player={self.player_list}, category={self.category_dict})"

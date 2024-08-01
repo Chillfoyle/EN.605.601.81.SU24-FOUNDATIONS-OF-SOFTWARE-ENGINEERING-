@@ -8,7 +8,7 @@ class SetupUIHandler {
     initializeSetupScreen() {
         fetch("/get_categories")  // Get categories from the database for dropdowns
             .then(response => response.json())
-            .then(data => this.populateDropdown(data))
+            .then(data => {console.log(data); this.populateDropdown(data)})
             .catch(error => {console.error("Error fetching categories:", error)});
     }
 
@@ -22,8 +22,8 @@ class SetupUIHandler {
             this.addBlankOption(dropdown);  // Add blank
             options.forEach(option => {
                 const opt = document.createElement("option");
-                opt.value = option.id;
-                opt.textContent = option.name;
+                opt.value = option;
+                opt.textContent = option;
                 dropdown.appendChild(opt);
             });
         });
@@ -32,7 +32,7 @@ class SetupUIHandler {
     addBlankOption(selectElement) {
         const blankOption = document.createElement('option');
         blankOption.value = "";
-        blankOption.textContent = "Select a category";
+        blankOption.textContent = "Math";
         blankOption.disabled = true;
         blankOption.selected = true;
         selectElement.appendChild(blankOption);
@@ -89,11 +89,11 @@ class SetupUIHandler {
 
         try {
             selectedCategories.forEach(category => {
-                const catId = category.value;
+                const catId = category.options[category.selectedIndex].text;
                 const catName = category.options[category.selectedIndex].text;
 
                 if (catId) {  // Initialize GameCategory objects
-                    this.categoryList.push({catId, catName});
+                    this.categoryList.push(catName);
                 }
             });
         } catch (error) {

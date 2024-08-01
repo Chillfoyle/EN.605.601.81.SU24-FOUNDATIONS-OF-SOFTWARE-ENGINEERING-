@@ -73,6 +73,26 @@ class GameUIController {
         return data;
     }
 
+    async fetchQuestion(color) {
+        console.log(color);
+        const response = await fetch('/get_question', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                color: color
+            })
+        });
+        if (response.ok) {
+            const data = await response.json();
+            console.log(data);
+            console.log("Successfully fetched question from GSM");
+            document.getElementById('question').innerText = data.question;
+            sessionStorage.setItem('currentAnswer', data.answer);
+        }
+    }
+
     async fetchValidDestinations(dieValue) {
     console.log(this.currentPlayerLocation);
         const response = await fetch('/get_valid_destinations', {
@@ -88,7 +108,7 @@ class GameUIController {
 
         if (response.ok) {
             const data = await response.json();
-            console.log("Successfully fetched valid moves from GSM");
+            console.log("Successfully fetched question from GSM");
             this.moveHandler.highlightMoveOptions(data);
             this.displayInGameMessage("select-dest-prompt");
         } else {
@@ -134,7 +154,11 @@ class GameUIController {
                     this.startPlayerTurn();
                     break;
                 case "ask question hq":
-                    this.fetchQuestion(response.color);
+                    console.log(data.color);
+                    const question = this.fetchQuestion(data.color);
+                    console.log(question);
+                    document.getElementById('question').innerText = question.question;
+                    sessionStorage.setItem('currentAnswer', question.answer);
                     break;
                 case "ask question center":
                     this.displayInGameMessage("choose-category-prompt");
@@ -170,7 +194,6 @@ class GameUIController {
         });
     }
 
-
     /* TODO: For MINIMAL - Finish updatePlayerScore */
     updatePlayerScore(playerColor, newCategoryColor) {
 
@@ -198,18 +221,13 @@ class GameUIController {
             document.getElementById("player-prompt-text").innerHTML = "";
         }
 
-        /* TODO: For MINIMAL - Add messages for Roll Again, HQ, Trivial Compute squares, winning */
+        /* TODO: For MINIMAL - Add messages for HQ, Trivial Compute squares, winning */
 
     }
 
     /* TODO: For TARGET - Finish displayPopup */
     displayPopUp(message) {
     // For exiting the game early, or when player wins to play again
-    }
-
-    /* TODO: For MINIMAL - Finish updateTurnIndicator */
-    updateTurnIndicator() {
-
     }
 
     /* TODO: For MINIMAL - Finish displayTriviaQuestion */
