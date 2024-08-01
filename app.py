@@ -238,6 +238,7 @@ def update_dict(chosen_categories):
         "red": net_quest_lst[2],
         "blue": net_quest_lst[3]
     }
+    db.close()
     return trivia_questions
 
 
