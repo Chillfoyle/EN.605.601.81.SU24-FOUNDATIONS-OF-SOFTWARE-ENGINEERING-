@@ -27,7 +27,7 @@ class GameStateManager:
             self.category_dict[self.category_colors[i]] = new_cat
 
         # Initialize game board information
-        row8 = [-2, "O", "O", "O", 0, "O", "O", "O", -2]
+        row8 = [-2, "O", "O", "O", 3, "O", "O", "O", -2]
         row7 = ["O", "X", "X", "X", "O", "X", "X", "X", "O"]
         row6 = ["O", "X", "X", "X", "O", "X", "X", "X", "O"]
         row5 = ["O", "X", "X", "X", "O", "X", "X", "X", "O"]
@@ -35,7 +35,7 @@ class GameStateManager:
         row3 = ["O", "X", "X", "X", "O", "X", "X", "X", "O"]
         row2 = ["O", "X", "X", "X", "O", "X", "X", "X", "O"]
         row1 = ["O", "X", "X", "X", "O", "X", "X", "X", "O"]
-        row0 = [-2, "O", "O", "O", 3, "O", "O", "O", -2]
+        row0 = [-2, "O", "O", "O", 0, "O", "O", "O", -2]
 
         self.game_board = [row0, row1, row2, row3, row4, row5,
                            row6, row7, row8]
@@ -69,6 +69,7 @@ class GameStateManager:
 
     def update_current_player_location(self, new_location):
         self.player_list[self.current_player_idx].token_location = tuple(new_location)
+        print(f"Current player new location: {tuple(new_location)}")
         return self.get_next_action(new_location)
 
     def update_current_player(self):
@@ -79,6 +80,7 @@ class GameStateManager:
         category_color = None
         row, col = player_loc
         new_square = self.game_board[row][col]
+        print(f"Square at coordinates {(row, col)} has value {new_square}")
         if new_square == "O":
             self.update_current_player()
             return "next player turn", None
@@ -87,6 +89,7 @@ class GameStateManager:
         else:
             if new_square in range(0, 4):
                 category_color = self.category_colors[new_square]
+                print(f"Category color: {self.category_colors[new_square]}")
                 next_action = "ask question hq"
             elif new_square == -1:
                 if self.all_categories_earned():

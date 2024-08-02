@@ -9,10 +9,7 @@ class GameUIController {
 
     setUpEventListeners() {
     // How to handle all button clicks
-
         document.getElementById("rollDieButton").addEventListener('click', () => this.moveHandler.handleDieRoll());
-
-        // Add as needed
     }
 
     async initializeGameScreen() {
@@ -22,6 +19,8 @@ class GameUIController {
         await this.fetchPlayers();
         console.log("Displaying player names in score window");
         this.displayPlayerNames();
+        console.log("Adding categories");
+        this.createCategoryButtons();
         console.log("Showing current player name on screen");
         this.players.forEach(player => {this.moveHandler.initializeToken(player)});
         console.log("Tokens placed on start");
@@ -35,10 +34,13 @@ class GameUIController {
         playersList.innerHTML = '';
         let playerNum = 1;
         this.players.forEach(player => {
+            console.log(`Adding ${player.name}`)
             let listItem = document.createElement('li');
-            listItem.innerText = `${playerNum}. ${player.name}`;
+            listItem.innerText = `${playerNum}. ${player.name} (${player.token_color})`;
             playersList.appendChild(listItem);
             playerNum++;
+//            document.createElement(`${player.token_color}-player`);
+//            document.createElement(`${player.token_color}-player`).innerText = player.name;
             document.getElementById(`${player.token_color}-player`).innerText = player.name;
         });
         console.log("Successfully displayed player names on screen");
@@ -88,8 +90,7 @@ class GameUIController {
             const data = await response.json();
             console.log(data);
             console.log("Successfully fetched question from GSM");
-            document.getElementById('question').innerText = data.question;
-            sessionStorage.setItem('currentAnswer', data.answer);
+            this.displayTriviaQuestion(data, color);
         }
     }
 
@@ -116,18 +117,23 @@ class GameUIController {
         }
     }
 
-    startPlayerTurn(prompt="roll-die-prompt") {
+    startPlayerTurn(showPrompt, prompt="roll-die-prompt") {
     // Start turn for current player
 
         fetch('/get_current_player')
             .then(response => response.json())
             .then(data => {
+                console.log("showPrompt:", showPrompt);
+                console.log("prompt:", prompt);
                 document.getElementById('current-player').innerText = data.name;
                 this.currentPlayerName = data.name;
                 this.currentPlayerLocation = data.token_location;
-                this.currentPlayerScore = data.colors_earned;
+                this.currentPlayerColor = data.token_color;
                 this.moveHandler.setCurrentPlayerTokenId(data.token_color);
-                this.displayInGameMessage(prompt);
+                if (showPrompt) {
+                    console.log("Printing message");
+                    this.displayInGameMessage(prompt);
+                }
                 console.log("Successfully updated current player name");
             })
             .catch(error => console.error('Error fetching players:', error));
@@ -148,17 +154,19 @@ class GameUIController {
             console.log(data.next_action)
             switch(data.next_action) {
                 case "roll again":
-                    this.startPlayerTurn("roll-again-prompt");
+                    this.startPlayerTurn(true, "roll-again-prompt");
                     break;
                 case "next player turn":
-                    this.startPlayerTurn();
+                    console.log("Next player's turn");
+                    this.startPlayerTurn(true);
                     break;
                 case "ask question hq":
                     console.log(data.color);
                     const question = this.fetchQuestion(data.color);
                     console.log(question);
-                    document.getElementById('question').innerText = question.question;
+                    document.getElementById('question-text').innerText = question.question;
                     sessionStorage.setItem('currentAnswer', question.answer);
+                    document.getElementById('question-container').style.border = "2px solid data.color";
                     break;
                 case "ask question center":
                     this.displayInGameMessage("choose-category-prompt");
@@ -169,34 +177,59 @@ class GameUIController {
                     this.displayCategoryChoices();
                     break;
         }
-    }
-    }
-    fetchCategoryColors() {
-        fetch('/get_category_colors')
-        .then(response => response.json())
-        .then(data => createCategoryButtons(data))
-        .catch(error => console.error('Error fetching categories:', error));
+    }}
+
+     async updateCurrentPlayer() {
+        const response = await fetch('/update_current_player', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({})
+        });
+
+        if (response.ok) {
+            console.log(response);
+        }
     }
 
-    createCategoryButtons(categories) {
-        const container = document.getElementById('category-select-container');
-        const prompt = document.createElement('p');
-        prompt.textContent = `${playerName}, choose a category.`;
-        container.appendChild(prompt);
 
-        Object.entries(categories).forEach(([color, name]) => {
-            const button = document.createElement('button');
-            button.textContent = name;
-            button.classList.add('category-button');
-            button.style.backgroundColor = color;
-            button.onclick = () => alert(`Category ${name} selected`);
-            container.appendChild(button);
+    async fetchCategoryColors() {
+        const response = await fetch('/get_category_colors');
+        const data = await response.json();
+        console.log("Successfully fetched category colors from GSM");
+        console.log(Array.isArray(data));
+        return data;
+    }
+
+    async createCategoryButtons() {
+        const categories = await this.fetchCategoryColors();
+        console.log(categories);
+        categories.forEach(category => {
+            document.getElementById(`${category[0]}-category`).innerText = category[1];
         });
     }
 
     /* TODO: For MINIMAL - Finish updatePlayerScore */
-    updatePlayerScore(playerColor, newCategoryColor) {
-
+    async updatePlayerScore() {
+        let newCategoryColor = sessionStorage.getItem('currentColor');
+        const response = await fetch('/update_player_score', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({color: newCategoryColor})
+        });
+      if (response.ok) {
+        const data = await response.json();
+        if (response.player_won === true) {
+            //this.showWinDialog();
+        } else {
+            console.log(`${this.currentPlayerColor}-${newCategoryColor}-score-square`);
+            const fillSquare = document.getElementById(`${this.currentPlayerColor}-${newCategoryColor}-score-square`);
+            fillSquare.style.background = newCategoryColor;
+        }
+      }
     }
 
     displayInGameMessage(messageType) {
@@ -213,7 +246,19 @@ class GameUIController {
         }
 
         if (messageType === "select-dest-prompt") {
-            const msg = `${this.currentPlayerName}, where will you move your token?<br>Click a highlighted square.`
+            const msg = `${this.currentPlayerName}, where will you move your token? Click a highlighted square.`
+            document.getElementById("player-prompt-text").innerHTML = msg;
+        }
+
+        if (messageType === "correct-answer"){
+            let color = sessionStorage.getItem('currentColor');
+            const msg = `${this.currentPlayerName} earned ${color}! Roll the die again.`
+            document.getElementById("player-prompt-text").innerHTML = msg;
+        }
+
+        if (messageType === "wrong-answer"){
+            let oldPlayer = sessionStorage.getItem('oldPlayerName');
+            const msg = `Sorry, ${oldPlayer}! ${this.currentPlayerName}, it is your turn. Roll the die!`
             document.getElementById("player-prompt-text").innerHTML = msg;
         }
 
@@ -231,12 +276,52 @@ class GameUIController {
     }
 
     /* TODO: For MINIMAL - Finish displayTriviaQuestion */
-    displayTriviaQuestion() {
+    displayTriviaQuestion(data, color) {
+        document.getElementById('question-text').innerText = data.question;
+        sessionStorage.setItem('currentAnswer', data.answer);
+        sessionStorage.setItem('currentColor', color);
+        const container = document.getElementById('question-window');
+
+        const answerButton = document.createElement("div");
+        answerButton.classList.add("button");
+        answerButton.id = "showAnswerButton";
+        answerButton.innerText = "Show Answer";
+        answerButton.addEventListener('click', () => this.displayTriviaAnswer());
+        container.appendChild(answerButton);
 
     }
 
     /* TODO: For MINIMAL - Finish displayTriviaAnswer */
     displayTriviaAnswer() {
-
+        console.log("Showing answer");
+        let correctAnswer = sessionStorage.getItem('currentAnswer');
+        document.getElementById('question-text').innerText = correctAnswer;
+        document.getElementById("showAnswerButton").remove()
+        const correctButton = document.createElement("div");
+        correctButton.classList.add("button");
+        correctButton.innerText = "Correct";
+        const incorrectButton = document.createElement("div");
+        incorrectButton.classList.add("button");
+        incorrectButton.innerText = "Not Correct";
+        const container = document.getElementById('answer-button-window');
+        correctButton.addEventListener('click', () => {
+            this.displayInGameMessage("correct-answer");
+            this.updatePlayerScore();
+            incorrectButton.remove();
+            correctButton.remove();
+            document.getElementById('question-text').innerText = "";
+        });
+        incorrectButton.addEventListener('click', () => {
+            sessionStorage.setItem("oldPlayerName", this.currentPlayerName);
+            this.displayInGameMessage("wrong-answer");
+            this.updateCurrentPlayer();
+            console.log("Going to next player after incorrect answer");
+            this.startPlayerTurn(false);
+            incorrectButton.remove();
+            correctButton.remove();
+            document.getElementById('question-text').innerText = "";
+        });
+        container.appendChild(correctButton);
+        container.appendChild(incorrectButton);
     }
 }

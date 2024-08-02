@@ -5,7 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="580d08a7-5876-40d9-a66b-c154442bd569" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/css/game_styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/css/game_styles.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/js/classes/GameUIController.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/classes/GameUIController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/py/GameStateManager.py" beforeDir="false" afterPath="$PROJECT_DIR$/static/py/GameStateManager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/game.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/game.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,15 +38,15 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "2507-minimal-setup-and-classes-andrea",
-    "last_opened_file_path": "C:/Users/Andre/Documents/GitHub"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;2507-minimal-setup-and-classes-andrea&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Andre/Documents/GitHub&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Andre\Documents\GitHub\EN.605.601.81.SU24-FOUNDATIONS-OF-SOFTWARE-ENGINEERING-\static\css" />

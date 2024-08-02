@@ -10,23 +10,91 @@
 
 /* Game Board Styles */
 
-.game-board-container {
-    width: 40vw;
-    height: 85vh;
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 80vh;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
+    box-sizing: border-box;
+}
+
+.title {
+    font-size: 36px;
+    margin: 0px;
+    gap: 0px;
+}
+
+.game-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
     position: relative;
+    gap: 0px;
+    padding: 0px;
+    box-sizing: border-box;
 }
 
 /* TODO: Center the game board more in the window */
 .game-board {
-    width: 100%;
-    height: 100%; 
+    width: 40%;
+    height: 100%;
     display: grid;
     grid-template-columns: repeat(9, 1fr); /* 9 columns */
     grid-template-rows: repeat(9, 1fr); /* 9 rows */
     border: 2px solid black;
+    aspect-ratio: 1 / 1;
+    padding: 0;
+    margin: 0;
+}
+
+.player-info {
+    width: 20%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: top;
+    margin left: 0;
+    padding: 0;
+}
+
+.question-container {
+    width: 30%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0;
+    padding: 0;
+}
+
+.question-window {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+.answer-button-window {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}
+
+.question-text {
+    font-size: 24px;
+    margin-bottom: 20px;
 }
 
 /* TODO: Make the font look nicer */
@@ -54,7 +122,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 20px;
+    gap: 0px;
 }
 
 .die-container {
@@ -66,41 +134,57 @@
 
 /* TODO: Replace with animation. Make it bigger and move it over... */
 .dice {
-    width: 50px;
-    height: 50px;
+    width: 90px;
+    height: 90px;
     background-color: white;
     border: 2px solid black;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 24px;
-    margin-top: 10px;
+    margin-top: 0px;
+    margin-bottom: 20px;
 }
 
 .button {
-    background-color: rgb(0, 170, 255);
+    background-color: #008CBA;
     border: none;
     color: white;
+    font-size: 24px;
+    padding: 5px;
+    border: 2px solid black;
+    cursor: pointer;
+    margin-bottom: 20px;
 }
 
 /* TODO: Make the font better*/
 .player-prompt-text {
+    min-height: 22px;
     font-size: 20px;
-    margin-bottom: 10px;
+    margin: 0px;
     font-weight: bold;
-    height: 100%;
+    margin-bottom: 10px;
+    text-align: center;
 }
 
 /* Player List Styles*/
 
 /* TODO: Make this look bigger, move over, different font */
-#players-list {
+.players-list {
     list-style-type: none;
-    padding: 0;
+    height: 80px;
+    padding: 0px;
+    line-height: 1.5;
+    font-size: 20px;
+
+}
+
+.current {
+    margin-top: 20px;
 }
 
 #players-list li {
-    margin-bottom: 10px;
+    margin-bottom: 0px;
 }
 
 /* Token Styles */
@@ -108,8 +192,8 @@
 /* TODO: Maybe add a shadow or something... */
 .token {
     position: absolute;
-    width: 25px;
-    height: 25px;
+    width: 24px;
+    height: 24px;
     border-radius: 50%;
     border: 2px solid black;
 }
@@ -137,7 +221,7 @@
 
 .window {
     position: absolute;
-    width: 25%;
+    width: 10%;
     height: 25%;
     display: flex;
     flex-direction: column;
@@ -161,25 +245,25 @@
 
 #red-window {
     top: 15%;
-    left: 15%;
+    left: 31%;
     border: 4px solid red;
 }
 
 #yellow-window {
     top: 15%;
-    right: 15%;
+    right: 41%;
     border: 4px solid yellow;
 }
 
 #green-window {
     bottom: 15%;
-    left: 15%;
+    left: 31%;
     border: 4px solid green;
 }
 
 #blue-window {
     bottom: 15%;
-    right: 15%;
+    right: 41%;
     border: 4px solid blue;
 }
 
@@ -227,14 +311,19 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 20px;
+    gap: 5px;
 }
 
 .category-button {
     padding: 10px 20px;
+    width: 100px;
     margin: 5px;
-    border: none;
+    border: 2px solid black;
     color: white;
-    cursor: pointer;
-    font-size: 16px;
+    font-size: 20px;
+    text-align: center;
+}
+
+.category-button-yellow {
+    color: black;
 }

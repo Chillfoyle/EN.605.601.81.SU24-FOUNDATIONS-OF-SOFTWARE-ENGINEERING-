@@ -99,12 +99,26 @@ def get_valid_destinations():
     return jsonify([list(dest) for dest in valid_destinations])
 
 
+@app.route('/update_current_player', methods=['POST'])
+def update_current_player():
+    game_state_manager.update_current_player()
+    return jsonify({'response': "Player updated successfully"})
+
+
 @app.route('/update_current_player_location', methods=['POST'])
 def update_current_player_location():
     data = request.json
     next_action, color = game_state_manager.update_current_player_location(data)
     print({'next_action': next_action, 'color': color})
     return jsonify({'next_action': next_action, 'color': color})
+
+
+@app.route('/update_player_score', methods=['POST'])
+def update_player_score():
+    data = request.json
+    print(data)
+    player_won = game_state_manager.update_player_colors_earned(data)
+    return jsonify({'player_won': player_won})
 
 
 @app.route('/game')

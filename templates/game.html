@@ -6,7 +6,8 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/game_styles.css') }}">
 </head>
 <body>
-    <h1 style="color:rgb(0, 170, 255)";>Trivial Compute Game</h1>
+    <div class="title">Trivial Compute Game</div>
+     <div class="player-prompt-text" id="player-prompt-text"></div>
 
     <!--- TODO for MINIMAL: Replace fetchQuestion/checkAnswer with call to GameCategory --->
     <script>
@@ -152,14 +153,16 @@
 <!--        });-->
     </script>
 
-
-    <div id="player-info">
+ <!-- <div id="game-board"> -->
+    <div class="game-container">
+    <div class="player-info">
         <h2 style="color:rgb(0, 170, 255);">Players:</h2>
-        <ul id="players-list">
+        <div class="players-list" id="players-list">
             <!-- Player names will be dynamically added here -->
-        </ul>
-        <p>Current Player: <span id="current-player"></span></p>
-    </div>
+        </div>
+        <br><br>
+        <div class="players-list current">Current Player: <span class="players-list" id="current-player"></span></div>
+
 
 
     <div class="player-action-window" id="player-actions">
@@ -167,12 +170,11 @@
             <div class="dice" id="die">-</div>
             <button class="button" id="rollDieButton">Roll Dice</button>
         </div>
-        <div class="player-prompt-text" id="player-prompt-text"></div>
+
+    </div>
     </div>
 
 
-    <!-- <div id="game-board"> -->
-    <div class="game-board-container">
         <div class="game-board">
             <!-- Display game board, player tokens, etc. -->
             <!-- First row -->
@@ -287,10 +289,10 @@
         <div class="window" id="red-window">
             <div class="player-name" id="red-player"></div>
             <div class="score-grid" id="grid1">
-                <div class="score-square" data-id="1"></div>
-                <div class="score-square" data-id="2"></div>
-                <div class="score-square" data-id="3"></div>
-                <div class="score-square" data-id="4"></div>
+                <div class="score-square" id="red-red-score-square"></div>
+                <div class="score-square" id="red-yellow-score-square"></div>
+                <div class="score-square" id="red-green-score-square"></div>
+                <div class="score-square" id="red-blue-score-square"></div>
             </div>
         </div>
 
@@ -298,10 +300,10 @@
         <div class="window" id="yellow-window">
             <div class="player-name" id="yellow-player"></div>
             <div class="score-grid" id="grid2">
-                <div class="score-square" data-id="1"></div>
-                <div class="score-square" data-id="2"></div>
-                <div class="score-square" data-id="3"></div>
-                <div class="score-square" data-id="4"></div>
+                <div class="score-square" id="yellow-red-score-square"></div>
+                <div class="score-square" id="yellow-yellow-score-square"></div>
+                <div class="score-square" id="yellow-green-score-square"></div>
+                <div class="score-square" id="yellow-blue-score-square"></div>
             </div>
         </div>
 
@@ -309,10 +311,10 @@
         <div class="window" id="green-window">
             <div class="player-name" id="green-player"></div>
             <div class="score-grid" id="grid3">
-                <div class="score-square" data-id="1"></div>
-                <div class="score-square" data-id="2"></div>
-                <div class="score-square" data-id="3"></div>
-                <div class="score-square" data-id="4"></div>
+                <div class="score-square" id="green-red-score-square"></div>
+                <div class="score-square" id="green-yellow-score-square"></div>
+                <div class="score-square" id="green-green-score-square"></div>
+                <div class="score-square" id="green-blue-score-square"></div>
             </div>
         </div>
 
@@ -320,29 +322,41 @@
         <div class="window" id="blue-window">
             <div class="player-name" id="blue-player"></div>
             <div class="score-grid" id="grid4">
-                <div class="score-square" data-id="1"></div>
-                <div class="score-square" data-id="2"></div>
-                <div class="score-square" data-id="3"></div>
-                <div class="score-square" data-id="4"></div>
+                <div class="score-square" id="blue-red-score-square"></div>
+                <div class="score-square" id="blue-yellow-score-square"></div>
+                <div class="score-square" id="blue-green-score-square"></div>
+                <div class="score-square" id="blue-blue-score-square"></div>
             </div>
         </div>
 
-        <div class="category-select-container"></div>
+    <div class="question-container" id="question-container">
+        <div class="question-window" id="question-window">
+            <h2>Question: </h2>
+            <div class="question-text" id="question-text"></div>
+            <div class="answer-button-window" id="answer-button-window"></div>
+            </div>
+        <div class="category-select-container">
+             <h2>Category Key:</h2>
+        <div class="category-button red" id="red-category"></div>
+        <div class="category-button yellow category-button-yellow" id="yellow-category"></div>
+        <div class="category-button green" id="green-category"></div>
+        <div class="category-button blue" id="blue-category"></div>
+            </div>
     </div>
-
-    <div id="question-container">
-        <p id="question"></p>
-        <input type="text" id="answer" placeholder="Your Answer">
-        <select id="category">
-            <option value="">Choose the color that matches to your position</option>
-            <option value="yellow">Yellow</option>
-            <option value="green">Green</option>
-            <option value="red">Red</option>
-            <option value="blue">Blue</option>
-        </select>
-        <button class="button" onclick="fetchQuestion()">Next Question</button>
-        <button class="button" onclick="checkAnswer()">Submit Answer</button>
-    </div>
+     </div>
+<!--    <div id="question-container">-->
+<!--        <p id="question"></p>-->
+<!--        <input type="text" id="answer" placeholder="Your Answer">-->
+<!--        <select id="category">-->
+<!--            <option value="">Choose the color that matches to your position</option>-->
+<!--            <option value="yellow">Yellow</option>-->
+<!--            <option value="green">Green</option>-->
+<!--            <option value="red">Red</option>-->
+<!--            <option value="blue">Blue</option>-->
+<!--        </select>-->
+<!--        <button class="button" onclick="fetchQuestion()">Next Question</button>-->
+<!--        <button class="button" onclick="checkAnswer()">Submit Answer</button>-->
+<!--    </div>-->
 </body>
 <script src="{{ url_for('static', filename='js/classes/MoveHandler.js') }}"></script>
 <script src="{{ url_for('static', filename='js/classes/GameUIController.js') }}"></script>
