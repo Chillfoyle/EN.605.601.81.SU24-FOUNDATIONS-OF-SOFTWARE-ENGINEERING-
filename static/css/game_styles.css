@@ -8,7 +8,7 @@
 .yellow { background-color: yellow; }
 .white { background-color: white; }
 
-/* Game Board Styles */
+/* Screen Components */
 
 body, html {
     margin: 0;
@@ -27,7 +27,7 @@ body, html {
     gap: 0px;
 }
 
-.game-container {
+.game-container {  /* Everything below title and prompt text */
     width: 100%;
     height: 100%;
     display: flex;
@@ -40,8 +40,7 @@ body, html {
     box-sizing: border-box;
 }
 
-/* TODO: Center the game board more in the window */
-.game-board {
+.game-board {  /* The part of the game container with the game board */
     width: 40%;
     height: 100%;
     display: grid;
@@ -53,7 +52,7 @@ body, html {
     margin: 0;
 }
 
-.player-info {
+.player-info { /* The part of the game container with the player list and die */
     width: 20%;
     height: 100%;
     display: flex;
@@ -64,7 +63,14 @@ body, html {
     padding: 0;
 }
 
-.question-container {
+.die-container {  /* The part of player-info with die and button */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.question-container {  /* The part of the game container displaying the questions and category buttons */
     width: 30%;
     height: 100%;
     display: flex;
@@ -75,30 +81,54 @@ body, html {
     padding: 0;
 }
 
-.question-window {
-    width: 100%;
-    height: 100%;
+.question-window {  /* The part of the question-container displaying the question/answer text */
+    width: 97%;
+    height: 99%;
     display: flex;
     flex-direction: column;
     align-items: center;
     margin: 0;
-    padding: 0;
+    padding-left: 5px;
+    padding-right: 0px;
 }
 
-.answer-button-window {
+.answer-button-window {  /* The part of question-window that has the Correct/Not Correct buttons */
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: 10px;
 }
 
-.question-text {
+.question-text { /* The question/answer text */
     font-size: 24px;
     margin-bottom: 20px;
 }
 
+.category-select-container {  /* Where the category key/buttons are */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.category-button {  /* Four buttons showing the category names*/
+    padding: 10px 20px;
+    width: 100px;
+    margin: 5px;
+    border: 2px solid black;
+    color: white;
+    font-size: 20px;
+    text-align: center;
+}
+
+.category-button-yellow {  /* Yellow button needs black text */
+    color: black;
+}
+
+/* Game Board Styles */
+
 /* TODO: Make the font look nicer */
-.square {
+.square {  /* Game board square */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -108,7 +138,7 @@ body, html {
     border: 1px solid black;
 }
 
-.square-empty {
+.square-empty {  /* Game board empty spaces */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -118,22 +148,8 @@ body, html {
 
 /* Player Action Styles */
 
-.player-action-window {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 0px;
-}
-
-.die-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-/* TODO: Replace with animation. Make it bigger and move it over... */
-.dice {
+/* TODO: Replace with animation. */
+.dice {  /* The die */
     width: 90px;
     height: 90px;
     background-color: white;
@@ -146,7 +162,7 @@ body, html {
     margin-bottom: 20px;
 }
 
-.button {
+.button {  /* Roll Die button, but also all other buttons */
     background-color: #008CBA;
     border: none;
     color: white;
@@ -157,8 +173,8 @@ body, html {
     margin-bottom: 20px;
 }
 
-/* TODO: Make the font better*/
-.player-prompt-text {
+/* TODO: Make the font better */
+.player-prompt-text {  /* The text telling the player what to do */
     min-height: 22px;
     font-size: 20px;
     margin: 0px;
@@ -170,7 +186,7 @@ body, html {
 /* Player List Styles*/
 
 /* TODO: Make this look bigger, move over, different font */
-.players-list {
+.players-list {  /* Lists the names and colors of the players */
     list-style-type: none;
     height: 80px;
     padding: 0px;
@@ -179,7 +195,7 @@ body, html {
 
 }
 
-.current {
+.current {  /* Formatting for current player */
     margin-top: 20px;
 }
 
@@ -268,13 +284,13 @@ body, html {
 }
 
 /* TODO: Better font */
-.player-name {
+.player-name {  /* Name that goes above the score window */
     font-size: 1.5vw;
     margin-bottom: 10px;
     border: none !important;
 }
 
-.score-grid {
+.score-grid {  /* The 2x2 grid for the player's score */
     display: grid;
     grid-template-columns: repeat(2, 1fr); /* 2 columns */
     grid-template-rows: repeat(2, 1fr);    /* 2 rows */
@@ -284,8 +300,7 @@ body, html {
     border: transparent !important;
 }
 
-/* TODO: Add logic to fill in squares when players earn categories */
-.score-square {
+.score-square {  /* One square in the 2x2 grid */
     background-color: #FFF; /* Default color */
     border: 2px solid black !important; /* So the borders don't look weird */
     width: 100%;
@@ -297,33 +312,14 @@ body, html {
   border-color: transparent;
 }
 
-.star {
+/* Miscellaneous Styles */
+
+.star {  /* The stars that show the player where to move */
     position: absolute;
-    width: 50px; /* Adjust size as needed */
+    width: 50px;
     height: 50px;
-    background-image: url('../images/star.png'); /* Path to your star image */
+    background-image: url('../images/star.png');
     background-size: cover;
-    cursor: pointer; /* To indicate it's clickable */
-    z-index: 100; /* Ensure it’s on top of other elements */
-}
-
-.category-select-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 5px;
-}
-
-.category-button {
-    padding: 10px 20px;
-    width: 100px;
-    margin: 5px;
-    border: 2px solid black;
-    color: white;
-    font-size: 20px;
-    text-align: center;
-}
-
-.category-button-yellow {
-    color: black;
+    cursor: pointer;
+    z-index: 100;
 }

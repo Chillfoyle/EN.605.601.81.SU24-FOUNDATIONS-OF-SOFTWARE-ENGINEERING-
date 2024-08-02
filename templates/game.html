@@ -3,180 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <title>Trivial Compute Game</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/game_styles.css') }}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/game_styles.css')}}">
 </head>
 <body>
     <div class="title">Trivial Compute Game</div>
-     <div class="player-prompt-text" id="player-prompt-text"></div>
-
-    <!--- TODO for MINIMAL: Replace fetchQuestion/checkAnswer with call to GameCategory --->
-    <script>
-
-        function fetchQuestion() {
-            let category = document.getElementById('category').value;
-            let url = '/get_question';
-            if (category) {
-                url += '?category=' + category;
-            }
-
-            fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById('question').innerText = data.question;
-                    sessionStorage.setItem('currentAnswer', data.answer);
-                })
-                .catch(error => console.error('Error:', error));
-        }
-
-        function checkAnswer() {
-            let userAnswer = document.getElementById('answer').value.trim();
-            let correctAnswer = sessionStorage.getItem('currentAnswer');
-            let currentPlayer = getCurrentPlayer();
-
-            if (!userAnswer) {
-                alert('Please enter your answer.');
-                return;
-            }
-
-            if (userAnswer.toLowerCase() === correctAnswer.toLowerCase()) {
-                alert('Correct!');
-                increaseScore(currentPlayer);
-            } 
-            else {
-                alert('Incorrect. The correct answer is: ' + correctAnswer);
-                nextPlayerTurn();
-            }
-
-
-            fetchQuestion();  // Fetch next question regardless of correct or incorrect
-            document.getElementById('answer').value = '';  // Clear answer input field
-        }
-
-        function increaseScore(player) {
-            player.score++;
-            updatePlayerScores();
-        }
-
-        function getCurrentPlayer() {
-            return players.find(player => player.current);
-        }
-
-        function nextPlayerTurn() {
-            let currentPlayerIndex = players.findIndex(player => player.current);
-            players[currentPlayerIndex].current = false;
-            if (currentPlayerIndex === players.length - 1) {
-                players[0].current = true;  // Move to first player if last player's turn
-            } else {
-                players[currentPlayerIndex + 1].current = true;
-            }
-            updatePlayerTurnIndicator();
-        }
-
-        function updatePlayerTurnIndicator() {
-            let currentPlayer = getCurrentPlayer();
-            document.getElementById('current-player').innerText = currentPlayer.name;
-            updatePlayerScores();
-        }
-
-        function updatePlayerScores() {
-            let playersList = document.getElementById('players-list');
-            playersList.innerHTML = '';
-            players.forEach(player => {
-                let listItem = document.createElement('li');
-                listItem.innerText = `${player.name}: ${player.score} ${player.current ? '(Current Player)' : ''}`;
-                playersList.appendChild(listItem);
-            });
-        }
-
-<!-- Delete after confirming that other functionality works -->
-
-<!--        document.addEventListener('DOMContentLoaded', () => {-->
-
-<!--            // Prompt for adding players-->
-<!--            let numPlayers = prompt('Enter number of players (1 to 4):');-->
-<!--            if (numPlayers && numPlayers >= 1 && numPlayers <= 4) {-->
-<!--                for (let i = 0; i < numPlayers; i++) {-->
-<!--                    let playerName = prompt(`Enter name for Player ${i + 1}:`);-->
-<!--                    if (playerName) {-->
-<!--                        fetch('/add_player', {-->
-<!--                            method: 'POST',-->
-<!--                            headers: {-->
-<!--                                'Content-Type': 'application/json'-->
-<!--                            },-->
-<!--                            body: JSON.stringify({ name: playerName })-->
-<!--                        })-->
-<!--                        .then(response => response.json())-->
-<!--                        .then(data => {-->
-<!--                            alert(data.message);-->
-<!--                            players.push({ name: playerName, score: 0, current: false });-->
-<!--                            if (players.length === 1) {-->
-<!--                                players[0].current = true;  // First player starts as current player-->
-<!--                                document.getElementById('current-player').innerText = playerName;-->
-<!--                            }-->
-<!--                            updatePlayerScores();-->
-<!--                        })-->
-<!--                        .catch(error => console.error('Error:', error));-->
-<!--                    }-->
-<!--                }-->
-<!--            } else {-->
-<!--                alert('Invalid number of players. Game requires 1 to 4 players.');-->
-<!--                window.location.href = '/';  // Reload the page to restart-->
-<!--            }-->
-
-<!--            fetchQuestion();-->
-<!--            document.getElementById('add-question-form').addEventListener('submit', function (event) {-->
-<!--                event.preventDefault();-->
-<!--                let newQuestion = document.getElementById('new-question').value.trim();-->
-<!--                let newAnswer = document.getElementById('new-answer').value.trim();-->
-<!--                let newCategory = document.getElementById('new-category').value;-->
-
-
-<!--                if (newQuestion && newAnswer && newCategory) {-->
-<!--                    fetch('/add_question', {-->
-<!--                        method: 'POST',-->
-<!--                        headers: {-->
-<!--                            'Content-Type': 'application/json'-->
-<!--                        },-->
-<!--                        body: JSON.stringify({ question: newQuestion, answer: newAnswer, category: newCategory })-->
-<!--                    })-->
-<!--                    .then(response => response.json())-->
-<!--                    .then(data => {-->
-<!--                        alert(data.message);-->
-<!--                        document.getElementById('add-question-form').reset();-->
-<!--                        fetchQuestion();  // Fetch next question after adding new question-->
-<!--                    })-->
-<!--                    .catch(error => console.error('Error:', error));-->
-<!--                } else {-->
-<!--                    alert('Please enter both question, answer, and select a category.');-->
-<!--                }-->
-<!--            });-->
-<!--        });-->
-    </script>
-
- <!-- <div id="game-board"> -->
+    <div class="player-prompt-text" id="player-prompt-text"></div>
     <div class="game-container">
-    <div class="player-info">
-        <h2 style="color:rgb(0, 170, 255);">Players:</h2>
-        <div class="players-list" id="players-list">
-            <!-- Player names will be dynamically added here -->
+
+        <!-- Left player info window -->
+        <div class="player-info">
+            <!-- Player list -->
+            <h2 style="color:rgb(0, 170, 255);">Players:</h2>
+            <div class="players-list" id="players-list">
+                <!-- Player names will be dynamically added here -->
+            </div>
+            <br><br>
+            <!-- Current player -->
+            <div class="players-list current">Current Player: <span class="players-list" id="current-player"></span></div>
+            <!-- Die -->
+            <div class="die-container">
+                <div class="dice" id="die">-</div>
+                <button class="button" id="rollDieButton">Roll Dice</button>
+            </div>
         </div>
-        <br><br>
-        <div class="players-list current">Current Player: <span class="players-list" id="current-player"></span></div>
 
-
-
-    <div class="player-action-window" id="player-actions">
-        <div class="die-container">
-            <div class="dice" id="die">-</div>
-            <button class="button" id="rollDieButton">Roll Dice</button>
-        </div>
-
-    </div>
-    </div>
-
-
+        <!-- Game Board (rows listed from top to bottom) -->
         <div class="game-board">
-            <!-- Display game board, player tokens, etc. -->
             <!-- First row -->
             <div class="square white">Roll<br>Again</div>
             <div class="square yellow"></div>
@@ -187,7 +39,6 @@
             <div class="square blue"></div>
             <div class="square green"></div>
             <div class="square white">Roll<br>Again</div>
-
 
             <!-- Second row -->
             <div class="square red"></div>
@@ -200,7 +51,6 @@
             <div class="square-empty white"></div>
             <div class="square red"></div>
 
-
             <!-- Third row -->
             <div class="square green"></div>
             <div class="square-empty white"></div>
@@ -211,7 +61,6 @@
             <div class="square-empty white"></div>
             <div class="square-empty white"></div>
             <div class="square yellow"></div>
-
 
             <!-- Fourth row -->
             <div class="square blue"></div>
@@ -224,7 +73,6 @@
             <div class="square-empty white"></div>
             <div class="square blue"></div>
 
-
             <!-- Fifth row -->
             <div class="square yellow">HQ</div>
             <div class="square blue"></div>
@@ -235,7 +83,6 @@
             <div class="square yellow"></div>
             <div class="square red"></div>
             <div class="square green">HQ</div>
-
 
             <!-- Sixth row -->
             <div class="square red"></div>
@@ -248,7 +95,6 @@
             <div class="square-empty white"></div>
             <div class="square red"></div>
 
-
             <!-- Seventh row -->
             <div class="square green"></div>
             <div class="square-empty white"></div>
@@ -259,7 +105,6 @@
             <div class="square-empty white"></div>
             <div class="square-empty white"></div>
             <div class="square yellow"></div>
-
 
             <!-- Eighth row -->
             <div class="square blue"></div>
@@ -272,7 +117,6 @@
             <div class="square-empty white"></div>
             <div class="square blue"></div>
 
-
             <!-- Ninth row -->
             <div class="square white">Roll<br>Again</div>
             <div class="square yellow"></div>
@@ -283,8 +127,9 @@
             <div class="square red"></div>
             <div class="square green"></div>
             <div class="square white">Roll<br>Again</div>
-
         </div>
+
+        <!-- Score windows -->
         <!--- <div class="hide-window" id="red-hide-window"></div>--->
         <div class="window" id="red-window">
             <div class="player-name" id="red-player"></div>
@@ -329,34 +174,25 @@
             </div>
         </div>
 
-    <div class="question-container" id="question-container">
-        <div class="question-window" id="question-window">
-            <h2>Question: </h2>
-            <div class="question-text" id="question-text"></div>
-            <div class="answer-button-window" id="answer-button-window"></div>
+        <!-- Window for trivia questions/answers -->
+        <div class="question-container" id="question-container">
+            <!-- Text part and answer buttons -->
+            <div class="question-window" id="question-window">
+                <h2>Question: </h2>
+                <div class="question-text" id="question-text"></div>
+                <div class="answer-button-window" id="answer-button-window"></div>
             </div>
-        <div class="category-select-container">
-             <h2>Category Key:</h2>
-        <div class="category-button red" id="red-category"></div>
-        <div class="category-button yellow category-button-yellow" id="yellow-category"></div>
-        <div class="category-button green" id="green-category"></div>
-        <div class="category-button blue" id="blue-category"></div>
+            <!-- Category key that will also be buttons for center square logic -->
+            <div class="category-select-container">
+                 <h2>Category Key:</h2>
+                <div class="category-button red" id="red-category"></div>
+                <div class="category-button yellow category-button-yellow" id="yellow-category"></div>
+                <div class="category-button green" id="green-category"></div>
+                <div class="category-button blue" id="blue-category"></div>
             </div>
-    </div>
+        </div>
+
      </div>
-<!--    <div id="question-container">-->
-<!--        <p id="question"></p>-->
-<!--        <input type="text" id="answer" placeholder="Your Answer">-->
-<!--        <select id="category">-->
-<!--            <option value="">Choose the color that matches to your position</option>-->
-<!--            <option value="yellow">Yellow</option>-->
-<!--            <option value="green">Green</option>-->
-<!--            <option value="red">Red</option>-->
-<!--            <option value="blue">Blue</option>-->
-<!--        </select>-->
-<!--        <button class="button" onclick="fetchQuestion()">Next Question</button>-->
-<!--        <button class="button" onclick="checkAnswer()">Submit Answer</button>-->
-<!--    </div>-->
 </body>
 <script src="{{ url_for('static', filename='js/classes/MoveHandler.js') }}"></script>
 <script src="{{ url_for('static', filename='js/classes/GameUIController.js') }}"></script>
