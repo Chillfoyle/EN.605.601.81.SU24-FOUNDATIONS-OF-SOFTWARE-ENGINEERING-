@@ -1,0 +1,146 @@
+/* To Do:
+- Adjust fonts, add background colors to standardize with other pages
+- Remove dropdown options as they are selected so players cannot select the
+  same color token or category twice
+- Disable Rows 2-4 until Player 1 has input a name and color in Row 1, etc.
+- Do not start unless all rows with non-default values are completely filled
+  out and four categories are selected
+- Link to main menu and user manual
+ */
+
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+    font-family: Arial, sans-serif;
+}
+
+/* Header Styles: Where the page title and Help/Main Menu buttons go*/
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 60px;
+    background-color: #008CBA;
+}
+
+.title {
+    margin-left: 20px;
+    font-size: 2em;
+    color: white;
+    text-decoration: none;
+}
+
+.header-button-container {
+    display: flex;
+    gap: 10px;
+    height: 100%
+}
+
+.header-button {
+    padding: 5px 10px;
+    font-weight: bold;
+    font-size: 20px;
+    cursor: pointer;
+    border: none;
+    padding: 20px;
+    text-decoration: none;
+    background-color: #E1193E;
+    color: white;
+}
+
+.play-button {
+    background-color: #008CBA;
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 24px;
+    width: 150px;
+    align-items: center;
+    text-align: center;
+}
+
+/* Main Content Styles: Tables to input player info and choose categories */
+
+.main-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    gap: 40px;
+    padding: 20px;
+}
+
+.table-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex: 1;
+    margin-top: 10px;
+    gap: 30px;
+}
+
+.player-container, .category-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.player-container {
+    width: 60%
+}
+
+.category-container {
+    .width: 40%
+}
+
+.player-title, .category-title {
+    font-size: 24px;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.player-table, .category-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.category-table th, .player-table th,
+.category-table td, .player-table td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: center;
+    background-color: white;
+}
+
+.category-table th, .player-table th {
+    font-weight: bold;
+    background-color: #008CBA;
+    color: white;
+    text-align: center;
+}
+
+/* Input Field Styles: Dropdown and text field*/
+
+.dropdown {
+    width: 200px;
+    padding: 5px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+input[type="text"], select {
+    font-size: 16px;
+    padding: 8px;
+    width: 100%;
+    box-sizing: border-box;
+}
