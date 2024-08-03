@@ -30,7 +30,7 @@ class Player:
 
     def update_colors_earned(self, new_category):
         """Add color to colors_earned"""
-        self.colors_earned.update(new_category)
+        self.colors_earned.update([new_category])
 
     def __repr__(self):
         """Return a string representation of the Player object"""

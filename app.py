@@ -131,12 +131,17 @@ def get_current_player():
     return jsonify(current_player_info)
 
 
+@app.route('/get_all_categories_earned', methods=['GET'])
+def get_all_categories_earned():
+    return jsonify(game_state_manager.get_all_categories_earned())
+
+
 # Update routes
 
 @app.route('/update_current_player', methods=['POST'])
 def update_current_player():
     game_state_manager.update_current_player()
-    return jsonify({'response': "Player updated successfully"})
+    return jsonify({'current_player': game_state_manager.get_current_player_info()})
 
 
 @app.route('/update_current_player_location', methods=['POST'])
@@ -150,8 +155,8 @@ def update_current_player_location():
 @app.route('/update_player_score', methods=['POST'])
 def update_player_score():
     data = request.json
-    player_won = game_state_manager.update_player_colors_earned(data)
-    return jsonify({'player_won': player_won})
+    game_state_manager.update_player_colors_earned(data["color"])
+    return jsonify({'all_colors': game_state_manager.get_all_categories_earned()})
 
 
 # Database routes

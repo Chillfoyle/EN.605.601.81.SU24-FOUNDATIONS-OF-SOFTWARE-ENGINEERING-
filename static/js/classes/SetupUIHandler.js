@@ -32,7 +32,7 @@ class SetupUIHandler {
     addBlankOption(selectElement) {
         const blankOption = document.createElement('option');
         blankOption.value = "";
-        blankOption.textContent = "Math";
+        blankOption.textContent = "";
         blankOption.disabled = true;
         blankOption.selected = true;
         selectElement.appendChild(blankOption);

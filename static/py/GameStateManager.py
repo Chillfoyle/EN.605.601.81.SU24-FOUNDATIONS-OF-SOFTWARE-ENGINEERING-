@@ -42,7 +42,7 @@ class GameStateManager:
 
         self.move_calculator = MoveCalculator(self.game_board)
 
-    def all_categories_earned(self):
+    def get_all_categories_earned(self):
         return self.player_list[self.current_player_idx].get_colors_earned() == set(self.category_colors)
 
     def get_category_colors(self):
@@ -62,7 +62,7 @@ class GameStateManager:
         return {"name": player.get_name(),
                 "token_color": player.get_token_color(),
                 "token_location": player.get_token_location(),
-                "colors_earned": list(player.get_colors_earned())}
+                "all_colors_earned": self.get_all_categories_earned()}
 
     def get_valid_destinations(self, player_loc, num_steps):
         return self.move_calculator.get_valid_destinations(player_loc, num_steps)
@@ -90,9 +90,9 @@ class GameStateManager:
             if new_square in range(0, 4):
                 category_color = self.category_colors[new_square]
                 print(f"Category color: {self.category_colors[new_square]}")
-                next_action = "ask question hq"
+                next_action = "ask question from category"
             elif new_square == -1:
-                if self.all_categories_earned():
+                if self.get_all_categories_earned():
                     next_action = "ask winning question"
                 else:
                     next_action = "ask question center"
@@ -102,7 +102,7 @@ class GameStateManager:
     def update_player_colors_earned(self, new_color):
         current_player = self.player_list[self.current_player_idx]
         current_player.update_colors_earned(new_color)
-        return current_player.get_colors_earned() == set(self.category_colors)
+        print(f"Updated Score: {current_player.get_colors_earned()}")
 
     def get_question_from_cat(self, color):
         return self.category_dict[color].get_next_question()
