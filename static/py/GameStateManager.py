@@ -27,7 +27,7 @@ class GameStateManager:
             self.category_dict[self.category_colors[i]] = new_cat
 
         # Initialize game board information
-        row8 = [-2, "O", "O", "O", 0, "O", "O", "O", -2]
+        row8 = [-2, "O", "O", "O", 3, "O", "O", "O", -2]
         row7 = ["O", "X", "X", "X", "O", "X", "X", "X", "O"]
         row6 = ["O", "X", "X", "X", "O", "X", "X", "X", "O"]
         row5 = ["O", "X", "X", "X", "O", "X", "X", "X", "O"]
@@ -35,14 +35,14 @@ class GameStateManager:
         row3 = ["O", "X", "X", "X", "O", "X", "X", "X", "O"]
         row2 = ["O", "X", "X", "X", "O", "X", "X", "X", "O"]
         row1 = ["O", "X", "X", "X", "O", "X", "X", "X", "O"]
-        row0 = [-2, "O", "O", "O", 3, "O", "O", "O", -2]
+        row0 = [-2, "O", "O", "O", 0, "O", "O", "O", -2]
 
         self.game_board = [row0, row1, row2, row3, row4, row5,
                            row6, row7, row8]
 
         self.move_calculator = MoveCalculator(self.game_board)
 
-    def all_categories_earned(self):
+    def get_all_categories_earned(self):
         return self.player_list[self.current_player_idx].get_colors_earned() == set(self.category_colors)
 
     def get_category_colors(self):
@@ -62,13 +62,14 @@ class GameStateManager:
         return {"name": player.get_name(),
                 "token_color": player.get_token_color(),
                 "token_location": player.get_token_location(),
-                "colors_earned": list(player.get_colors_earned())}
+                "all_colors_earned": self.get_all_categories_earned()}
 
     def get_valid_destinations(self, player_loc, num_steps):
         return self.move_calculator.get_valid_destinations(player_loc, num_steps)
 
     def update_current_player_location(self, new_location):
         self.player_list[self.current_player_idx].token_location = tuple(new_location)
+        print(f"Current player new location: {tuple(new_location)}")
         return self.get_next_action(new_location)
 
     def update_current_player(self):
@@ -79,6 +80,7 @@ class GameStateManager:
         category_color = None
         row, col = player_loc
         new_square = self.game_board[row][col]
+        print(f"Square at coordinates {(row, col)} has value {new_square}")
         if new_square == "O":
             self.update_current_player()
             return "next player turn", None
@@ -87,9 +89,10 @@ class GameStateManager:
         else:
             if new_square in range(0, 4):
                 category_color = self.category_colors[new_square]
-                next_action = "ask question hq"
+                print(f"Category color: {self.category_colors[new_square]}")
+                next_action = "ask question from category"
             elif new_square == -1:
-                if self.all_categories_earned():
+                if self.get_all_categories_earned():
                     next_action = "ask winning question"
                 else:
                     next_action = "ask question center"
@@ -99,7 +102,7 @@ class GameStateManager:
     def update_player_colors_earned(self, new_color):
         current_player = self.player_list[self.current_player_idx]
         current_player.update_colors_earned(new_color)
-        return current_player.get_colors_earned() == set(self.category_colors)
+        print(f"Updated Score: {current_player.get_colors_earned()}")
 
     def get_question_from_cat(self, color):
         return self.category_dict[color].get_next_question()

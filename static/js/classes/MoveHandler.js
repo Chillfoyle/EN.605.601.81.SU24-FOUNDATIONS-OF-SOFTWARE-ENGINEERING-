@@ -11,10 +11,12 @@ class MoveHandler {
     }
 
     setCurrentPlayerTokenId(token_color) {
+    // Identify current player's ID
         this.currentPlayerTokenId = `${token_color}-token`;
     }
 
     initializeToken(player) {
+    // Put players' tokens on the starting square
         const token = document.createElement("div");
         token.classList.add("token", player.token_color, `${player.token_color}-corner`);
         token.id = `${player.token_color}-token`;
@@ -23,18 +25,16 @@ class MoveHandler {
     }
 
     handleDieRoll(playerLoc) {
+    // Get valid destinations when die is rolled
         this.die.roll().then(dieValue => {
             this.gameUIController.fetchValidDestinations(dieValue);
         });
     }
 
-    /* TODO: For MINIMAL - Finish highlightMoveOptions */
     highlightMoveOptions(validDestinations) {
-        // Clear existing stars
-        // For each destination, add a star to that square
+    // Put stars on all places player can move to
 
         validDestinations.forEach(validLoc => {
-        // Create each player's token and put it in the starting location
             const star = document.createElement("div");
             star.classList.add("star");
             star.addEventListener('click', () => {
@@ -46,8 +46,8 @@ class MoveHandler {
         });
     }
 
-    /* TODO: For MINIMAL - Finish movePlayerToken */
     moveCurrentPlayerToken(row, col) {
+    // Move token to specified location and update internal record
         const token = document.getElementById(this.currentPlayerTokenId);
         this.placeOnSquare(token, row, col);
         this.gameUIController.updateCurrentPlayerLocation(row, col);
