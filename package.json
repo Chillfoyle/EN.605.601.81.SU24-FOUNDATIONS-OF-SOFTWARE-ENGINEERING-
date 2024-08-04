@@ -1,0 +1,26 @@
+{
+  "name": "en.605.601.81.su24-foundations-of-software-engineering-",
+  "version": "1.0.0",
+  "description": "JHU class EN.605.601.81.SU24 FOUNDATIONS OF SOFTWARE ENGINEERING repository",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Chillfoyle/EN.605.601.81.SU24-FOUNDATIONS-OF-SOFTWARE-ENGINEERING-.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Chillfoyle/EN.605.601.81.SU24-FOUNDATIONS-OF-SOFTWARE-ENGINEERING-/issues"
+  },
+  "homepage": "https://github.com/Chillfoyle/EN.605.601.81.SU24-FOUNDATIONS-OF-SOFTWARE-ENGINEERING-#readme",
+  "devDependencies": {
+    "eslint": "^9.8.0",
+    "globals": "^15.9.0"
+  }
+}
