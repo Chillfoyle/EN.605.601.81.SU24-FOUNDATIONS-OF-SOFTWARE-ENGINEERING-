@@ -1,37 +1,33 @@
-/* To Do:
-- Adjust fonts, add background colors to standardize with other pages
-- Remove dropdown options as they are selected so players cannot select the
-  same color token or category twice
-- Disable Rows 2-4 until Player 1 has input a name and color in Row 1, etc.
-- Do not start unless all rows with non-default values are completely filled
-  out and four categories are selected
-- Link to main menu and user manual
- */
+:root {
+    --game-green: #00B862;
+    --game-yellow: #FFE51F;
+    --game-red: #E11919;
+    --game-blue: #004BAD;
+    --header-blue: #0c3973;
+    --background-blue: #e0e3f0;
+    --hover-blue: #016af4;
+    --sidebar-width: 300px; /* Adjust as needed */
+}
 
 body {
     margin: 0;
     padding: 0;
     width: 100%;
     height: 100%;
-    overflow-x: hidden; /* Prevent horizontal scrolling */
+    overflow: hidden;
     font-family: Arial, sans-serif;
+    background-color: white;
 }
 
-/* Header Styles: Where the page title and Help/Main Menu buttons go*/
+/* Header Styles: Toggle instructions button, page title, Main Menu button */
 
 .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     height: 60px;
-    background-color: #008CBA;
-}
-
-.title {
-    margin-left: 20px;
-    font-size: 2em;
-    color: white;
-    text-decoration: none;
+    background-color: var(--header-blue);
+    border-bottom: 2px solid black;
 }
 
 .header-button-container {
@@ -41,64 +37,121 @@ body {
 }
 
 .header-button {
-    padding: 5px 10px;
+    display: flex;
+    align-items: center; /* Centers text vertically */
+    justify-content: center; /* Centers text horizontally */
+    padding: 0px 10px;
     font-weight: bold;
     font-size: 20px;
+    height: 60px;
+    justify-content: center;
     cursor: pointer;
-    border: none;
-    padding: 20px;
     text-decoration: none;
-    background-color: #E1193E;
+    background-color: white;
+    color: var(--header-blue);
+    border-left: 2px solid black;
+    border-right: 2px solid black;
+    border-bottom: none;
+    transition: background-color 0.3s;
+}
+
+.toggle-button {
+    width: var(--sidebar-width);
+}
+
+.header-button:hover {
+    background-color: var(--hover-blue);
     color: white;
 }
 
-.play-button {
-    background-color: #008CBA;
+.title {
+    margin-left: 20px;
+    font-size: 2em;
     color: white;
-    font-weight: bold;
     text-decoration: none;
-    border: 1px solid black;
-    border-radius: 5px;
-    padding: 10px;
-    cursor: pointer;
-    font-size: 24px;
-    width: 150px;
-    align-items: center;
-    text-align: center;
 }
 
 /* Main Content Styles: Tables to input player info and choose categories */
 
 .main-container {
     display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+/* Sidebar: For instructions*/
+
+.sidebar {
+    width: var(--sidebar-width);
+    height: calc(100vh - 60px);
+    border-right: 2px solid black;
+    top: 60px;
+    background-color: white;
+    font-size: 17px;
+    padding: 0px;
+    box-sizing: border-box;
+    right: -300px; /* Initially hide sidebar off-screen */
+    transition: transform 0.3s ease;
+    transform: translateX(-100%); /* Start off-screen */
+}
+
+.sidebar.active {
+    transform: translateX(0); /* Slide into view */
+}
+
+.header-banner {
+    background-color: var(--header-blue);
+    padding: 10px;
+    margin: 0;
+    color: white;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 10px;
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+}
+
+.top-header {
+    border-top: none;
+}
+
+.sidebar ul {
+    margin-left: 10px;
+    margin-right: 10px;
+    padding-left: 20px; /* Indent list items */
+}
+
+.sidebar li {
+    margin-bottom: 5px; /* Space between list items */
+}
+
+/* Input Container: Player input tables, play button */
+
+.input-container {
+    display: flex;
     flex-direction: column;
-    width: 100%;
+    width: 80%;
     align-items: center;
     gap: 40px;
     padding: 20px;
+    flex: 1;
 }
 
 .table-container {
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: left;
     flex: 1;
     margin-top: 10px;
-    gap: 30px;
+    gap: 10px;
 }
 
 .player-container, .category-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-}
-
-.player-container {
-    width: 60%
-}
-
-.category-container {
-    .width: 40%
+    width: 50%;
 }
 
 .player-title, .category-title {
@@ -118,29 +171,163 @@ body {
     border: 1px solid black;
     padding: 8px;
     text-align: center;
-    background-color: white;
+    font-size: 20px;
+}
+
+.category-table td {
+    background-color: #8792c5;
 }
 
 .category-table th, .player-table th {
     font-weight: bold;
-    background-color: #008CBA;
+    background-color: var(--header-blue);
     color: white;
+}
+
+/* Player Table Row Styles */
+
+.color-cell {
+    width: 150px; /* Adjust width as needed */
     text-align: center;
+    font-weight: bold; /* Bold font for the first column */
+}
+
+.red-row {
+    background-color: var(--game-red) !important;
+}
+
+.yellow-row {
+    background-color: var(--game-yellow) !important;
+}
+
+.green-row {
+    background-color: var(--game-green) !important;
+}
+
+.blue-row {
+    background-color: var(--game-blue) !important;
 }
 
 /* Input Field Styles: Dropdown and text field*/
 
-.dropdown {
+.category-dropdown {
     width: 200px;
-    padding: 5px;
-    font-size: 16px;
+    padding: 8px;
+    font-size: 20px;
     border: 1px solid #ccc;
     border-radius: 4px;
 }
 
 input[type="text"], select {
-    font-size: 16px;
+    font-size: 20px;
     padding: 8px;
     width: 100%;
     box-sizing: border-box;
+}
+
+.invalid {
+    background-color: #f8d7da; /* Light red background */
+    border-color: #f5c6cb; /* Red border */
+}
+
+/* Play Button Styles */
+
+.play-button {
+    background-color: var(--header-blue);
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 24px;
+    width: 150px;
+    align-items: center;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.play-button:hover {
+    background-color: var(--hover-blue); /* Steel Blue */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Shadow effect */
+    transform: scale(1.1); /* Slightly grow the button */
+}
+
+/* Lambda Character Styles */
+
+#lambda-container {
+    height: 100vh;
+    width: 400px;
+    position: relative; /* Ensure the container has a relative position */
+    overflow: hidden; /* Ensure no overflow */
+}
+
+.lambda {
+    background-image: url('../images/lambda-happy.png');
+    background-size: cover;
+    margin: 0 auto; /* Center the image horizontally */
+    width: 200px; /* Adjust the width as needed */
+    height: 200px; /* Maintain aspect ratio */
+    position: absolute; /* or 'relative' depending on the layout */
+    right: 20%; /* or adjust as needed */
+    bottom: 10%; /* or adjust as needed */
+    animation: slideIn 1s ease-out; /* Apply the animation */
+    opacity: 1; /* Ensure the opacity starts at 0 */
+}
+
+#speech-bubble {
+    position: absolute; /* Position relative to the container */
+    right: 10%; /* Position to the right of the .lambda */
+    bottom: 45%; /* Adjust as needed for vertical position */
+    background: #fff; /* White background for the speech bubble */
+    border: 2px solid black; /* Optional border */
+    padding: 5px; /* Space inside the speech bubble */
+    border-radius: 5px; /* Rounded corners */
+    z-index: 2; /* Higher z-index to place above the .lambda */
+    width: 300px; /* Adjust width as needed */
+    font-size: 17px; /* Adjust font size as needed */
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional shadow */
+    animation: slideIn 1s ease-out; /* Apply the animation */
+}
+
+#speech-bubble ul {
+    text-align: left; /* Space between list items */
+    list-style-type: decimal; /* Numbered list */
+}
+
+#speech-bubble li {
+    margin-bottom: 5px; /* Space between list items */
+}
+
+
+/* Page Background Styles */
+
+.circle {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.4; /* Adjust the transparency */
+    z-index: -1; /* Make sure they are behind other content */
+}
+
+/* Large Circle */
+.circle-large {
+    width: 400px;
+    height: 400px;
+    background-color: var(--game-red);
+}
+
+/* Medium Circle */
+.circle-medium {
+    width: 250px;
+    height: 250px;
+    background-color: var(--game-yellow);
+}
+
+/* Small Circle */
+.circle-small {
+    width: 150px;
+    height: 150px;
+    background-color: var(--game-blue);
 }

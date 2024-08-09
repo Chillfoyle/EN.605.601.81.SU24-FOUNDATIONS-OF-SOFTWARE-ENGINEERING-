@@ -3,19 +3,55 @@ class SetupUIHandler {
     constructor() {
         this.playerList = []
         this.categoryList = []
+
+        this.playerForm = document.getElementById("playerForm");
+        this.categoryForm = document.getElementById("categoryForm");
+
+        this.playButton = document.getElementById("playButton");
     }
 
     initializeSetupScreen() {
+
+        const categorySelects = document.querySelectorAll(".category-dropdown");
+
         fetch("/get_categories")  // Get categories from the database for dropdowns
             .then(response => response.json())
             .then(data => {console.log(data); this.populateDropdown(data)})
-            .catch(error => {console.error("Error fetching categories:", error)});
+            .catch(error => {console.error("Error fetching categories:", error)
+        });
+
+        categorySelects.forEach(select => {
+            select.addEventListener('change', () => this.updateDropdownOptions(categorySelects));
+        });
+
+        this.playButton.addEventListener("click", function() {
+
+            const playerNames = playerForm.querySelectorAll('.player-name');
+
+            categorySelects.forEach(select => {
+                if (select.value === "") {
+                    allCategoryFieldsValid = false;
+                    select.classList.add('invalid');
+                    select.setCustomValidity("Please select a category.");
+                } else {
+                    select.setCustomValidity("");
+                    select.classList.remove('invalid');
+                }
+            });
+
+            if (allCategoryFieldsValid) {
+                    event.preventDefault();
+                    this.submitInputs();
+                } else {
+                    alert("Please complete all required fields.");
+                }
+            });
     }
 
     populateDropdown(options) {
     // Put categories from the database in each dropdown
 
-        const dropdowns = document.querySelectorAll(".dropdown");
+        const dropdowns = document.querySelectorAll(".category-dropdown");
 
         dropdowns.forEach(dropdown => {
             dropdown.innerHTML = "";
@@ -38,7 +74,33 @@ class SetupUIHandler {
         selectElement.appendChild(blankOption);
     }
 
+    updateDropdownOptions(selects) {
+
+        console.log("updateDropdownOptions called for:", selects);
+
+        const selectedValues = Array.from(selects)
+            .map(select => select.value)
+            .filter(val => val !== "");
+
+        console.log("Selected values:", selectedValues);
+
+        selects.forEach(select => {
+            const currentSelection = select.value;
+            const options = Array.from(select.options);
+
+            options.forEach(option => {
+                if (option.value === "" || option.value === currentSelection || !selectedValues.includes(option.value)) {
+                    option.hidden = false;
+                } else {
+                    option.hidden = true;
+                }
+            });
+        });
+    }
+
     submitInputs() {
+        // Saves player inputs and starts the game
+
         console.log("Saving player inputs");
         this.savePlayerInputs();
         this.saveCategoryInputs();
@@ -65,7 +127,7 @@ class SetupUIHandler {
 
         try {  // Use player names and tokens to initialize Player objects
             const playerInputs = document.querySelectorAll("#playerTable tbody tr");
-            console.log("got player inputs");
+            console.log("Got player inputs");
             console.log(playerInputs);
             playerInputs.forEach(row => {
                 const name = row.querySelector("input[name='player_name[]']").value;

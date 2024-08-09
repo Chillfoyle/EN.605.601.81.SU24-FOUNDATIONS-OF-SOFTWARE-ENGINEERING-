@@ -1,0 +1,33 @@
+/* Define the keyframes for the bounce and grow effect */
+@keyframes popIn {
+    0% {
+        transform: scale(0.5);
+        opacity: 0;
+        transform-origin: center;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Apply the animation to the table */
+table {
+    animation: popIn 0.8s ease-out;
+}
+
+/* Keyframe animations and transition effects */
+@keyframes slideIn {
+    0% {
+        transform: translateX(150vw); /* Start off-screen to the right */
+        opacity: 1; /* Ensure it's invisible initially */
+    }
+    100% {
+        transform: translateX(0); /* End at the final position */
+        opacity: 1; /* Ensure it’s fully visible */
+    }
+}
