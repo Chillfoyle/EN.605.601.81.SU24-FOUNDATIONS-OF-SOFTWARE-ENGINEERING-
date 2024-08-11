@@ -31,7 +31,7 @@
 
         <center><form action="/delete_question" method="post">
             <label for="delete_id" style="color: #0baec3;"><b>Enter ID Number to Delete:</b></label><br>
-            <input type="text" id="delete_id" name="delete_id" required><br><br>
+            <input type="text" id="delete_id" name="delete_id" pattern="[0-9]*" title="enter an interger" required><br><br>
             <button type="submit"><strong>Delete</strong></button>
             <p style="margin-top: 40px;">Table Content:</p>
             <table style="margin-top: 40px;">
