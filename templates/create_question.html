@@ -10,10 +10,38 @@
     <header>
         <div class="headline-container">
             <a href="/"><button class="btn"><i class="fa fa-home"></i>Home</button></a>
-            <a href="../static/doc/UserManual.pdf" target="_blank"><button style="margin-left: 7%;" class="btn"><i class="fa fa-book"></i>Instruction</button></a>
+            <a ><button onclick="toggleImage()" style="margin-left: 7%;" class="btn"><i class="fa fa-book"></i>Instruction</button></a>
         </div>
-        <h1>Create Question</h1>
+        <div class="row">
+            <div class="column left">
+                <div class="image-container2">
+                    <div id="myImage" class="hidden">
+                        <ol>
+                            <br>
+                            <li>Add A Question: 
+                                <p>To add a question, first select the desired category. 
+                                Then, enter the question and its correct answer in the boxes. Finally, 
+                                click Submit.</p>
+                            </li>
+                            <li>Delete A Question and Answer Pair: <p>To delete a question/answer, enter its ID Number (check the Table Content) to the box and click Delete.</p></li>
+                            <li>View All Questions and Answers<p>To view all questions and answers, check the Table Content at the bottom of the page.</p></li>
+                            <br>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+            <div class="column right">
+                <h1 style="display:inline">Create Question</h1>
+            </div>
+        </div>
     </header>
+    <script>
+        function toggleImage() {
+            var image = document.getElementById("myImage");
+            image.classList.toggle("hidden")
+            image.classList.toggle("visible");
+        }
+    </script>
     <div class="bttg" style="margin-top: 40px;">
         <center><form action="/create_question" method="post">
             <label for="category_id" style="color: #0baec3;font-weight: 500;"><strong>Select Category:</strong></label><br>

@@ -10,27 +10,50 @@
         <header>
             <div class="headline-container">
                 <a href="/"><button class="btn"><i class="fa fa-home"></i>Home</button></a>
-                <a href="../static/doc/UserManual.pdf" target="_blank"><button style="margin-left: 7%;" class="btn"><i class="fa fa-book"></i>Instruction</button></a>
+                <a ><button onclick="toggleImage()" style="margin-left: 7%;" class="btn"><i class="fa fa-book"></i>Instruction</button></a>
             </div>
-            <h1>Create Category</h1>
+            <div class="row">
+                <div class="column left">
+                    <div class="image-container2">
+                        <div id="myImage" class="hidden">
+                            <ol>
+                                <br>
+                                <li>Add A Category: <p>To add a category, enter a name for the category and click Submit.</p></li>
+                                <li>Delete A Category: <p>To delete a category, enter the category name and click Delete. </p></li>
+                                <li>View All Category: <p>To view all categories, check the Table Content at the bottom of the page.</p></li>
+                                <br>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <div class="column right">
+                    <h1 style="display:inline">Create Category</h1>
+                </div>
+            </div>
         </header>
+        <script>
+            function toggleImage() {
+                var image = document.getElementById("myImage");
+                image.classList.toggle("hidden")
+                image.classList.toggle("visible");
+            }
+        </script>
+      
         <div class="bttg" style="margin-top: 40px;">
             <center><form action="/create_category" method="post">
                 <label for="category_name" style="color: #0baec3;"><b>Category Name:</b></label><br>
                 <input type="text" id="category_name" name="category_name" required><br><br>
                 <button type="submit"><strong>Submit</strong></button>
                 <hr style="margin-top: 40px;">
-
             </form></center>
+
 
             <center><form action="/delete_category" method="post">
                 <label for="delete_name" style="color: #0baec3;"><b>Enter Category Name to Delete:</b></label><br>
                 <input type="text" id="delete_name" name="delete_name" required><br><br>
                 <button type="submit"><strong>Delete</strong></button>
-
                 <p style="margin-top: 40px;">Table Content:</p>
             </form></center>
-
             <center>
                 <table style="margin-top: 40px;">
                     <tr>
@@ -38,12 +61,11 @@
                     </tr>
                     {% for row in table %}
                     <tr>
-                      <th> {{ row[0] }}</th>
-                    </tr> 
+                    <th> {{ row[0] }}</th>
+                    </tr>
                     {% endfor %}
                 </table>
             </center>
         </div>
-        </form>
     </body>
 </html>
