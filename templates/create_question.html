@@ -2,97 +2,48 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <style>
-        * {
-          box-sizing: border-box;
-        }
-        
-        body {
-          font-family: Arial, Helvetica, sans-serif;
-        }
-        
-        /* Style the header */
-        header {
-          background-color: #0baec3;
-          padding: 30px;
-          text-align: center;
-          font-size: 35px;
-          color: white;
-        }
-        
-        .bttg button {
-            background-color: #0baec3; 
-            border: 4px solid rgb(0, 85, 128);
-            color: rgb(253, 253, 253); 
-            padding: 10px 24px; 
-            cursor: pointer;
-            width: 10%;
-            margin: 0 auto;
-            display: block;
-        }
-
-        .bttg button:hover {
-            background-color: #3e838e;
-        }
-
-        input[type=text] {
-            width: 20%;
-            padding: 12px 20px;
-            margin: 8px 0;
-            box-sizing: border-box;
-            border: 3px solid #0baec3;
-            -webkit-transition: 0.5s;
-            transition: 0.5s;
-            outline: none;
-        }
-
-        input[type=text]:focus {
-            border: 3px solid #555;
-        }
-        textarea {
-            width: 50%;
-            height: 150px;
-            padding: 12px 20px;
-            box-sizing: border-box;
-            border: 2px solid #0baec3;
-            border-radius: 4px;
-            background-color: #f8f8f8;
-            font-size: 16px;
-            resize: none;
-        }
-        select{
-                background-color: #0baec3;
-                width:15%;
-                height:35px;
-                line-height:30px;
-                margin: 0 auto;
-        }
-        table {
-                font-family: arial, sans-serif;
-                border-collapse: collapse;
-                width: 30%;
-                margin: 0 auto;
-                padding-top: 20px;
-                }
-
-                td, th {
-                border: 1px solid #dddddd;
-                text-align: left;
-                padding: 8px;
-                }
-
-                tr:nth-child(even) {
-                background-color: #dddddd;
-        }
-    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../static/css/category_question_creation.css">
     <title>Create Question</title>
 </head>
 <body>
     <header>
-        <h1>Create Question</h1>
+        <div class="headline-container">
+            <a href="/"><button class="btn"><i class="fa fa-home"></i>Home</button></a>
+            <a ><button onclick="toggleImage()" style="margin-left: 7%;" class="btn"><i class="fa fa-book"></i>Instruction</button></a>
+        </div>
+        <div class="row">
+            <div class="column left">
+                <div class="image-container2">
+                    <div id="myImage" class="hidden">
+                        <ol>
+                            <br>
+                            <li>Add A Question: 
+                                <p>To add a question, first select the desired category. 
+                                Then, enter the question and its correct answer in the boxes. Finally, 
+                                click Submit.</p>
+                            </li>
+                            <li>Delete A Question and Answer Pair: <p>To delete a question/answer, enter its ID Number (check the Table Content) to the box and click Delete.</p></li>
+                            <li>View All Questions and Answers<p>To view all questions and answers, check the Table Content at the bottom of the page.</p></li>
+                            <br>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+            <div class="column right">
+                <h1 style="display:inline">Create Question</h1>
+            </div>
+        </div>
     </header>
+    <script>
+        function toggleImage() {
+            var image = document.getElementById("myImage");
+            image.classList.toggle("hidden")
+            image.classList.toggle("visible");
+        }
+    </script>
     <div class="bttg" style="margin-top: 40px;">
-        <center><form method="post">
+        <center><form action="/create_question" method="post">
             <label for="category_id" style="color: #0baec3;font-weight: 500;"><strong>Select Category:</strong></label><br>
             <select id="name" name="name" required>
                 {% for category in categories %}
@@ -111,7 +62,7 @@
 
         <center><form action="/delete_question" method="post">
             <label for="delete_id" style="color: #0baec3;"><b>Enter ID Number to Delete:</b></label><br>
-            <input type="text" id="delete_id" name="delete_id" required><br><br>
+            <input type="text" id="delete_id" name="delete_id" pattern="[0-9]*" title="enter an interger" required><br><br>
             <button type="submit"><strong>Delete</strong></button>
             <p style="margin-top: 40px;">Table Content:</p>
             <table style="margin-top: 40px;">
