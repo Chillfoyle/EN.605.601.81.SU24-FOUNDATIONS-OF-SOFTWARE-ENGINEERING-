@@ -159,6 +159,13 @@ def update_player_score():
     return jsonify({'all_colors': game_state_manager.get_all_categories_earned()})
 
 
+@app.route('/reset_game', methods=['POST'])
+def reset_game():
+    print("Resetting player scores")
+    game_state_manager.reset_player_colors_earned()
+    return jsonify({"response": "success"})
+
+
 # Database routes
 
 @app.route('/create_category', methods=['GET', 'POST'])

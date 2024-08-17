@@ -46,12 +46,21 @@ class MoveHandler {
         });
     }
 
-    moveCurrentPlayerToken(row, col) {
-    // Move token to specified location and update internal record
-        const token = document.getElementById(this.currentPlayerTokenId);
-        this.placeOnSquare(token, row, col);
-        this.gameUIController.updateCurrentPlayerLocation(row, col);
+    async getTokenPath(currentPlayerLocation, validLoc) {
+        const path = await this.gameUIController.fetchTokenPath(currentPlayerLocation, [validLoc[0], validLoc[1]]);
+        return path;
     }
+
+    async moveCurrentPlayerToken(path) {
+        for (let i = 1; i < path.length; i++) {
+            const [row, col] = path[i];
+            const token = document.getElementById(this.currentPlayerTokenId);
+            token.classList.add('hopping');
+            await new Promise(resolve => setTimeout(resolve, 500)); // Adjust delay as needed
+            token.classList.remove('hopping');
+            this.placeOnSquare(token, row, col);
+        }
+}
 
     getSquare(row, col) {
     // Derive the index of grid square in list given row and column

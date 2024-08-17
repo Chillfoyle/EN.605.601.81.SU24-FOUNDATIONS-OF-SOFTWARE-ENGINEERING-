@@ -1,20 +1,53 @@
-/* To Do:
-- Adjust fonts, add background colors to standardize with other pages
-- Remove dropdown options as they are selected so players cannot select the
-  same color token or category twice
-- Disable Rows 2-4 until Player 1 has input a name and color in Row 1, etc.
-- Do not start unless all rows with non-default values are completely filled
-  out and four categories are selected
-- Link to main menu and user manual
- */
+:root {
+    --game-green: #04AE3A;
+    --game-yellow: #FFE51F;
+    --game-red: #E11919;
+    --game-blue: #004BAD;
+    --header-blue: #0C3973;
+    --background-blue: #E0E3F0;
+    --hover-blue: #016AF4;
+    --sidebar-width: 300px;
+    --header-height: 60px;
+    --font-family: Arial, sans-serif;
+    --font-size-medium: 20px;
+    --font-size-large: 24px;
+    --border-radius: 5px;
+    --box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+}
 
 body {
     margin: 0;
     padding: 0;
     width: 100%;
     height: 100%;
-    overflow-x: hidden; /* Prevent horizontal scrolling */
-    font-family: Arial, sans-serif;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    font-family: var(--font-family);
+}
+
+/* Scale Styles: Helps objects resize so the layout doesn't get weird */
+
+.scale-container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+}
+
+.game-wrapper {
+    aspect-ratio: 1366 / 600;
+    width: 100%;
+    height: 100%;
+    transform-origin: top left;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 /* Header Styles: Where the page title and Help/Main Menu buttons go*/
@@ -23,8 +56,44 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width: 100%;
     height: 60px;
-    background-color: #008CBA;
+    position: fixed;
+    background-color: var(--header-blue);
+    border-bottom: 2px solid black;
+}
+
+.header-button-container {
+    display: flex;
+    gap: 10px;
+    height: 100%;
+}
+
+.header-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0px 10px;
+    font-weight: bold;
+    font-size: var(--font-size-medium);
+    height: 60px;
+    cursor: pointer;
+    text-decoration: none;
+    background-color: white;
+    color: var(--header-blue);
+    border-left: 2px solid black;
+    border-right: 2px solid black;
+    border-bottom: none;
+    transition: background-color 0.3s;
+}
+
+.header-button:hover {
+    background-color: var(--hover-blue);
+    color: white;
+}
+
+.toggle-button {
+    width: var(--sidebar-width);
 }
 
 .title {
@@ -71,20 +140,95 @@ body {
 
 .main-container {
     display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%; /* Adjust based on the width of the lambda container */
+    height: calc(100vh - 60px);
+    margin-left: auto; /* Center align the content */
+    margin-top: 60px;
+    margin-right: auto;
+    position: relative;
+    max-height: 100vh;
+}
+
+/* Sidebar: For instructions*/
+
+.sidebar {
+    width: var(--sidebar-width);
+    height: calc(100vh - 60px);
+    border-right: 2px solid black;
+    top: 60px;
+    background-color: white;
+    font-size: 17px;
+    padding: 0px;
+    box-sizing: border-box;
+    right: -300px;
+    transition: transform 0.3s ease;
+    transform: translateX(-100%);
+}
+
+.sidebar.active {
+    transform: translateX(0);
+}
+
+.header-banner {
+    background-color: var(--header-blue);
+    padding: 10px;
+    margin: 0;
+    color: white;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 10px;
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+}
+
+.top-header {
+    border-top: none;
+}
+
+.sidebar ul {
+    margin-left: 10px;
+    margin-right: 10px;
+    padding-left: 20px;
+}
+
+.sidebar li {
+    margin-bottom: 5px;
+}
+
+/* Input Container: Player input tables, play button */
+
+.input-container {
+    display: flex;
     flex-direction: column;
-    width: 100%;
+    width: 80%;
+    position: relative;
+    height: 100%;
+    margin-top: 0px;
     align-items: center;
+    justify-content: flex-start;
     gap: 40px;
-    padding: 20px;
+    bottom: 0;
+    margin-bottom: 0;
+    padding-right: 0;
+    flex: 1;
+    box-sizing: border-box;
 }
 
 .table-container {
     display: flex;
     flex-direction: row;
+    height: 80%;
     align-items: center;
-    flex: 1;
-    margin-top: 10px;
-    gap: 30px;
+    justify-content: space-between;
+    position: relative;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    gap: 10px;
+    box-sizing: border-box;
 }
 
 .player-container, .category-container {
@@ -98,11 +242,11 @@ body {
 }
 
 .category-container {
-    .width: 40%
+    width: 40%;
 }
 
 .player-title, .category-title {
-    font-size: 24px;
+    font-size: var(--font-size-large);
     text-align: center;
     font-weight: bold;
     margin-bottom: 10px;
@@ -118,7 +262,11 @@ body {
     border: 1px solid black;
     padding: 8px;
     text-align: center;
-    background-color: white;
+    font-size: var(--font-size-medium);;
+}
+
+.category-table td {
+    background-color: #8792C5;
 }
 
 .category-table th, .player-table th {
@@ -132,15 +280,176 @@ body {
 
 .dropdown {
     width: 200px;
-    padding: 5px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    padding: 8px;
+    font-size: var(--font-size-medium);
+    border: 1px solid #CCC;
+    border-radius: var(--border-radius);
 }
 
 input[type="text"], select {
-    font-size: 16px;
+    font-size: var(--font-size-medium);
     padding: 8px;
     width: 100%;
     box-sizing: border-box;
+}
+
+.invalid {
+    background-color: #F8D7DA;
+    border-color: #F5C6CB;
+}
+
+/* Play Button Styles */
+
+.play-button {
+    background-color: var(--header-blue);
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+    border: 1px solid black;
+    border-radius: var(--border-radius);
+    padding: 10px;
+    cursor: pointer;
+    font-size: var(--font-size-large);
+    width: 150px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.play-button:hover {
+    background-color: var(--hover-blue);
+    box-shadow: var(--box-shadow);
+    transform: scale(1.1);
+}
+
+/* Lambda Character Styles */
+
+#lambda-container {
+    width: 20%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    bottom: 0;
+    right: 0;
+    z-index: 0;
+    gap: 10px;
+}
+
+.lambda {
+    background-image: url('../images/lambda-happy.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 100% !important;
+    height: auto;
+    max-width: 200px;
+    max-height: 200px;
+    margin-bottom: 0;
+    position: absolute;
+    bottom: 0 !important;
+    animation: slideIn 1s ease-out forwards;
+    z-index: 4;
+}
+
+#speech-bubble {
+    position: absolute;
+    bottom: 40%;
+    right: 1%;
+    background: #fff;
+    border: 2px solid black;
+    padding: 5px;
+    border-radius: var(--border-radius);
+    z-index: 2;
+    width: 100%;
+    font-size: 17px;
+    text-align: center;
+    box-shadow: var(--box-shadow);
+    animation: slideIn 1s ease-out forwards;
+}
+
+#speech-bubble ul {
+    text-align: left;
+    list-style-type: decimal;
+}
+
+#speech-bubble li {
+    margin-bottom: 5px;
+}
+
+.hide-speech-bubble {
+    display: none;
+}
+
+
+/* Page Background Styles */
+
+.circle {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.4;
+    z-index: -1;
+}
+
+.circle-large {
+    width: 400px;
+    height: 400px;
+    background-color: var(--game-red);
+}
+
+.circle-medium {
+    width: 250px;
+    height: 250px;
+    background-color: var(--game-yellow);
+}
+
+/* Small Circle */
+.circle-small {
+    width: 150px;
+    height: 150px;
+    background-color: var(--game-blue);
+}
+
+/* Animation Styles */
+
+@keyframes popIn {  /* For input tables */
+    0% {
+        transform: scale(0.5);
+        opacity: 0;
+        transform-origin: center;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+table {
+    animation: popIn 0.8s ease-out;
+}
+
+@keyframes slideIn {  /* For lambda and speech bubble */
+    0% {
+        transform: translateX(100vw);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOut {  /* For lambda and speech bubble */
+    0% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(150vw);
+        opacity: 0;
+    }
 }

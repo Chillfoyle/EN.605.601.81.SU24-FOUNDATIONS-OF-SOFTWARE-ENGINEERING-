@@ -1,7 +1,8 @@
 
-document.addEventListener("DOMContentLoaded", () => {
+let gameUIController;
 
-    const gameUIController = new GameUIController();
+document.addEventListener("DOMContentLoaded", () => {
+    gameUIController = new GameUIController();
     console.log("Created new GameUIController");
 
 });

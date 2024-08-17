@@ -94,8 +94,11 @@ class GameStateManager:
             elif new_square == -1:
                 if self.get_all_categories_earned():
                     next_action = "ask winning question"
+                    print(self.get_current_player_info())
+                    print(self.player_list[self.current_player_idx].get_colors_earned())
                 else:
                     next_action = "ask question center"
+                    print(self.get_current_player_info())
 
             return next_action, category_color
 

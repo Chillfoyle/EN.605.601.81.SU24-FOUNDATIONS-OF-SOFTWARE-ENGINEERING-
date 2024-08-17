@@ -1,15 +1,81 @@
 class SetupUIHandler {
 
     constructor() {
+    // Initialize handler for setup screen
         this.playerList = []
         this.categoryList = []
     }
 
     initializeSetupScreen() {
+    // Create setup screen
+        const categorySelects = document.querySelectorAll(".category-dropdown");
+
         fetch("/get_categories")  // Get categories from the database for dropdowns
             .then(response => response.json())
             .then(data => {console.log(data); this.populateDropdown(data)})
-            .catch(error => {console.error("Error fetching categories:", error)});
+            .catch(error => {console.error("Error fetching categories:", error)
+        });
+
+        categorySelects.forEach(select => {
+            select.addEventListener('change', () => this.updateDropdownOptions(categorySelects));
+        });
+
+        const toggleButton = document.getElementById('toggle-sidebar');
+        const sidebar = document.getElementById('sidebar');
+
+        if (toggleButton && sidebar) {
+            toggleButton.addEventListener('click', () => {
+                sidebar.classList.toggle('active');
+            });
+        } else {
+            console.error('Elements not found');
+        }
+
+        this.playButton.addEventListener("click", () => {
+
+            let playerInputsAreValid = false;
+            const playerNames = playerForm.querySelectorAll('.player-name');
+            playerNames.forEach(name => {
+                if (name.value.trim() !== "") {
+                    playerInputsAreValid = true;
+                }
+            });
+
+            playerNames.forEach(name => {
+                if (!playerInputsAreValid) {
+                    name.classList.add('invalid');
+                    name.setCustomValidity("Please add at least one player.");
+                } else {
+                    name.setCustomValidity("");
+                    name.classList.remove('invalid');
+                }
+            });
+
+            let allCategoryFieldsValid = true;
+            categorySelects.forEach(select => {
+                if (select.value === "") {
+                    allCategoryFieldsValid = false;
+                    select.classList.add('invalid');
+                    select.setCustomValidity("Please select a category.");
+                } else {
+                    select.setCustomValidity("");
+                    select.classList.remove('invalid');
+                }
+            });
+
+            if (!playerInputsAreValid && !allCategoryFieldsValid) {
+                this.lambda.reactToAllInvalidInputs.bind(this.lambda)();
+            } else if (!playerInputsAreValid) {
+                this.lambda.reactToInvalidPlayerInputs.bind(this.lambda)();
+            } else if (!allCategoryFieldsValid) {
+                this.lambda.reactToInvalidCategoryInputs.bind(this.lambda)();
+            } else {
+                event.preventDefault();
+                this.lambda.reactToSuccess(() => {
+                    this.submitInputs()
+                });
+            }
+        });
     }
 
     populateDropdown(options) {
@@ -30,6 +96,7 @@ class SetupUIHandler {
     }
 
     addBlankOption(selectElement) {
+    // Add blank option to drop-downs
         const blankOption = document.createElement('option');
         blankOption.value = "";
         blankOption.textContent = "";
@@ -38,7 +105,32 @@ class SetupUIHandler {
         selectElement.appendChild(blankOption);
     }
 
+    updateDropdownOptions(selects) {
+    // Populate drop-downs from database
+        console.log("updateDropdownOptions called for:", selects);
+
+        const selectedValues = Array.from(selects)
+            .map(select => select.value)
+            .filter(val => val !== "");
+
+        console.log("Selected values:", selectedValues);
+
+        selects.forEach(select => {
+            const currentSelection = select.value;
+            const options = Array.from(select.options);
+
+            options.forEach(option => {
+                if (option.value === "" || option.value === currentSelection || !selectedValues.includes(option.value)) {
+                    option.hidden = false;
+                } else {
+                    option.hidden = true;
+                }
+            });
+        });
+    }
+
     submitInputs() {
+    // Saves player inputs and starts the game
         console.log("Saving player inputs");
         this.savePlayerInputs();
         this.saveCategoryInputs();
@@ -62,17 +154,14 @@ class SetupUIHandler {
 
     savePlayerInputs() {
     // Stores player inputs
-
         try {  // Use player names and tokens to initialize Player objects
             const playerInputs = document.querySelectorAll("#playerTable tbody tr");
             console.log("got player inputs");
             console.log(playerInputs);
             playerInputs.forEach(row => {
-                const name = row.querySelector("input[name='player_name[]']").value;
-                const tokenColor = row.querySelector("select[name='token_color[]']").value;
-                console.log(name);
-                console.log(tokenColor);
-
+                const name = row.querySelector("input[name='player_name[]']").value.trim();
+                const colorCellText = row.querySelector(".color-cell").textContent.trim();
+                const tokenColor = colorCellText.toLowerCase();
                 if (name && tokenColor) {  // Initialize Player object
                     this.playerList.push({name, tokenColor});
                 }
