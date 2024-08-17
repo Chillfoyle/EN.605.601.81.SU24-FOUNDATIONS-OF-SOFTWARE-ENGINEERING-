@@ -4,11 +4,14 @@ class SetupUIHandler {
     // Initialize handler for setup screen
         this.playerList = []
         this.categoryList = []
+        this.playButton = document.getElementById("playButton");
+        this.lambda = new Lambda("lambda", "speech-bubble");
+        this.moveHandler = new MoveHandler(this);
     }
 
     initializeSetupScreen() {
     // Create setup screen
-        const categorySelects = document.querySelectorAll(".category-dropdown");
+        const categorySelects = document.querySelectorAll(".dropdown");
 
         fetch("/get_categories")  // Get categories from the database for dropdowns
             .then(response => response.json())
@@ -17,6 +20,7 @@ class SetupUIHandler {
         });
 
         categorySelects.forEach(select => {
+            console.log("Adding category listener");
             select.addEventListener('change', () => this.updateDropdownOptions(categorySelects));
         });
 
@@ -53,6 +57,7 @@ class SetupUIHandler {
 
             let allCategoryFieldsValid = true;
             categorySelects.forEach(select => {
+                console.log("Setting invalid");
                 if (select.value === "") {
                     allCategoryFieldsValid = false;
                     select.classList.add('invalid');

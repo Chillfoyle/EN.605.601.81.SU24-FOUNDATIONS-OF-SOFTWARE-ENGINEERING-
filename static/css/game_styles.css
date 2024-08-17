@@ -1,7 +1,22 @@
+:root {
+   --game-green: #04AE3A;
+    --game-yellow: #FFE51F;
+    --game-red: #E11919;
+    --game-blue: #004BAD;
+    --header-blue: #0C3973;
+    --background-blue: #E0E3F0;
+    --hover-blue: #016AF4;
+    --sidebar-width: 300px;
+    --header-height: 60px;
+    --font-family: Arial, sans-serif;
+    --font-size-medium: 20px;
+    --font-size-large: 24px;
+    --border-radius: 5px;
+    --box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+}
 
 /* Colors */
 
-/* TODO: Make the colors brighter. They look dull...*/
 .red { background-color: red; }
 .green { background-color: green; }
 .blue { background-color: blue; }
@@ -705,8 +720,6 @@ body, html {
     box-shadow: none;
     cursor: not-allowed;
 }
-
-
 
 /* Miscellaneous Styles */
 

@@ -5,6 +5,7 @@ class GameUIController {
         this.moveHandler = new MoveHandler(this);
         this.triviaManager = new TriviaManager(this);
         this.lambda = new Lambda("lambda", "");
+        console.log(this.lambda);
 
         const self = this;
         this.clickCount = 0;
@@ -163,7 +164,7 @@ class GameUIController {
         if (response.ok) {
             const data = await response.json();
             console.log("Successfully fetched question from GSM");
-            this.displayTriviaQuestion(data, color);
+            this.triviaManager.displayTriviaQuestion(data, color);
         } else {
             console.error("Failed to fetch question from server");
         }

@@ -6,8 +6,227 @@
     <link rel="stylesheet" href="{{url_for('static', filename='css/game_styles.css')}}">
 </head>
 <body>
-    <div class="title">Trivial Compute Game</div>
-    <div class="player-prompt-text" id="player-prompt-text"></div>
+
+    <!-- Page header -->
+    <header class="header">
+        <button class="header-button toggle-button" id="toggle-sidebar">☰  Show/Hide Instructions</button>
+        <h1 class="title">Trivial Compute</h1>
+        <div class="header-button" id="exit-button">Exit Game</div>
+    </header>
+
+    <!-- Exit Game Popup -->
+    <div id="exit-popup" class="popup-overlay">
+        <div class="popup-content">
+            <p>Are you sure you want to exit the game? Your game will not be saved when you leave.</p>
+            <div class="button" id="confirm-exit">Yes</div>
+            <div class="button"  id="cancel-exit">No</div>
+        </div>
+    </div>
+
+    <div class="main-container">
+
+        <div class="game-container">
+            <!-- Game Board (rows listed from top to bottom) -->
+            <div class="game-board">
+                <!-- First row -->
+                <div class="square white">Roll<br>Again</div>
+                <div class="square yellow"></div>
+                <div class="square blue"></div>
+                <div class="square green"></div>
+                <div class="square red">HQ</div>
+                <div class="square yellow"></div>
+                <div class="square blue"></div>
+                <div class="square green"></div>
+                <div class="square white">Roll<br>Again</div>
+
+                <!-- Second row -->
+                <div class="square red"></div>
+                <div class="square-empty white"></div>
+                <div class="square-empty white"></div>
+                <div class="square-empty white"></div>
+                <div class="square yellow"></div>
+                <div class="square-empty white"></div>
+                <div class="square-empty white"></div>
+                <div class="square-empty white"></div>
+                <div class="square red"></div>
+
+                <!-- Third row -->
+                <div class="square green"></div>
+                <div class="square-empty white"></div>
+                <div class="square-empty white"></div>
+                <div class="square-empty white"></div>
+                <div class="square blue"></div>
+                <div class="square-empty white"></div>
+                <div class="square-empty white"></div>
+                <div class="square-empty white"></div>
+                <div class="square yellow"></div>
+
+                <!-- Fourth row -->
+                <div class="square blue"></div>
+                <div class="square-empty white"></div>
+                <div class="square-empty white"></div>
+                <div class="square-empty white"></div>
+                <div class="square green"></div>
+                <div class="square-empty white"></div>
+                <div class="square-empty white"></div>
+                <div class="square-empty white"></div>
+                <div class="square blue"></div>
+
+                <!-- Fifth row -->
+                <div class="square yellow">HQ</div>
+                <div class="square blue"></div>
+                <div class="square green"></div>
+                <div class="square red"></div>
+                <div class="square white">Trivial<br>Compute</div>
+                <div class="square blue"></div>
+                <div class="square yellow"></div>
+                <div class="square red"></div>
+                <div class="square green">HQ</div>
+
+                <!-- Sixth row -->
+                <div class="square red"></div>
+                <div class="square-empty white"></div>
+                <div class="square-empty white"></div>
+                <div class="square-empty white"></div>
+                <div class="square yellow"></div>
+                <div class="square-empty white"></div>
+                <div class="square-empty white"></div>
+                <div class="square-empty white"></div>
+                <div class="square red"></div>
+
+                <!-- Seventh row -->
+                <div class="square green"></div>
+                <div class="square-empty white"></div>
+                <div class="square-empty white"></div>
+                <div class="square-empty white"></div>
+                <div class="square red"></div>
+                <div class="square-empty white"></div>
+                <div class="square-empty white"></div>
+                <div class="square-empty white"></div>
+                <div class="square yellow"></div>
+
+                <!-- Eighth row -->
+                <div class="square blue"></div>
+                <div class="square-empty white"></div>
+                <div class="square-empty white"></div>
+                <div class="square-empty white"></div>
+                <div class="square green"></div>
+                <div class="square-empty white"></div>
+                <div class="square-empty white"></div>
+                <div class="square-empty white"></div>
+                <div class="square blue"></div>
+
+                <!-- Ninth row -->
+                <div class="square white">Roll<br>Again</div>
+                <div class="square yellow"></div>
+                <div class="square red"></div>
+                <div class="square green"></div>
+                <div class="square blue">HQ</div>
+                <div class="square yellow"></div>
+                <div class="square red"></div>
+                <div class="square green"></div>
+                <div class="square white">Roll<br>Again</div>
+            </div>
+
+            `<!-- Score windows -->
+            <div class="window" id="red-window">
+                <div class="player-name" id="red-player"></div>
+                <div class="score-grid" id="grid1">
+                    <div class="score-square" id="red-red-score-square"></div>
+                    <div class="score-square" id="red-yellow-score-square"></div>
+                    <div class="score-square" id="red-green-score-square"></div>
+                    <div class="score-square" id="red-blue-score-square"></div>
+                </div>
+            </div>
+            <div class="window" id="yellow-window">
+                <div class="player-name" id="yellow-player"></div>
+                <div class="score-grid" id="grid2">
+                    <div class="score-square" id="yellow-red-score-square"></div>
+                    <div class="score-square" id="yellow-yellow-score-square"></div>
+                    <div class="score-square" id="yellow-green-score-square"></div>
+                    <div class="score-square" id="yellow-blue-score-square"></div>
+                </div>
+            </div>
+            <div class="window" id="green-window">
+                <div class="player-name" id="green-player"></div>
+                <div class="score-grid" id="grid3">
+                    <div class="score-square" id="green-red-score-square"></div>
+                    <div class="score-square" id="green-yellow-score-square"></div>
+                    <div class="score-square" id="green-green-score-square"></div>
+                    <div class="score-square" id="green-blue-score-square"></div>
+                </div>
+            </div>
+            <div class="window" id="blue-window">
+                <div class="player-name" id="blue-player"></div>
+                <div class="score-grid" id="grid4">
+                    <div class="score-square" id="blue-red-score-square"></div>
+                    <div class="score-square" id="blue-yellow-score-square"></div>
+                    <div class="score-square" id="blue-green-score-square"></div>
+                    <div class="score-square" id="blue-blue-score-square"></div>
+                </div>
+            </div>`
+
+        <!-- Window for trivia questions/answers -->
+        <div class="question-container" id="question-container">
+            <div class="card-container">
+
+                <!-- Decorative Card -->
+                <div class="decorative-card">
+                    <div class="card-border">
+                        <div class="card-front"></div>
+                    </div>
+                </div>
+
+                <!-- Content Card (Question/Answer) -->
+                <div class="content-card">
+                    <div class="content-card-border">
+                        <div class="card-front">
+                            <!-- Question -->
+                            <div class="card-content"></div>
+                        </div>
+                    </div>
+                    <div class="content-card-border">
+                        <div class="card-back">
+                            <!-- Answer -->
+                            <div class="card-content"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Text part and answer buttons -->
+            <div class="question-window" id="question-window">
+                <h2>Question: </h2>
+                <div class="question-text" id="question-text"></div>
+                <div class="answer-button-window" id="answer-button-window">
+                    <div class="button" id="show-answer-button">Show Answer</div>
+                    <div class="button" id="correct-button">Correct</div>
+                    <div class="button" id="incorrect-button">Not Correct</div>
+                </div>
+            </div>
+            <!-- Category key that will also be buttons for center square logic -->
+            <div class="category-select-container">
+                 <h2>Category Key:</h2>
+                <div class="category-button red" id="red-category"></div>
+                <div class="category-button yellow category-button-yellow" id="yellow-category"></div>
+                <div class="category-button green" id="green-category"></div>
+                <div class="category-button blue" id="blue-category"></div>
+            </div>
+        </div>
+    </div>
+
+     </div>
+</body>
+<script src="{{ url_for('static', filename='js/classes/TriviaManager.js') }}"></script>
+<script src="{{ url_for('static', filename='js/classes/MoveHandler.js') }}"></script>
+<script src="{{ url_for('static', filename='js/classes/GameUIController.js') }}"></script>
+<script src="{{ url_for('static', filename='js/classes/Lambda.js') }}"></script>
+<script src="{{ url_for('static', filename='js/classes/Die.js') }}"></script>
+<script src="{{ url_for('static', filename='js/game_script.js') }}"></script>
+</html>
+
+
+<div class="player-prompt-text" id="player-prompt-text"></div>
     <div class="game-container">
 
         <!-- Left player info window -->
@@ -26,176 +245,3 @@
                 <button class="button" id="rollDieButton">Roll Dice</button>
             </div>
         </div>
-
-        <!-- Game Board (rows listed from top to bottom) -->
-        <div class="game-board">
-            <!-- First row -->
-            <div class="square white">Roll<br>Again</div>
-            <div class="square yellow"></div>
-            <div class="square blue"></div>
-            <div class="square green"></div>
-            <div class="square red">HQ</div>
-            <div class="square yellow"></div>
-            <div class="square blue"></div>
-            <div class="square green"></div>
-            <div class="square white">Roll<br>Again</div>
-
-            <!-- Second row -->
-            <div class="square red"></div>
-            <div class="square-empty white"></div>
-            <div class="square-empty white"></div>
-            <div class="square-empty white"></div>
-            <div class="square yellow"></div>
-            <div class="square-empty white"></div>
-            <div class="square-empty white"></div>
-            <div class="square-empty white"></div>
-            <div class="square red"></div>
-
-            <!-- Third row -->
-            <div class="square green"></div>
-            <div class="square-empty white"></div>
-            <div class="square-empty white"></div>
-            <div class="square-empty white"></div>
-            <div class="square blue"></div>
-            <div class="square-empty white"></div>
-            <div class="square-empty white"></div>
-            <div class="square-empty white"></div>
-            <div class="square yellow"></div>
-
-            <!-- Fourth row -->
-            <div class="square blue"></div>
-            <div class="square-empty white"></div>
-            <div class="square-empty white"></div>
-            <div class="square-empty white"></div>
-            <div class="square green"></div>
-            <div class="square-empty white"></div>
-            <div class="square-empty white"></div>
-            <div class="square-empty white"></div>
-            <div class="square blue"></div>
-
-            <!-- Fifth row -->
-            <div class="square yellow">HQ</div>
-            <div class="square blue"></div>
-            <div class="square green"></div>
-            <div class="square red"></div>
-            <div class="square white">Trivial<br>Compute</div>
-            <div class="square blue"></div>
-            <div class="square yellow"></div>
-            <div class="square red"></div>
-            <div class="square green">HQ</div>
-
-            <!-- Sixth row -->
-            <div class="square red"></div>
-            <div class="square-empty white"></div>
-            <div class="square-empty white"></div>
-            <div class="square-empty white"></div>
-            <div class="square yellow"></div>
-            <div class="square-empty white"></div>
-            <div class="square-empty white"></div>
-            <div class="square-empty white"></div>
-            <div class="square red"></div>
-
-            <!-- Seventh row -->
-            <div class="square green"></div>
-            <div class="square-empty white"></div>
-            <div class="square-empty white"></div>
-            <div class="square-empty white"></div>
-            <div class="square red"></div>
-            <div class="square-empty white"></div>
-            <div class="square-empty white"></div>
-            <div class="square-empty white"></div>
-            <div class="square yellow"></div>
-
-            <!-- Eighth row -->
-            <div class="square blue"></div>
-            <div class="square-empty white"></div>
-            <div class="square-empty white"></div>
-            <div class="square-empty white"></div>
-            <div class="square green"></div>
-            <div class="square-empty white"></div>
-            <div class="square-empty white"></div>
-            <div class="square-empty white"></div>
-            <div class="square blue"></div>
-
-            <!-- Ninth row -->
-            <div class="square white">Roll<br>Again</div>
-            <div class="square yellow"></div>
-            <div class="square red"></div>
-            <div class="square green"></div>
-            <div class="square blue">HQ</div>
-            <div class="square yellow"></div>
-            <div class="square red"></div>
-            <div class="square green"></div>
-            <div class="square white">Roll<br>Again</div>
-        </div>
-
-        <!-- Score windows -->
-        <!--- <div class="hide-window" id="red-hide-window"></div>--->
-        <div class="window" id="red-window">
-            <div class="player-name" id="red-player"></div>
-            <div class="score-grid" id="grid1">
-                <div class="score-square" id="red-red-score-square"></div>
-                <div class="score-square" id="red-yellow-score-square"></div>
-                <div class="score-square" id="red-green-score-square"></div>
-                <div class="score-square" id="red-blue-score-square"></div>
-            </div>
-        </div>
-
-        <!--- <div class="hide-window" id="yellow-hide-window"></div> --->
-        <div class="window" id="yellow-window">
-            <div class="player-name" id="yellow-player"></div>
-            <div class="score-grid" id="grid2">
-                <div class="score-square" id="yellow-red-score-square"></div>
-                <div class="score-square" id="yellow-yellow-score-square"></div>
-                <div class="score-square" id="yellow-green-score-square"></div>
-                <div class="score-square" id="yellow-blue-score-square"></div>
-            </div>
-        </div>
-
-        <!--- <div class="hide-window" id="green-hide-window"></div>--->
-        <div class="window" id="green-window">
-            <div class="player-name" id="green-player"></div>
-            <div class="score-grid" id="grid3">
-                <div class="score-square" id="green-red-score-square"></div>
-                <div class="score-square" id="green-yellow-score-square"></div>
-                <div class="score-square" id="green-green-score-square"></div>
-                <div class="score-square" id="green-blue-score-square"></div>
-            </div>
-        </div>
-
-        <!--- <div class="hide-window" id="blue-hide-window"></div>--->
-        <div class="window" id="blue-window">
-            <div class="player-name" id="blue-player"></div>
-            <div class="score-grid" id="grid4">
-                <div class="score-square" id="blue-red-score-square"></div>
-                <div class="score-square" id="blue-yellow-score-square"></div>
-                <div class="score-square" id="blue-green-score-square"></div>
-                <div class="score-square" id="blue-blue-score-square"></div>
-            </div>
-        </div>
-
-        <!-- Window for trivia questions/answers -->
-        <div class="question-container" id="question-container">
-            <!-- Text part and answer buttons -->
-            <div class="question-window" id="question-window">
-                <h2>Question: </h2>
-                <div class="question-text" id="question-text"></div>
-                <div class="answer-button-window" id="answer-button-window"></div>
-            </div>
-            <!-- Category key that will also be buttons for center square logic -->
-            <div class="category-select-container">
-                 <h2>Category Key:</h2>
-                <div class="category-button red" id="red-category"></div>
-                <div class="category-button yellow category-button-yellow" id="yellow-category"></div>
-                <div class="category-button green" id="green-category"></div>
-                <div class="category-button blue" id="blue-category"></div>
-            </div>
-        </div>
-
-     </div>
-</body>
-<script src="{{ url_for('static', filename='js/classes/MoveHandler.js') }}"></script>
-<script src="{{ url_for('static', filename='js/classes/GameUIController.js') }}"></script>
-<script src="{{ url_for('static', filename='js/classes/Die.js') }}"></script>
-<script src="{{ url_for('static', filename='js/game_script.js') }}"></script>
-</html>

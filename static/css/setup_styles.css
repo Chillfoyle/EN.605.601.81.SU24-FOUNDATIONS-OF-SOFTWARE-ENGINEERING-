@@ -1,5 +1,5 @@
 :root {
-    --game-green: #04AE3A;
+   --game-green: #04AE3A;
     --game-yellow: #FFE51F;
     --game-red: #E11919;
     --game-blue: #004BAD;
@@ -20,7 +20,6 @@ body {
     padding: 0;
     width: 100%;
     height: 100%;
-    overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -50,7 +49,7 @@ body {
     left: 0;
 }
 
-/* Header Styles: Where the page title and Help/Main Menu buttons go*/
+/* Header Styles: Toggle instructions button, page title, Main Menu button */
 
 .header {
     display: flex;
@@ -101,39 +100,6 @@ body {
     font-size: 2em;
     color: white;
     text-decoration: none;
-}
-
-.header-button-container {
-    display: flex;
-    gap: 10px;
-    height: 100%
-}
-
-.header-button {
-    padding: 5px 10px;
-    font-weight: bold;
-    font-size: 20px;
-    cursor: pointer;
-    border: none;
-    padding: 20px;
-    text-decoration: none;
-    background-color: #E1193E;
-    color: white;
-}
-
-.play-button {
-    background-color: #008CBA;
-    color: white;
-    font-weight: bold;
-    text-decoration: none;
-    border: 1px solid black;
-    border-radius: 5px;
-    padding: 10px;
-    cursor: pointer;
-    font-size: 24px;
-    width: 150px;
-    align-items: center;
-    text-align: center;
 }
 
 /* Main Content Styles: Tables to input player info and choose categories */
@@ -235,14 +201,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-}
-
-.player-container {
-    width: 60%
-}
-
-.category-container {
-    width: 40%;
+    width: 50%;
 }
 
 .player-title, .category-title {
@@ -271,9 +230,32 @@ body {
 
 .category-table th, .player-table th {
     font-weight: bold;
-    background-color: #008CBA;
+    background-color: var(--header-blue);
     color: white;
+}
+
+/* Player Table Row Styles */
+
+.color-cell {
+    width: 150px;
     text-align: center;
+    font-weight: bold;
+}
+
+.red-row {
+    background-color: var(--game-red) !important;
+}
+
+.yellow-row {
+    background-color: var(--game-yellow) !important;
+}
+
+.green-row {
+    background-color: var(--game-green) !important;
+}
+
+.blue-row {
+    background-color: var(--game-blue) !important;
 }
 
 /* Input Field Styles: Dropdown and text field*/
@@ -348,7 +330,7 @@ input[type="text"], select {
     margin-bottom: 0;
     position: absolute;
     bottom: 0 !important;
-    animation: slideIn 1s ease-out forwards;
+    animation: slideIn 1s ease-out;
     z-index: 4;
 }
 
@@ -365,7 +347,6 @@ input[type="text"], select {
     font-size: 17px;
     text-align: center;
     box-shadow: var(--box-shadow);
-    animation: slideIn 1s ease-out forwards;
 }
 
 #speech-bubble ul {
@@ -385,7 +366,7 @@ input[type="text"], select {
 /* Page Background Styles */
 
 .circle {
-    position: absolute;
+    position: fixed;
     border-radius: 50%;
     opacity: 0.4;
     z-index: -1;
@@ -432,18 +413,18 @@ table {
     animation: popIn 0.8s ease-out;
 }
 
-@keyframes slideIn {  /* For lambda and speech bubble */
+@keyframes slideIn {  /* For lambda */
     0% {
         transform: translateX(100vw);
         opacity: 0;
     }
     100% {
-        transform: translateX(0);
+        transform: translateX(40vw);
         opacity: 1;
     }
 }
 
-@keyframes slideOut {  /* For lambda and speech bubble */
+@keyframes slideOut {  /* For lambda */
     0% {
         transform: translateX(0);
         opacity: 1;
@@ -453,3 +434,12 @@ table {
         opacity: 0;
     }
 }
+
+@keyframes fadeOut {  /* For speech bubble */
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}"
