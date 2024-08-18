@@ -37,9 +37,18 @@ class MoveHandler {
         validDestinations.forEach(validLoc => {
             const star = document.createElement("div");
             star.classList.add("star");
-            star.addEventListener('click', () => {
-                this.moveCurrentPlayerToken(validLoc[0], validLoc[1]);
+            star.addEventListener('click', async () => {
+                console.log("Adding event listener to star");
+                const currentPlayerLocation = this.gameUIController.getCurrentPlayerLocation(false);
+                console.log("Current player location is ", currentPlayerLocation);
+                console.log("Updating player location to", validLoc);
+                this.gameUIController.updateCurrentPlayerLocation(validLoc[0], validLoc[1]);
+                const path = await this.getTokenPath(currentPlayerLocation, validLoc);
+                console.log("Path to new location: ", path);
+                await this.moveCurrentPlayerToken(path);
                 this.gameUIController.displayInGameMessage("");  // Clear text
+                console.log("Fetching next action based on ", validLoc)
+                this.gameUIController.fetchNextAction([validLoc[0], validLoc[1]]);
                 document.querySelectorAll('.star').forEach(star => star.remove());  // Clear stars
             });
             this.placeOnSquare(star, validLoc[0], validLoc[1]);
@@ -47,6 +56,9 @@ class MoveHandler {
     }
 
     async getTokenPath(currentPlayerLocation, validLoc) {
+        console.log("Running getTokenPath");
+        console.log("Current player location is ", currentPlayerLocation);
+        console.log("Next location is ", validLoc);
         const path = await this.gameUIController.fetchTokenPath(currentPlayerLocation, [validLoc[0], validLoc[1]]);
         return path;
     }
@@ -54,6 +66,7 @@ class MoveHandler {
     async moveCurrentPlayerToken(path) {
         for (let i = 1; i < path.length; i++) {
             const [row, col] = path[i];
+            console.log(i);
             const token = document.getElementById(this.currentPlayerTokenId);
             token.classList.add('hopping');
             await new Promise(resolve => setTimeout(resolve, 500)); // Adjust delay as needed
@@ -71,6 +84,7 @@ class MoveHandler {
     placeOnSquare(obj, squareRow, squareCol) {
     // Puts the token on a grid square
         const destSquare = this.getSquare(squareRow, squareCol);
+        console.log(squareRow, squareCol);
         destSquare.appendChild(obj);
     }
 

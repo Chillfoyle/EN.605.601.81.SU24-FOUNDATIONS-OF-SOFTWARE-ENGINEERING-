@@ -71,6 +71,12 @@ def start_game():
 def game():
     return render_template('game.html')
 
+
+@app.route('/instructions')
+def instructions():
+    return render_template('instructions.html')
+
+
 @app.route('/setup_screen')
 def setup_screen():
     return render_template('setup_screen.html')
@@ -90,10 +96,22 @@ def get_valid_destinations():
     data = request.json
     player_loc = data["location"]
     num_steps = data["dieVal"]
+    print(f"player location is {player_loc}, num_steps is {num_steps}")
     valid_destinations = game_state_manager.get_valid_destinations(player_loc,
                                                                    num_steps)
     print(f"Valid Destinations: {valid_destinations}")
     return jsonify([list(dest) for dest in valid_destinations])
+
+
+@app.route('/get_token_path', methods=['POST'])
+def get_token_path():
+    data = request.json
+    print(data)
+    start_loc = data["startLoc"]
+    dest_loc = data["destLoc"]
+    path = game_state_manager.get_token_path(tuple(dest_loc), tuple(start_loc))
+    print(f"Path to Destination: {path}")
+    return jsonify([list(square) for square in path])
 
 
 @app.route('/get_categories', methods=['GET'])
@@ -136,6 +154,13 @@ def get_all_categories_earned():
     return jsonify(game_state_manager.get_all_categories_earned())
 
 
+@app.route('/get_next_action', methods=['POST'])
+def get_next_action():
+    data = request.json
+    next_action, category_color = game_state_manager.get_next_action(data)
+    return jsonify({'next_action': next_action, "color": category_color})
+
+
 # Update routes
 
 @app.route('/update_current_player', methods=['POST'])
@@ -147,9 +172,9 @@ def update_current_player():
 @app.route('/update_current_player_location', methods=['POST'])
 def update_current_player_location():
     data = request.json
-    next_action, color = game_state_manager.update_current_player_location(data)
-    print({'next_action': next_action, 'color': color})
-    return jsonify({'next_action': next_action, 'color': color})
+    print(f"next location is {data['nextLocation']}")
+    game_state_manager.update_current_player_location(data["nextLocation"])
+    return jsonify({"response": "success"})
 
 
 @app.route('/update_player_score', methods=['POST'])
@@ -161,7 +186,6 @@ def update_player_score():
 
 @app.route('/reset_game', methods=['POST'])
 def reset_game():
-    print("Resetting player scores")
     game_state_manager.reset_player_colors_earned()
     return jsonify({"response": "success"})
 

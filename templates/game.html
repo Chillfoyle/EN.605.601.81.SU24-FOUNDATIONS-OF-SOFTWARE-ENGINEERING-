@@ -9,22 +9,17 @@
 
     <!-- Page header -->
     <header class="header">
-        <button class="header-button toggle-button" id="toggle-sidebar">☰  Show/Hide Instructions</button>
-        <h1 class="title">Trivial Compute</h1>
+        <button class="header-button toggle-button" id="toggle-instructions">☰  Show/Hide Instructions</button>
+        <h1 class="title">Trivial Compute!</h1>
         <div class="header-button" id="exit-button">Exit Game</div>
     </header>
 
-    <!-- Exit Game Popup -->
-    <div id="exit-popup" class="popup-overlay">
-        <div class="popup-content">
-            <p>Are you sure you want to exit the game? Your game will not be saved when you leave.</p>
-            <div class="button" id="confirm-exit">Yes</div>
-            <div class="button"  id="cancel-exit">No</div>
-        </div>
-    </div>
+    <!-- Instructions dropdown window -->
+    <div class="instructions-container" id="instructions"></div>
 
     <div class="main-container">
 
+        <!-- Game board and score windows -->
         <div class="game-container">
             <!-- Game Board (rows listed from top to bottom) -->
             <div class="game-board">
@@ -128,7 +123,7 @@
                 <div class="square white">Roll<br>Again</div>
             </div>
 
-            `<!-- Score windows -->
+            <!-- Score windows -->
             <div class="window" id="red-window">
                 <div class="player-name" id="red-player"></div>
                 <div class="score-grid" id="grid1">
@@ -164,84 +159,107 @@
                     <div class="score-square" id="blue-green-score-square"></div>
                     <div class="score-square" id="blue-blue-score-square"></div>
                 </div>
-            </div>`
+            </div>
+        </div>
 
-        <!-- Window for trivia questions/answers -->
-        <div class="question-container" id="question-container">
-            <div class="card-container">
+        <!-- Player prompts, trivia cards, and action buttons -->
+        <div class="gameplay-container">
 
-                <!-- Decorative Card -->
-                <div class="decorative-card">
-                    <div class="card-border">
-                        <div class="card-front"></div>
+            <!-- Container for trivia cards -->
+            <div class="question-container" id="question-window">
+
+                <div class="card-container">
+                    <!-- Decorative card with logo -->
+                    <div class="decorative-card" id="decorative-card">
+                        <div class="card-border"></div>
                     </div>
-                </div>
-
-                <!-- Content Card (Question/Answer) -->
-                <div class="content-card">
-                    <div class="content-card-border">
-                        <div class="card-front">
-                            <!-- Question -->
-                            <div class="card-content"></div>
+                    <!-- Content card with question and answer -->
+                    <div class="card">
+                        <div class="content-card" id="content-card">
+                            <div class="content-card-border"></div>
+                            <div class="card-front">
+                                <div class="content-card-border" id="question-border"></div>
+                                <div class="card-content" id="content-question"></div>
+                            </div>
+                            <div class="card-back">
+                                <div class="content-card-border" id="answer-border"></div>
+                                <div class="card-content" id="content-answer"></div>
+                            </div>
                         </div>
                     </div>
-                    <div class="content-card-border">
-                        <div class="card-back">
-                            <!-- Answer -->
-                            <div class="card-content"></div>
-                        </div>
-                    </div>
                 </div>
+
+                <!-- Answer buttons -->
+                <div class="answer-button-container">
+                    <button class="button" id="show-answer-button">Show Answer</button>
+                    <button class="button" id="correct-button">Correct</button>
+                    <button class="button" id="incorrect-button">Not Correct</button>
+                </div>
+
+                <!-- Category buttons -->
+                <div class="category-container" id="category-table">
+                    <button class="category-button red" id="red-row"></button>
+                    <button class="category-button yellow" id="yellow-row"></button>
+                    <button class="category-button green" id="green-row"></button>
+                    <button class="category-button blue" id="blue-row"></button>
+                </div>
+
             </div>
 
-            <!-- Text part and answer buttons -->
-            <div class="question-window" id="question-window">
-                <h2>Question: </h2>
-                <div class="question-text" id="question-text"></div>
-                <div class="answer-button-window" id="answer-button-window">
-                    <div class="button" id="show-answer-button">Show Answer</div>
-                    <div class="button" id="correct-button">Correct</div>
-                    <div class="button" id="incorrect-button">Not Correct</div>
+            <!-- Window with Lambda character and prompt text, die -->
+            <div class="player-prompt-container">
+
+                <!-- Table tracking player turns -->
+                <table class="player-table" id="player-table">
+                    <thead>
+                        <tr>
+                            <th>Turn Order</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+
+                <!-- Prompt window with die and Lambda -->
+                <div class="lambda-container" id="lambda-container">
+
+                    <!-- Die -->
+                    <div class="die-container">
+                        <div class="die" id="die">-</div>
+                        <button class="button" id="rollDieButton">Roll Die</button>
+                    </div>
+
+                    <!-- Text window -->
+                    <div class="text-window">
+                    <div class="player-prompt-text" id="player-prompt-text"></div>
+                    <button class="button" id="ok-button" style="display: none;">OK</button>
+                        </div>
+
+                    <!-- Lambda character -->
+                    <div class="lambda" id="lambda"></div>
+
                 </div>
+
             </div>
-            <!-- Category key that will also be buttons for center square logic -->
-            <div class="category-select-container">
-                 <h2>Category Key:</h2>
-                <div class="category-button red" id="red-category"></div>
-                <div class="category-button yellow category-button-yellow" id="yellow-category"></div>
-                <div class="category-button green" id="green-category"></div>
-                <div class="category-button blue" id="blue-category"></div>
+
+        </div>
+
+    </div>
+
+    <!-- Pop-up to exit game -->
+    <div id="exit-popup" class="popup-overlay">
+        <div class="popup-content">
+            <p>Are you sure you want to exit the game?<br>Your game will not be saved when you leave.</p>
+            <div class="popup-button-container">
+                <div class="button" id="confirm-exit">Yes</div>
+                <div class="button" id="cancel-exit">No</div>
             </div>
         </div>
     </div>
-
-     </div>
 </body>
-<script src="{{ url_for('static', filename='js/classes/TriviaManager.js') }}"></script>
 <script src="{{ url_for('static', filename='js/classes/MoveHandler.js') }}"></script>
 <script src="{{ url_for('static', filename='js/classes/GameUIController.js') }}"></script>
-<script src="{{ url_for('static', filename='js/classes/Lambda.js') }}"></script>
+<script src="{{ url_for('static', filename='js/classes/TriviaManager.js') }}"></script>
 <script src="{{ url_for('static', filename='js/classes/Die.js') }}"></script>
+<script src="{{ url_for('static', filename='js/classes/Lambda.js') }}"></script>
 <script src="{{ url_for('static', filename='js/game_script.js') }}"></script>
 </html>
-
-
-<div class="player-prompt-text" id="player-prompt-text"></div>
-    <div class="game-container">
-
-        <!-- Left player info window -->
-        <div class="player-info">
-            <!-- Player list -->
-            <h2 style="color:rgb(0, 170, 255);">Players:</h2>
-            <div class="players-list" id="players-list">
-                <!-- Player names will be dynamically added here -->
-            </div>
-            <br><br>
-            <!-- Current player -->
-            <div class="players-list current">Current Player: <span class="players-list" id="current-player"></span></div>
-            <!-- Die -->
-            <div class="die-container">
-                <div class="dice" id="die">-</div>
-                <button class="button" id="rollDieButton">Roll Dice</button>
-            </div>
-        </div>

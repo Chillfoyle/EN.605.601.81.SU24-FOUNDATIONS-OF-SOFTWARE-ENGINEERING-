@@ -19,6 +19,7 @@ class TriviaManager {
         // Answer button event listener
         const answerButton = document.getElementById("show-answer-button");
         answerButton.addEventListener('click', () => {
+            console.log("clicked answer button");
             this.displayTriviaAnswer();
             this.toggleButtonEnabled("show-answer-button", false);
             this.toggleButtonEnabled("correct-button", true);
@@ -29,7 +30,8 @@ class TriviaManager {
         // Correct button event listener
         const correctButton = document.getElementById("correct-button");
         correctButton.addEventListener('click', () => {
-            console.log(this.gameUIController.currentPlayer.canWin);
+            console.log("clicked correct button");
+            console.log(`Player can win: ${this.gameUIController.currentPlayer.canWin}`);
             if (this.gameUIController.currentPlayer.canWin) {
                 console.log("Player wins");
                 this.gameUIController.displayInGameMessage("win-dialog");
@@ -37,15 +39,14 @@ class TriviaManager {
                 this.gameUIController.displayInGameMessage("correct-answer");
                 this.gameUIController.updatePlayerScore();
             }
-
             // Remove buttons and clear answer
+
             this.hideContent();
             this.clearCardContent();
             this.toggleButtonEnabled("correct-button", false);
             this.toggleButtonEnabled("incorrect-button", false);
         });
 
-        // Incorrect button event listener
         const incorrectButton = document.getElementById("incorrect-button");
         incorrectButton.addEventListener('click', async () => {
             console.log("clicked incorrect button");
@@ -55,6 +56,7 @@ class TriviaManager {
             this.gameUIController.startPlayerTurn(false);
 
             // Remove buttons and clear answer
+
             this.hideContent();
             this.clearCardContent();
             this.toggleButtonEnabled("correct-button", false);
@@ -64,66 +66,80 @@ class TriviaManager {
     }
 
     toggleButtonEnabled(buttonId, enabled) {
-    // Enable or disable a button
+        console.log(buttonId);
+        console.log(document.getElementById(buttonId));
         document.getElementById(buttonId).disabled = (!enabled);
     }
 
+     // Slide up the decorative card and reveal the content card
     revealContent() {
-    // Slide up the decorative card and reveal the content card
         this.decorativeCard.classList.remove('slide-down');
         this.decorativeCard.classList.add('slide-up');
     }
 
     hideContent() {
-    // Slide decorative card over content card
         this.flipCard();
+        console.log("flipped back");
         this.decorativeCard.classList.remove('slide-up');
         this.decorativeCard.classList.add('slide-down');
     }
 
-    flipCard() {
     // Flip the content card
+    flipCard() {
         this.contentCard.classList.toggle('flipped');
     }
 
     displayTriviaQuestion(data, color) {
-        // Display a trivia question
-        console.log("Showing question", data);
+    // Clear previous content
+    //this.clearCardContent();
 
-        // Save color and answer
-        sessionStorage.setItem('currentAnswer', data.answer);
-        sessionStorage.setItem('currentColor', color);
+    // Display a trivia question
+    console.log("Showing question", data);
 
-        // Set question text
-        this.questionContent.innerText = data.question;
-        document.getElementById('question-border').style.border = `4px solid ${color}`;
-        document.getElementById('answer-border').style.border = `4px solid ${color}`;
+    // Save color and answer
+    sessionStorage.setItem('currentAnswer', data.answer);
+    sessionStorage.setItem('currentColor', color);
 
-        // Reveal the content and enable the answer button
-        this.revealContent();
-        this.toggleButtonEnabled("show-answer-button", true);
-    }
+    // Set question text
+    this.questionContent.innerText = data.question;
+    document.getElementById('question-border').style.border = `4px solid ${color}`;
+    document.getElementById('answer-border').style.border = `4px solid ${color}`;
 
-    displayTriviaAnswer() {
-    // Display answer on trivia card
-        const answer = sessionStorage.getItem('currentAnswer');
-        this.answerContent.innerText = answer;
-        this.flipCard();
-    }
+    // Reveal the content and enable the answer button
+    this.revealContent();
+    this.toggleButtonEnabled("show-answer-button", true);
+}
 
-    clearCardContent() {
-    // Clear text from both sides of trivia card
-        this.questionContent.innerText = '';
-        this.answerContent.innerText = '';
-    }
+displayTriviaAnswer() {
+    // Clear previous content
+    //this.clearCardContent();
+
+    // Set answer text
+    const answer = sessionStorage.getItem('currentAnswer');
+    this.answerContent.innerText = answer;
+    console.log(this.answerContent.innerText);
+
+
+    // Flip the card to show the answer
+    this.flipCard();
+}
+
+clearCardContent() {
+    // Clear text from both sides
+    console.log("clearing");
+    this.questionContent.innerText = '';
+    this.answerContent.innerText = '';
+}
+
 
     displayCategoryChoices() {
-    // Enable category selection buttons
+
         const buttons = document.querySelectorAll('.category-button');
+
 
         buttons.forEach(button => {
             button.removeEventListener('click', this.handleCategoryButtonClick);
-            button.style.pointerEvents = 'auto';
+            button.style.pointerEvents = 'auto'; // Ensure buttons are clickable
             button.style.cursor = "pointer";
             button.disabled = false;
         });
@@ -134,11 +150,11 @@ class TriviaManager {
     }
 
     handleCategoryButtonClick(event) {
-    // Handle selection of category when landing on center square
         const button = event.target;
         let buttonColor = button.id.split('-')[0];
-        this.gameUIController.executeNextAction("ask question from category", buttonColor, true);
+        this.gameUIController.executeNextAction("ask question from category", buttonColor);
         const buttons = document.querySelectorAll('.category-button');
         buttons.forEach(button => {button.disabled = true;});
     }
+
 }

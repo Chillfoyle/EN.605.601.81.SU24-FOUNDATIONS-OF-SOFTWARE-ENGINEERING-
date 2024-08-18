@@ -1,26 +1,19 @@
-:root {
-   --game-green: #04AE3A;
-    --game-yellow: #FFE51F;
-    --game-red: #E11919;
-    --game-blue: #004BAD;
-    --header-blue: #0C3973;
-    --background-blue: #E0E3F0;
-    --hover-blue: #016AF4;
-    --sidebar-width: 300px;
-    --header-height: 60px;
-    --font-family: Arial, sans-serif;
-    --font-size-medium: 20px;
-    --font-size-large: 24px;
-    --border-radius: 5px;
-    --box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
-}
-
 /* Colors */
 
-.red { background-color: red; }
-.green { background-color: green; }
-.blue { background-color: blue; }
-.yellow { background-color: yellow; }
+:root {
+    --game-green: #14fa46;
+    --game-yellow: #ffe72e;
+    --game-red: #ff2929;
+    --game-blue: #244cff;
+    --header-blue: #0c3973;
+    --background-blue: #e0e3f0;
+    --hover-blue: #016af4;
+}
+
+.red { background-color: var(--game-red); }
+.green { background-color: var(--game-green); }
+.blue { background-color: var(--game-blue); }
+.yellow { background-color: var(--game-yellow); }
 .white { background-color: white; }
 
 /* Screen Components */
@@ -28,14 +21,14 @@
 body, html {
     margin: 0;
     padding: 0;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%
     display: flex;
     flex-direction: column;
     align-items: center;
     box-sizing: border-box;
     font-family: Arial, sans-serif;
-
+    overflow: hidden;
     background-color: var(--background-blue);
 }
 
@@ -43,13 +36,13 @@ body, html {
 
 .header {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; /* Spreads out items in the header */
     align-items: center;
     color: white;
-    width: 100%;
-    position: fixed;
+    width: 100%; /* Stretch across the whole screen */
+    position: fixed; /* Keep it on top */
     top: 0;
-    z-index: 2000;
+    z-index: 2000; /* Ensures it's on top of everything */
     height: 50px;
     background-color: var(--header-blue);
     border-bottom: 2px solid black;
@@ -63,8 +56,8 @@ body, html {
 
 .header-button {
     display: flex;
-    align-items: center;
-    justify-content: center;
+    align-items: center; /* Centers text vertically */
+    justify-content: center; /* Centers text horizontally */
     padding: 0px 10px;
     font-weight: bold;
     font-size: 20px;
@@ -86,28 +79,29 @@ body, html {
 }
 
 .title {
-    font-size: 36px;
-    margin: 0px;
-    gap: 0px;
+    margin-left: 20px;
+    font-size: 2em;
+    color: white;
+    text-decoration: none;
 }
 
 /* Instructions Styles */
 
 .instructions-container {
     position: fixed;
-    top: -100%;
+    top: -100%; /* Hide off-screen */
     left: 0;
     width: 100%;
-    height: 100%;
-    background-color: white;
-    z-index: 1000;
-    transition: top 0.5s ease;
+    height: 100%; /* Or adjust as needed */
+    background-color: white; /* Adjust for readability */
+    z-index: 1000; /* Make sure it covers other content */
+    transition: top 0.5s ease; /* Smooth sliding */
     overflow-y: auto;
     padding: 20px;
 }
 
 .instructions-visible {
-    top: 50px;
+    top: 50px; /* Slide down to cover the screen */
 }
 
 /* Main Styles */
@@ -116,7 +110,6 @@ body, html {
     display: flex;
     flex-direction: row;
     align-items: flex-start;
-    width: 100%;
     gap: 10px;
     margin-top: 50px;
 }
@@ -129,100 +122,22 @@ body, html {
     height: auto;
     justify-content: center;
     align-items: center;
-    position: relative;
 }
 
 .game-board {  /* The part of the game container with the game board */
-    width: 40%;
-    height: 100%;
+    width: auto;
+    height: calc(100vh - 100px);
     display: grid;
-    grid-template-columns: repeat(9, 1fr);
-    grid-template-rows: repeat(9, 1fr);
+    grid-template-columns: repeat(9, 1fr); /* 9 columns */
+    grid-template-rows: repeat(9, 1fr); /* 9 rows */
     border: 2px solid black;
     aspect-ratio: 1 / 1;
     padding: 0;
     margin-left: 20px;
     margin-top: 20px;
     box-sizing: border-box;
-    position: relative;
 }
 
-.player-info { /* The part of the game container with the player list and die */
-    width: 20%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: top;
-    margin-left: 0;
-    padding: 0;
-}
-
-.die-container {  /* The part of player-info with die and button */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-.question-container {  /* The part of the game container displaying the questions and category buttons */
-    width: 30%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    margin: 0;
-    padding: 0;
-}
-
-.question-window {  /* The part of the question-container displaying the question/answer text */
-    width: 97%;
-    height: 99%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 0;
-    padding-left: 5px;
-    padding-right: 0px;
-}
-
-.answer-button-window {  /* The part of question-window that has the Correct/Not Correct buttons */
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 10px;
-}
-
-.question-text { /* The question/answer text */
-    font-size: 24px;
-    margin-bottom: 20px;
-}
-
-.category-select-container {  /* Where the category key/buttons are */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 5px;
-}
-
-.category-button {  /* Four buttons showing the category names*/
-    padding: 10px 20px;
-    width: 100px;
-    margin: 5px;
-    border: 2px solid black;
-    color: white;
-    font-size: 20px;
-    text-align: center;
-}
-
-.category-button-yellow {  /* Yellow button needs black text */
-    color: black;
-}
-
-/* Game Board Styles */
-
-/* TODO: Make the font look nicer */
 .square {  /* Game board square */
     display: flex;
     justify-content: center;
@@ -239,146 +154,45 @@ body, html {
     align-items: center;
     font-size: 24px;
     font-weight: bold;
-}
-
-/* Player Action Styles */
-
-/* TODO: Replace with animation. */
-.dice {  /* The die */
-    width: 90px;
-    height: 90px;
-    background-color: white;
-    border: 2px solid black;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 24px;
-    margin-top: 0px;
-    margin-bottom: 20px;
-}
-
-.button {  /* Roll Die button, but also all other buttons */
-    background-color: #008CBA;
-    border: none;
-    color: white;
-    font-size: 24px;
-    padding: 5px;
-    border: 2px solid black;
-    cursor: pointer;
-    margin-bottom: 20px;
-}
-
-/* TODO: Make the font better */
-.player-prompt-text {  /* The text telling the player what to do */
-    min-height: 22px;
-    font-size: 20px;
-    margin: 0px;
-    font-weight: bold;
-    margin-bottom: 10px;
-    text-align: center;
-}
-
-/* Player List Styles*/
-
-/* TODO: Make this look bigger, move over, different font */
-.players-list {  /* Lists the names and colors of the players */
-    list-style-type: none;
-    height: 80px;
-    padding: 0px;
-    line-height: 1.5;
-    font-size: 20px;
-
-}
-
-.current {  /* Formatting for current player */
-    margin-top: 20px;
-}
-
-#players-list li {
-    margin-bottom: 0px;
-}
-
-/* Token Styles */
-
-/* TODO: Maybe add a shadow or something... */
-.token {
-    position: absolute;
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    border: 2px solid black;
-}
-
-/* Token locations within the grid squares */
-
-.red-corner {
-    top: 0;
-    left: 0;
-}
-.yellow-corner {
-    top: 0;
-    right: 0;
-}
-.green-corner {
-    bottom: 0;
-    left: 0;
-}
-.blue-corner {
-    bottom: 0;
-    right: 0;
+    background-color: var(--background-blue);
 }
 
 /* Score Window Styles */
 
 .window {
     position: absolute;
-    width: 25%;
-    height: 25%;
+    width: 10%;
+    height: 24%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-}
-
-/* TODO: Cover up the score windows that are not used */
-.hide-window {
-    position: absolute;
-    width: 25%;
-    height: 25%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background-color: white;
-    z-index: 10;
-    display: none;
 }
 
 #red-window {
-    top: 16.5%;
-    left: 16%;
+    top: 22%;
+    left: 6%;
     border: 5px solid var(--game-red);
 }
 
 #yellow-window {
-    top: 16.5%;
-    left: 59%;
+    top: 22%;
+    left: 22.5%;
     border: 5px solid var(--game-yellow);
 }
 
 #green-window {
-    bottom: 12%;
-    left: 16%;
+    bottom: 15%;
+    left: 6%;
     border: 5px solid var(--game-green);
 }
 
 #blue-window {
-    bottom: 12%;
-    left: 59%;
+    bottom: 15%;
+    left: 22.5%;
     border: 5px solid var(--game-blue);
 }
 
-/* TODO: Better font */
 .player-name {  /* Name that goes above the score window */
     font-size: 1.5vw;
     margin-bottom: 10px;
@@ -387,8 +201,8 @@ body, html {
 
 .score-grid {  /* The 2x2 grid for the player's score */
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(2, 1fr);
+    grid-template-columns: repeat(2, 1fr); /* 2 columns */
+    grid-template-rows: repeat(2, 1fr);    /* 2 rows */
     width: 70px;
     height: 70px;
     padding: 10px;
@@ -396,8 +210,8 @@ body, html {
 }
 
 .score-square {  /* One square in the 2x2 grid */
-    background-color: #FFF;
-    border: 2px solid black !important;
+    background-color: #FFF; /* Default color */
+    border: 2px solid black !important; /* So the borders don't look weird */
     width: 100%;
     height: 100%;
     transition: background-color 0.3s;
@@ -416,25 +230,28 @@ body, html {
     height: 24px;
     border-radius: 50%;
     border: 2px solid black;
-    transition: transform 2s ease;
+    transition: transform 2s ease; /* Smooth animation */
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
 }
 
 @keyframes hop {
     0% {
         transform: scale(1);
+
+        /*box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4); /* Normal shadow */
     }
     50% {
-        transform: scale(1.2);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6);
+        transform: scale(1.2); /* Grow at the midpoint */
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6); /* Optional shadow for depth */
     }
     100% {
         transform: translate(var(--translate-x), var(--translate-y)) scale(1);
+       /* box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4); /* Return to normal shadow */
     }
 }
 
 .hopping {
-  animation: hop 2s ease;
+  animation: hop 2s ease; /* Adjust timing to match movement */
 }
 
 /* Token locations within the grid squares */
@@ -529,10 +346,11 @@ body, html {
 
 #lambda-container { /* Holds die, prompts, and Lambda character */
     width: 80;
-    height: 90%;
+    height: 40%;
     display: flex;
     flex-direction: row;
-    position: relative;
+    position: relative; 
+    overflow: hidden;
     justify-content: space-between;
     background-color: white;
     border: 2px solid black;
@@ -553,7 +371,7 @@ body, html {
 }
 
 #ok-button {
-    display: block;
+    display: block; /* Ensure the button is on its own line */
 
 }
 
@@ -568,15 +386,15 @@ body, html {
 .lambda { /* Lambda character */
     background-image: url('../images/lambda-happy.png');
     background-size: cover;
-    margin: 0 0;
+    margin: 0 0; /* Center the image horizontally */
     margin-bottom: 10px;
-    width: 240px;
-    height: 170px;
-    position: relative;
-    right: 0%;
-    bottom: 2%;
-    animation: slideIn 1s ease-out;
-    opacity: 1;
+    width: 240px; /* Adjust the width as needed */
+    height: 170px; /* Maintain aspect ratio */
+    position: relative; /* or 'relative' depending on the layout */
+    right: 0%; /* or adjust as needed */
+    bottom: 20%; /* or adjust as needed */
+    animation: slideIn 1s ease-out; /* Apply the animation */
+    opacity: 1; /* Ensure the opacity starts at 0 */
 }
 
 /* Table Styles */
@@ -610,9 +428,9 @@ body, html {
 }
 
 .color-cell {
-    width: 150px;
+    width: 150px; /* Adjust width as needed */
     text-align: center;
-    font-weight: bold;
+    font-weight: bold; /* Bold font for the first column */
     color: black;
 }
 
@@ -662,14 +480,15 @@ body, html {
 .button:hover {
     background-color: var(--hover-blue);
     color: white;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Shadow effect */
+    transform: scale(1.1); /* Slightly grow the button */
 }
 
 .button:disabled {
-  opacity: 0.5;
+  /* Styles for disabled button */
+  opacity: 0.5; /* Adjust opacity as needed */
   cursor: not-allowed;
-  background-color: #6c757d;
+  background-color: #6c757d; /* Optional: change background color for disabled state */
 }
 
 .button:disabled:hover {
@@ -690,21 +509,24 @@ body, html {
     transition: background-color 0.3s, transform 0.2s;
 }
 
+/* Make it look less like traditional buttons */
 .button:active:not(.disabled), .category-button:active:not(.disabled) {
-    transform: scale(0.95);
-    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+    transform: scale(0.95); /* Give a pressed effect */
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2); /* Inner shadow */
 }
 
 /* Hover effect for enabled buttons */
 .button:hover:not(:disabled), .category-button:hover:not(:disabled) {
-    transform: scale(1.1);
+    transform: scale(1.1); /* Slightly larger on hover */
+    /* Add hover background color change if needed */
 }
 
 /* Disable hover effects and interactivity for disabled buttons */
 .button:disabled, .category-button:disabled {
     cursor: not-allowed;
     transform: none;
-    opacity: 0.4;
+    opacity: 0.4; /* Make the button look disabled */
+    /* Remove active state styles */
     box-shadow: none;
 }
 
@@ -720,6 +542,8 @@ body, html {
     box-shadow: none;
     cursor: not-allowed;
 }
+
+
 
 /* Miscellaneous Styles */
 
@@ -737,22 +561,22 @@ body, html {
 
 .card-container {
     position: relative;
-    width: 375px;
-    height: 225px;
+    width: 375px; /* Adjust as needed */
+    height: 225px; /* Adjust as needed */
     margin-top: 20px;
-    perspective: 1000px;
+    perspective: 1000px; /* Gives a 3D effect */
 }
 
 .card {
     float: left;
     position: relative;
-    width: 375px;
-    height: 215px;
+    width: 375px; /* Adjust as needed */
+    height: 215px; /* Adjust as needed */
     border-radius: 15px;
     margin-top: 10px;
     overflow: hidden;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4), 0 6px 6px rgba(0, 0, 0, 0.2);
-    perspective: 1000px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4), 0 6px 6px rgba(0, 0, 0, 0.2); /* Box shadow for depth */
+    perspective: 1000px; /* Gives a 3D effect */
 }
 
 .decorative-card {
@@ -761,8 +585,8 @@ body, html {
     left: 0;
     width: 100%;
     height: 100%;
-    transition: transform 0.6s ease;
-    z-index: 2;
+    transition: transform 0.6s ease; /* For sliding up/down */
+    z-index: 2; /* Place it on top */
     background: black;
     background-image: url('../images/game-card-logo.png');
     background-size: 175px 175px;
@@ -773,22 +597,24 @@ body, html {
 
 .card-border, .content-card-border {
     position: absolute;
-    top: 10px;
-    left: 10px;
-    right: 10px;
-    bottom: 10px;
-    border: 2px solid white;
-    border-radius: 13px;
-    box-sizing: border-box;
-    z-index: 2;
-    background: none;
+    top: 10px; /* Adjust this value to control the inset gap */
+    left: 10px; /* Adjust this value to control the inset gap */
+    right: 10px; /* Adjust this value to control the inset gap */
+    bottom: 10px; /* Adjust this value to control the inset gap */
+    border: 2px solid white; /* Set the border thickness and color */
+    border-radius: 13px; /* To match the card's border-radius minus the gap */
+    box-sizing: border-box; /* Ensure the border is included in the width/height */
+    z-index: 2; /* Ensure the border is above the card background */
+    background: none; /* To ensure only the border shows */
 }
 
 .card-content {
     position: relative;
-    padding: 20px;
-    text-align: center;
-    z-index: 3;
+    padding: 20px; /* Optional: Add padding inside the border */
+    text-align: center; /* Center the content inside the card */
+    z-index: 3; /* Ensure the content is above the border */
+    /*background: white; /* Background color of content, adjust if needed */
+    /*border-radius: 10px; /* Optional: match or slightly reduce the card-border radius */
     font-size: 24px;
     color: black;
 }
@@ -797,33 +623,37 @@ body, html {
     position: relative;
     width: 100%;
     height: 100%;
-    transition: transform 0.6s;
-    transform-style: preserve-3d;
+    transition: transform 0.6s; /* Duration of the flip */
+    transform-style: preserve-3d; /* Ensures 3D effects are applied */
 }
 
 .card-front, .card-back {
     position: absolute;
     width: 100%;
     height: 100%;
-    backface-visibility: hidden;
+    backface-visibility: hidden; /* Hides the back of the card when facing away */
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 1;
+    z-index: 1; /* Ensure these are behind the border and content */
 }
 
 .card-back {
-    background-color: white;
-    border: 2px solid #ccc;
+    background-color: white; /* Back card color */
+    border: 2px solid #ccc; /* Optional border */
     transform: rotateY(180deg);
     border-radius: 13px;
 }
 
 .card-front {
-    background-color: white;
-    border: 2px solid #ccc;
+    background-color: white; /* Back card color */
+    border: 2px solid #ccc; /* Optional border */
     border-radius: 13px;
 }
+
+/*.card:hover .content-card {*/
+ /*   transform: rotateX(180deg); /* Flips the card on hover */
+/*}*/
 
 .content-card.flipped {
     transform: rotateY(180deg);
@@ -840,12 +670,12 @@ body, html {
 /* Keyframe animations and transition effects */
 @keyframes slideIn {
     0% {
-        transform: translateX(140vw);
-        opacity: 0;
+        transform: translateX(140vw); /* Start off-screen to the right */
+        opacity: 0; /* Ensure it's invisible initially */
     }
     100% {
-        transform: translateX(0);
-        opacity: 1;
+        transform: translateX(0); /* End at the final position */
+        opacity: 1; /* Ensure it’s fully visible */
     }
 }
 
@@ -855,11 +685,11 @@ body, html {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: none;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    display: none; /* Hidden by default */
     justify-content: center;
     align-items: center;
-    z-index: 1000;
+    z-index: 1000; /* Ensure it appears above other content */
 }
 
 .popup-content {
@@ -883,3 +713,4 @@ body, html {
     justify-content: center;
     font: 20px;
 }
+

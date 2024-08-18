@@ -6,150 +6,143 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Game Setup Screen</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/setup_styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/setup_animations.css') }}">
 </head>
 <body>
 
-<!-- To resize elements when window changes size-->
-<div class="scale-container">
-        <div class="game-wrapper">
+    <!-- Page header -->
+    <header class="header">
+        <button class="header-button toggle-button" id="toggle-sidebar">☰  Show/Hide Instructions</button>
+        <h1 class="title">Let's get started...</h1>
+        <a href="/" class="header-button">Main Menu</a>
+    </header>
 
-            <!-- Page header -->
-            <header class="header">
-                <button class="header-button toggle-button" id="toggle-sidebar">☰  Show/Hide Instructions</button>
-                <h1 class="title">Let's get started...</h1>
-                <a href="/" class="header-button">Main Menu</a>
-            </header>
+    <div class="main-container">
 
-            <div class="main-container">
+        <!-- Sidebar for instructions -->
+        <div class="sidebar" id="sidebar">
+            <div class="header-banner top-header">Player Input Table</div>
+            <ul>
+                <li>Pick a token color: Red, Yellow, Green, or Blue.</li>
+                <li>Click the white text box next to the color you want and type your name.</li>
+                <li>There has to be at least one player, but up to four people can play!</li>
+                <li>Every player must have a different color.</li>
+                <li>Each player's name must be different.</li>
+            </ul>
+            <div class="header-banner">Category Input Table</div>
+            <ul>
+                <li>Click each row to select a category from the drop-down list.</li>
+                <li>You must select four categories to play.</li>
+            </ul>
+        </div>
 
-                <!-- Sidebar for instructions -->
-                <div class="sidebar" id="sidebar">
-                    <div class="header-banner top-header">Player Input Table</div>
-                    <ul>
-                        <li>Pick a token color: Red, Yellow, Green, or Blue.</li>
-                        <li>Click the white text box next to the color you want and type your name.</li>
-                        <li>There has to be at least one player, but up to four people can play!</li>
-                        <li>Every player must have a different color.</li>
-                        <li>Each player's name must be different.</li>
-                    </ul>
-                    <div class="header-banner">Category Input Table</div>
-                    <ul>
-                        <li>Click each row to select a category from the drop-down list.</li>
-                        <li>You must select four categories to play.</li>
-                    </ul>
+        <!-- Page with input tables -->
+        <div class="input-container">
+
+            <!-- Decorative circles -->
+            <div class="circle circle-large" style="top: 40%; left: 10%;"></div>
+            <div class="circle circle-large" style="bottom: 30%; right: 15%;"></div>
+            <div class="circle circle-medium" style="top: 10%; left: 5%;"></div>
+            <div class="circle circle-medium" style="bottom: 5%; right: 30%;"></div>
+            <div class="circle circle-small" style="bottom: 10%; left: 35%;"></div>
+            <div class="circle circle-small" style="top: 30%; right: 5%;"></div>
+
+            <div class="table-container">
+
+                <!-- Player name table -->
+                <div class="player-container">
+                    <h2 class="player-title">Player Input Table</h2>
+                    <form id="playerForm">
+                        <table class="player-table" id="playerTable">
+                            <thead>
+                                <tr>
+                                    <th>Token Color</th>
+                                    <th>Name</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="red-row">
+                                    <td class="color-cell">Red</td>
+                                    <td><input type="text" class="player-name" name="player_name[]"></td>
+                                </tr>
+                                <tr class="yellow-row">
+                                    <td class="color-cell">Yellow</td>
+                                    <td><input type="text" class="player-name" name="player_name[]"></td>
+                                </tr>
+                                <tr class="green-row">
+                                    <td class="color-cell">Green</td>
+                                    <td><input type="text" class="player-name" name="player_name[]"></td>
+                                </tr>
+                                <tr class="blue-row">
+                                    <td class="color-cell">Blue</td>
+                                    <td><input type="text" class="player-name" name="player_name[]"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </form>
                 </div>
 
-                <!-- Page with input tables -->
-                <div class="input-container">
-
-                    <!-- Decorative circles -->
-                    <div class="circle circle-large" style="top: 40%; left: 10%;"></div>
-                    <div class="circle circle-large" style="bottom: 30%; right: 15%;"></div>
-                    <div class="circle circle-medium" style="top: 10%; left: 5%;"></div>
-                    <div class="circle circle-medium" style="bottom: 5%; right: 30%;"></div>
-                    <div class="circle circle-small" style="bottom: 10%; left: 35%;"></div>
-                    <div class="circle circle-small" style="top: 30%; right: 5%;"></div>
-
-                    <div class="table-container">
-
-                        <!-- Player name table -->
-                        <div class="player-container">
-                            <h2 class="player-title">Player Input Table</h2>
-                            <form id="playerForm">
-                                <table class="player-table" id="playerTable">
-                                    <thead>
-                                        <tr>
-                                            <th>Token Color</th>
-                                            <th>Name</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr class="red-row">
-                                            <td class="color-cell">Red</td>
-                                            <td><input type="text" class="player-name" name="player_name[]"></td>
-                                        </tr>
-                                        <tr class="yellow-row">
-                                            <td class="color-cell">Yellow</td>
-                                            <td><input type="text" class="player-name" name="player_name[]"></td>
-                                        </tr>
-                                        <tr class="green-row">
-                                            <td class="color-cell">Green</td>
-                                            <td><input type="text" class="player-name" name="player_name[]"></td>
-                                        </tr>
-                                        <tr class="blue-row">
-                                            <td class="color-cell">Blue</td>
-                                            <td><input type="text" class="player-name" name="player_name[]"></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </form>
-                        </div>
-
-                        <!-- Category selection table -->
-                        <div class="category-container">
-                            <h2 class="category-title">Category Input Table</h2>
-                            <form id="categoryForm">
-                                <table class="category-table" id="categoryTable">
-                                    <thead>
-                                        <tr>
-                                            <th>Category</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <select class="dropdown" name='category[]'>
-                                                </select>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <select class="dropdown" name='category[]'>
-                                                </select>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <select class="dropdown" name='category[]'>
-                                                </select>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <select class="dropdown" name='category[]'>
-                                                </select>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </form>
-                        </div>
-                    </div>
-                    <!-- Play button -->
-                    <button class="play-button" type="submit" id="playButton">Let's Play!</button>
+                <!-- Category selection table -->
+                <div class="category-container">
+                    <h2 class="category-title">Category Input Table</h2>
+                    <form id="categoryForm">
+                        <table class="category-table" id="categoryTable">
+                            <thead>
+                                <tr>
+                                    <th>Category</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <select class="category-dropdown" name='category[]'>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <select class="category-dropdown" name='category[]'>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <select class="category-dropdown" name='category[]'>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <select class="category-dropdown" name='category[]'>
+                                        </select>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </form>
                 </div>
+            </div>
 
-                <!-- Container for Lambda character -->
-                <div id="lambda-container">
-                    <div class="lambda" id="lambda"></div>
-                    <div id="speech-bubble">
-                        <p id="bubble-text">Hi there! I'm Lambda, and I'm here to help you set up your game!</p>
-                        <ul>
-                            <li>Enter 1-4 players' names in the Player Input Table.</li>
-                            <li>Select four categories in the Category Input Table.</li>
-                            <li>Press the "Let's Play" button to start playing!</li>
-                        </ul>
-                        <p> Click the "Show/Hide Instructions" button at the top-left to view more instructions.</p>
-                    </div>
-                </div>
+            <!-- Play button -->
+            <button class="play-button" type="submit" id="playButton">Let's Play!</button>
+        </div>
+
+        <!-- Container for Lambda character -->
+        <div id="lambda-container">
+            <div class="lambda" id="lambda"></div>
+            <div id="speech-bubble">
+                <p id="bubble-text">Hi there! I'm Lambda, and I'm here to help you set up your game!</p>
+                <ul>
+                    <li>Enter 1-4 players' names in the Player Input Table.</li>
+                    <li>Select four categories in the Category Input Table.</li>
+                    <li>Press the "Let's Play" button to start playing!</li>
+                </ul>
+                <p> Click the "Show/Hide Instructions" button at the top-left to view more instructions.</p>
             </div>
         </div>
     </div>
-
-    <script src="{{ url_for('static', filename='js/classes/SetupUIHandler.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/setup_script.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/classes/Lambda.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/classes/MoveHandler.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/classes/Die.js') }}"></script>
 </body>
+<script src="{{ url_for('static', filename='js/classes/SetupUIHandler.js') }}"></script>
+<script src="{{ url_for('static', filename='js/setup_script.js') }}"></script>
+<script src="{{ url_for('static', filename='js/classes/Lambda.js') }}"></script>
 </html>

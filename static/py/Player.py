@@ -32,6 +32,10 @@ class Player:
         """Add color to colors_earned"""
         self.colors_earned.update([new_category])
 
+    def reset_colors_earned(self):
+        """Resets player's score"""
+        self.colors_earned = set()
+
     def __repr__(self):
         """Return a string representation of the Player object"""
         return str({"name": self.name, "token_color": self.token_color})
