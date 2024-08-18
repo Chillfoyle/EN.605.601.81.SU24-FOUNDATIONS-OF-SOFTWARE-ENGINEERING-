@@ -8,6 +8,7 @@
     --header-blue: #0c3973;
     --background-blue: #e0e3f0;
     --hover-blue: #016af4;
+    --die-color: #1c0c73;
 }
 
 .red { background-color: var(--game-red); }
@@ -452,19 +453,61 @@ body, html {
 
 /* Player Action Styles */
 
-/* TODO: Replace with animation. */
 .die {  /* The die */
+    position: relative;
     width: 80px;
     height: 80px;
-    background-color: white;
     border: 2px solid black;
+    border-radius: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 24px;
     margin-top: 0px;
     margin-bottom: 20px;
+    transform-style: preserve-3d;
+    transform: rotateX(0deg) rotateY(0deg);
+    transition: transform 0.6s ease;
+    background-color: var(--die-color);
 }
+
+.spin {
+    /* Add this class when you want to spin the die */
+    animation: spin 0.6s forwards;
+}
+
+@keyframes spin {
+    from {
+        transform: rotateY(0deg);
+    }
+    to {
+        transform: rotateY(360deg);
+    }
+}
+
+.face {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    background: var(--die-color);
+    border: 2px solid black;
+    border-radius: 10px;
+    font-size: 30px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    line-height: 100px;
+    font-weight: bold;
+    color: white;
+    justify-content: center;
+}
+
+.front  { transform: rotateY(  0deg) translateZ(50px); }
+.back   { transform: rotateY(180deg) translateZ(50px); }
+.left   { transform: rotateY(-90deg) translateZ(50px); }
+.right  { transform: rotateY( 90deg) translateZ(50px); }
+.top    { transform: rotateX( 90deg) translateZ(50px); }
+.bottom { transform: rotateX(-90deg) translateZ(50px); }
 
 .button {  /* Roll Die button, but also all other buttons */
     background-color: var(--game-red);
