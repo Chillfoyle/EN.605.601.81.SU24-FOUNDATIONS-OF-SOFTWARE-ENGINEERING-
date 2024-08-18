@@ -2,6 +2,7 @@ class GameUIController {
 
     constructor() {
     // Create new GameUIController object
+        console.log("UI initialized")
         this.moveHandler = new MoveHandler(this);
         this.triviaManager = new TriviaManager(this);
         this.lambda = new Lambda("lambda", "");
@@ -15,6 +16,8 @@ class GameUIController {
 
             // Wait for the slide-in animation to finish before showing the message
             this.lambda.addEventListener('animationend', function() {
+                // Display Lambda's message
+                console.log("starting");
                 self.lambda.changeMood("happy");
                 promptText.innerText = "Hi again! It's me, Lambda.\nLet's play Trivial Compute!";
 
@@ -40,34 +43,73 @@ class GameUIController {
                 });
             });
 
-            const exitButton = document.getElementById("exit-button");
-            const exitPopup = document.getElementById('exit-popup');
-            const confirmExitButton = document.getElementById('confirm-exit');
-            const cancelExitButton = document.getElementById('cancel-exit');
+        // Enable instructions toggle
 
-            // Show the popup when "Exit Game" is clicked
-            exitButton.addEventListener('click', function() {
-                exitPopup.style.display = 'flex';
-            });
+        // Instructions toggle button event listener
+        const instructionsContainer = document.querySelector('.instructions-container');
+        const toggleButton = document.getElementById('toggle-instructions');
+        toggleButton.addEventListener('click', () => {
+            instructionsContainer.classList.toggle('instructions-visible');
+        });
 
-            // Handle the "Yes" button click (exit the game)
-            confirmExitButton.addEventListener('click', function() {
-                // Logic to exit the game
-                window.location.href = '/'; // Redirect to an exit page or close the tab
-            });
+        // Event listener to load instructions text from instructions.html
+        document.getElementById('toggle-instructions').addEventListener('click', function() {
+            const instructionsDiv = document.getElementById('instructions');
+            if (!instructionsDiv.classList.contains('active')) {
+                fetch('/instructions')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.text();
+                })
+                .then(data => {
+                    instructionsDiv.innerHTML = data;
+                    instructionsDiv.classList.add('active');
+                })
+                .catch(error => {
+                    console.error('There has been a problem with your fetch operation:', error);
+                });
+            } else {
+                instructionsDiv.classList.remove('active');
+            }
+        });
+    }
 
-            // Handle the "No" button click (close the popup)
-            cancelExitButton.addEventListener('click', function() {
-                exitPopup.style.display = 'none';
-            });
-        }
+        // Enable exit game button
+        const exitButton = document.getElementById("exit-button");
+        const exitPopup = document.getElementById('exit-popup');
+        const confirmExitButton = document.getElementById('confirm-exit');
+        const cancelExitButton = document.getElementById('cancel-exit');
+
+        // Show the popup when "Exit Game" is clicked
+        exitButton.addEventListener('click', function() {
+            exitPopup.style.display = 'flex';
+        });
+
+        // Handle the "Yes" button click (exit the game)
+        confirmExitButton.addEventListener('click', function() {
+            // Logic to exit the game
+            window.location.href = '/'; // Redirect to an exit page or close the tab
+        });
+
+        // Handle the "No" button click (close the popup)
+        cancelExitButton.addEventListener('click', function() {
+            exitPopup.style.display = 'none';
+        });
     }
 
     // Initialization functions
 
     setUpEventListeners() {
     // How to handle button clicks
-        document.getElementById("rollDieButton").addEventListener('click', () => this.moveHandler.handleDieRoll());
+
+        // Die roll event listener
+        document.getElementById("rollDieButton").addEventListener('click', () => {
+            this.moveHandler.toggleDieEnabled(false);
+            this.moveHandler.handleDieRoll();
+        });
+
     }
 
     async initializeGameScreen() {
@@ -78,43 +120,29 @@ class GameUIController {
         this.displayPlayerNames();
         console.log("Adding category buttons to screen");
         this.createCategoryButtons();
-        console.log("Clearing score windows");
-        const scoreSquares = document.querySelectorAll(".score-square");
-        scoreSquares.forEach(square => {square.style.background = "white";});
         console.log("Showing current player name on screen");
+        const tokens = document.querySelectorAll(".token");
+        tokens.forEach(token => token.remove());
         this.players.forEach(player => {this.moveHandler.initializeToken(player)});
-        console.log("Tokens placed on start");
-        this.startPlayerTurn(true);
+        console.log("Tokens placed on start. Starting the game");
+        this.startPlayerTurn(true, prompt="first-turn");
     }
 
     displayPlayerNames() {
     // Display player names in list and in score windows
-        let playersList = document.getElementById('players-list');
-        playersList.innerHTML = '';
-        let playerNum = 1;
+       const playerTable = document.querySelector('#player-table tbody');
+       playerTable.innerHTML = '';
         this.players.forEach(player => {
-            console.log(`Adding ${player.name}`)
-            let listItem = document.createElement('li');
-            listItem.innerText = `${playerNum}. ${player.name} (${player.token_color})`;
-            playersList.appendChild(listItem);
-            playerNum++;
+            console.log(`Adding ${player.name}`);
+            const row = document.createElement("tr");
+            const playerNameCell = document.createElement("td");
+            row.id = `${player.token_color}-player-row`;
+            playerNameCell.textContent = `${player.name} (${player.token_color})`;
+            row.appendChild(playerNameCell);
+            playerTable.appendChild(row);
             document.getElementById(`${player.token_color}-player`).innerText = player.name;
         });
         console.log("Successfully displayed player names on screen");
-
-        /* TODO: For TARGET - Hide score windows that are not used*/
-
-        //let colorList = ["red", "yellow", "green", "blue"];
-        //let playerColors = [];
-        //this.players.forEach(player => {
-        //    document.getElementById(`${player.token_color}-player`).innerText = player.name;
-            //playerColors.push(player.token_color);
-        //});
-        //colorList = colorList.filter(item => !playerColors.includes(item));
-        //colorList.forEach(color => {
-        //    let hideWindow = document.getElementById("${color}-hide-window");
-        //    hideWindow.style.display = "block";
-        //});
     }
 
     async createCategoryButtons() {
@@ -126,7 +154,9 @@ class GameUIController {
             categoryCell.textContent = category[1];
         });
         const categoryButtons = document.querySelectorAll(".category-button");
+        console.log(categoryButtons);
         categoryButtons.forEach(category => {
+            console.log("disabling button");
             category.disabled = true;
         });
     }
@@ -163,7 +193,17 @@ class GameUIController {
         if (response.ok) {
             const data = await response.json();
             console.log("Successfully fetched question from GSM");
-            this.displayTriviaQuestion(data, color);
+            const categories = await this.fetchCategoryColors();
+            const categoryName = getCategoryNameByColor(categories, color);
+
+            function getCategoryNameByColor(categories, color) {
+                // Use the find method to search for the category name by its color
+                const category = categories.find(item => item[0] === color);
+                return category[1];
+            }
+
+            this.displayInGameMessage("category-hq-prompt", categoryName);
+            this.triviaManager.displayTriviaQuestion(data, color);
         } else {
             console.error("Failed to fetch question from server");
         }
@@ -171,6 +211,10 @@ class GameUIController {
 
     async fetchValidDestinations(dieValue) {
     // Get set of valid coordinates for player's next move
+        console.log("Fetching valid destinations");
+        console.log("Location: ", this.currentPlayer.location);
+        console.log("Die Value: ", dieValue);
+
         const response = await fetch('/get_valid_destinations', {
             method: "POST",
             headers: {
@@ -184,7 +228,7 @@ class GameUIController {
 
         if (response.ok) {
             const data = await response.json();
-            console.log("Successfully fetched question from GSM");
+            console.log("Successfully fetched valid moves from GSM");
             this.moveHandler.highlightMoveOptions(data);
             this.displayInGameMessage("select-dest-prompt");
         } else {
@@ -201,7 +245,6 @@ class GameUIController {
     }
 
     async fetchNextAction(nextLoc) {
-    // Get the game logic that should execute based on player's destination
         const response = await fetch('/get_next_action', {
             method: "POST",
             headers: {
@@ -219,7 +262,6 @@ class GameUIController {
     }
 
     async fetchTokenPath(currLocation, destLocation) {
-    // Get coordinates of each square from player's current location to destination
         console.log(`Fetching token path from ${currLocation} to ${destLocation}`);
 
         const response = await fetch('/get_token_path', {
@@ -240,10 +282,12 @@ class GameUIController {
     }
 
     getCurrentPlayerLocation(start) {
-    // Get player's token location
+        console.log("Running getCurrentPlayerLocation. Start: ", start);
         if (start) {
+            console.log("Returning starting location");
             return [4,4];
         } else {
+            console.log("Returning stored location");
             return this.currentPlayer.location;
         }
     }
@@ -258,19 +302,21 @@ class GameUIController {
 
         const currRow = this.currentPlayer.location[0];
         const currCol = this.currentPlayer.location[1];
+        console.log("Saved currRow and currCol: ", this.currentPlayer.location);
 
         this.currentPlayer.location = [newRow, newCol];  // Update internally
+        console.log("Updated current player location: ", this.currentPlayer.location);
+
         const response = await fetch('/update_current_player_location', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(this.currentPlayer.location)
+            body: JSON.stringify({nextLocation: [newRow, newCol]})
         });
 
         if (response.ok) {
             const data = await response.json();
-            this.executeNextAction(data.next_action, data.color);
         }
     }
 
@@ -285,6 +331,7 @@ class GameUIController {
         });
         if (response.ok) {
             const data = await response.json();
+            console.log("Data from updating current player: ", data);
             this.setCurrentPlayerInfo(data.current_player);
             console.log("Current player updated");
         }
@@ -321,6 +368,8 @@ class GameUIController {
             .then(data => {
                 // Update internal variables
                 this.setCurrentPlayerInfo(data);
+                console.log(`Current player data is set: ${data.name}`);
+                console.log("Current player's location on turn start: ", this.currentPlayer.location);
 
                 // Reset all rows in Turn Order table to white and highlight new current player
                 const rows = document.querySelectorAll('#player-table tbody tr');
@@ -329,9 +378,8 @@ class GameUIController {
                 });
                 document.getElementById(`${data.token_color}-player-row`).style.background = "#8fe1ff";
 
-                // Update screen
-                document.getElementById('current-player').innerText = data.name;
                 this.moveHandler.setCurrentPlayerTokenId(data.token_color);
+                this.moveHandler.toggleDieEnabled(true);
                 if (showPrompt) {  // Prompt user to roll die
                     this.displayInGameMessage(prompt);
                 }
@@ -341,7 +389,6 @@ class GameUIController {
     }
 
     setCurrentPlayerInfo(data) {
-    // Save player's name, token location, token color, and whether or not they can win
         this.currentPlayer = {
             "name": data.name,
             "location": data.token_location,
@@ -350,8 +397,7 @@ class GameUIController {
         }
     }
 
-    executeNextAction(next_action, color, isCenter = false) {
-    // Execute the game logic based on the player's location
+    executeNextAction(next_action, color) {
         console.log("Next action is: ", next_action, color)
         switch(next_action) {
             case "roll again":
@@ -363,111 +409,94 @@ class GameUIController {
                 this.startPlayerTurn(true);
                 break;
             case "ask question from category":
-                if(!isCenter) {
-                    this.currentPlayer.canWin = false;
-                    console.log(`Player landed on ${color} Category HQ`);
-                }
+                this.currentPlayer.canWin = false;
+                console.log(`Player landed on ${color} Category HQ`);
                 const question = this.fetchQuestion(color);
                 sessionStorage.setItem('currentAnswer', question.answer);
-
-                // Display question
-                document.getElementById('question-text').innerText = question.question;
-                document.getElementById('question-window').style.border = `4px solid ${color}`;
+                this.triviaManager.displayTriviaQuestion(question, color);
                 break;
             case "ask question center":
                 console.log("Player landed on center square")
                 this.displayInGameMessage("choose-category-prompt");
                 if (this.currentPlayer.hasAllColors) {
                     this.currentPlayer.canWin = true;
-                    console.log("current player can win");
                 }
                 this.triviaManager.displayCategoryChoices();
                 break;
             case "ask winning question":
-                if (this.currentPlayer.hasAllColors) {
-                    this.currentPlayer.canWin = true;
-                    console.log("current player can win");
-                }
                 console.log("Asking the winning question...")
-                console.log(this.currentPlayer.canWin);
                 this.displayInGameMessage("opponents-choose-category-prompt");
-                this.displayCategoryChoices();
+                this.triviaManager.displayCategoryChoices();
                 break;
         }
     }
 
-    displayInGameMessage(messageType) {
+    displayInGameMessage(messageType, category=null) {
         // Display messages on the screen
         let msg = "";
-        const playerColor = capitalizeFirstLetter(this.currentPlayer.color);
         switch (messageType) {
             case "first-turn":
                 this.lambda.changeMood("neutral");
-                msg = `${this.currentPlayer.name} (${playerColor}), you're first.\nClick the "Roll Die" button to roll the the die!`;
+                msg = `${this.currentPlayer.name}, you're first.\nClick the "Roll Die" button to roll the the die!`;
                 break;
             case "roll-die-prompt":
                 this.lambda.changeMood("neutral");
-                msg = `${this.currentPlayer.name} (${playerColor}), roll the the die!`;
+                msg = `${this.currentPlayer.name}, roll the the die!`;
                 break;
             case "roll-again-prompt":
                 this.lambda.changeMood("happy");
-                msg = `${this.currentPlayer.name} (${playerColor}), roll the die again!`;
+                msg = `${this.currentPlayer.name}, roll the die again!`;
                 break;
             case "select-dest-prompt":
                 this.lambda.changeMood("neutral");
-                msg = `${this.currentPlayer.name} (${playerColor}), where will you move your token? Click a highlighted square.`;
+                msg = `${this.currentPlayer.name}, where will you move your token? Click a highlighted square.`;
                 break;
             case "correct-answer":
+                this.lambda.changeMood("happy");
                 let color = sessionStorage.getItem('currentColor');
                 this.checkWin
-                msg = `${this.currentPlayer.name} (${playerColor}) earned ${color}! Roll the die again.`;
+                msg = `${this.currentPlayer.name} earned ${color}! Roll the die again.`;
                 break;
             case "wrong-answer":
+                console.log("Printing wrong answer message");
                 this.lambda.changeMood("sad");
-                msg = `Sorry, wrong answer! ${this.currentPlayer.name} (${playerColor}), it's your turn now. Roll the die!`;
+                msg = `Sorry, wrong answer! ${this.currentPlayer.name}, it's your turn now. Roll the die!`;
                 break;
             case "choose-category-prompt":
                 this.lambda.changeMood("neutral");
-                msg = `${this.currentPlayer.name} (${playerColor}), select a category.`;
+                msg = `${this.currentPlayer.name}, select a category.`;
                 break;
             case "opponents-choose-category-prompt":
                 this.lambda.changeMood("neutral");
-                msg = `${this.currentPlayer.name} (${playerColor}), answer correctly and you win. Opponents, select a category.`;
+                msg = `${this.currentPlayer.name}, answer correctly and you win. Opponents, select a category.`;
                 break;
             case "win-dialog":
+                console.log("Printing win message");
                 this.lambda.changeMood("happy");
-                msg = `Game over! The winner is ${this.currentPlayer.name} (${playerColor}). Click "Play Again" to restart or "Exit Game" at the top to leave.`;
+                msg = `Game over! The winner is ${this.currentPlayer.name}. Click "Play Again" to restart or "Exit Game" at the top to leave.`;
                 const okButton = document.getElementById('ok-button');
                 okButton.style.display = "block";
                 okButton.innerText = "Play Again";
-                okButton.addEventListener('click', () => {
-                    console.log("Player chose to reset game");
+                okButton.addEventListener('click', function () {
                     this.resetGame();
                 });
-                break;
-            case "category-hq-prompt":
-                this.lambda.changeMood("happy");
-                msg = `${this.currentPlayer.name} (${playerColor}), here is your ${category} question!<br>Answer the question, then click the "Show Answer" button.`;
-                break;
-            case "verify-answer-prompt":
-                this.lambda.changeMood("neutral");
-                msg =  `Opponents, is ${this.currentPlayer.name} (${playerColor}) correct? Click the 'Correct' or 'Not Correct' button.`
                 break;
             case "":
                 msg = "";
                 break;
+            case "category-hq-prompt":
+                this.lambda.changeMood("happy");
+                msg = `${this.currentPlayer.name}, here is your ${category} question!<br>Answer the question, then click the "Show Answer" button.`;
+                break;
+            case "verify-answer-prompt":
+                this.lambda.changeMood("neutral");
+                msg =  `Opponents, is ${this.currentPlayer.name} correct? Click the 'Correct' or 'Not Correct' button.`
+                break;
         }
-
         document.getElementById("player-prompt-text").innerHTML = msg;
-
-        function capitalizeFirstLetter(string) {
-            return string.charAt(0).toUpperCase() + string.slice(1);
-        }
     }
 
     async resetGame() {
-    // Resets players scores and token locations
-         console.log("Resetting...");
          const response = await fetch('/reset_game', {
             method: "POST",
             headers: {
@@ -477,7 +506,7 @@ class GameUIController {
         });
 
         if (response.ok) {
-            this.initializeGameScreen();
+            this.initializeGameScreen()
         }
     }
 }

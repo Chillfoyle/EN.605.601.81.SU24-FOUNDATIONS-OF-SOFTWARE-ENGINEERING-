@@ -1,13 +1,18 @@
 class SetupUIHandler {
 
     constructor() {
-    // Initialize handler for setup screen
         this.playerList = []
         this.categoryList = []
+
+        this.playerForm = document.getElementById("playerForm");
+        this.categoryForm = document.getElementById("categoryForm");
+        this.playButton = document.getElementById("playButton");
+        this.lambda = new Lambda("lambda", "speech-bubble");
+        console.log(this.lambda);
     }
 
     initializeSetupScreen() {
-    // Create setup screen
+        console.log("initialize");
         const categorySelects = document.querySelectorAll(".category-dropdown");
 
         fetch("/get_categories")  // Get categories from the database for dropdowns
@@ -62,7 +67,7 @@ class SetupUIHandler {
                     select.classList.remove('invalid');
                 }
             });
-
+            console.log(this.lambda);
             if (!playerInputsAreValid && !allCategoryFieldsValid) {
                 this.lambda.reactToAllInvalidInputs.bind(this.lambda)();
             } else if (!playerInputsAreValid) {
@@ -80,8 +85,8 @@ class SetupUIHandler {
 
     populateDropdown(options) {
     // Put categories from the database in each dropdown
-
-        const dropdowns = document.querySelectorAll(".dropdown");
+        console.log("displaying dropdown");
+        const dropdowns = document.querySelectorAll(".category-dropdown");
 
         dropdowns.forEach(dropdown => {
             dropdown.innerHTML = "";
@@ -96,7 +101,6 @@ class SetupUIHandler {
     }
 
     addBlankOption(selectElement) {
-    // Add blank option to drop-downs
         const blankOption = document.createElement('option');
         blankOption.value = "";
         blankOption.textContent = "";
@@ -106,7 +110,7 @@ class SetupUIHandler {
     }
 
     updateDropdownOptions(selects) {
-    // Populate drop-downs from database
+
         console.log("updateDropdownOptions called for:", selects);
 
         const selectedValues = Array.from(selects)
@@ -130,9 +134,11 @@ class SetupUIHandler {
     }
 
     submitInputs() {
-    // Saves player inputs and starts the game
+        // Saves player inputs and starts the game
+
         console.log("Saving player inputs");
         this.savePlayerInputs();
+        console.log("Saving category inputs");
         this.saveCategoryInputs();
 
         fetch("/start_game", {
@@ -154,14 +160,17 @@ class SetupUIHandler {
 
     savePlayerInputs() {
     // Stores player inputs
+
         try {  // Use player names and tokens to initialize Player objects
             const playerInputs = document.querySelectorAll("#playerTable tbody tr");
-            console.log("got player inputs");
             console.log(playerInputs);
             playerInputs.forEach(row => {
                 const name = row.querySelector("input[name='player_name[]']").value.trim();
                 const colorCellText = row.querySelector(".color-cell").textContent.trim();
+                console.log(colorCellText);
                 const tokenColor = colorCellText.toLowerCase();
+                console.log(name);
+                console.log(tokenColor);
                 if (name && tokenColor) {  // Initialize Player object
                     this.playerList.push({name, tokenColor});
                 }
@@ -184,6 +193,8 @@ class SetupUIHandler {
                 if (catId) {  // Initialize GameCategory objects
                     this.categoryList.push(catName);
                 }
+                console.log("categories");
+                console.log(this.categoryList);
             });
         } catch (error) {
             console.error("Error occurred with category inputs:", error);

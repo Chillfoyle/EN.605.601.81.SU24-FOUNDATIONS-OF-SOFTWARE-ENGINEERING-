@@ -1,18 +1,12 @@
 :root {
-    --game-green: #04AE3A;
+    --game-green: #04ae3a;
     --game-yellow: #FFE51F;
     --game-red: #E11919;
     --game-blue: #004BAD;
-    --header-blue: #0C3973;
-    --background-blue: #E0E3F0;
-    --hover-blue: #016AF4;
+    --header-blue: #0c3973;
+    --background-blue: #e0e3f0;
+    --hover-blue: #016af4;
     --sidebar-width: 300px;
-    --header-height: 60px;
-    --font-family: Arial, sans-serif;
-    --font-size-medium: 20px;
-    --font-size-large: 24px;
-    --border-radius: 5px;
-    --box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 body {
@@ -21,44 +15,17 @@ body {
     width: 100%;
     height: 100%;
     overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    font-family: Arial, sans-serif;
     background-color: white;
-    font-family: var(--font-family);
 }
 
-/* Scale Styles: Helps objects resize so the layout doesn't get weird */
-
-.scale-container {
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    position: relative;
-}
-
-.game-wrapper {
-    aspect-ratio: 1366 / 600;
-    width: 100%;
-    height: 100%;
-    transform-origin: top left;
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-
-/* Header Styles: Where the page title and Help/Main Menu buttons go*/
+/* Header Styles: Toggle instructions button, page title, Main Menu button */
 
 .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 100%;
     height: 60px;
-    position: fixed;
     background-color: var(--header-blue);
     border-bottom: 2px solid black;
 }
@@ -66,7 +33,7 @@ body {
 .header-button-container {
     display: flex;
     gap: 10px;
-    height: 100%;
+    height: 100%
 }
 
 .header-button {
@@ -75,8 +42,9 @@ body {
     justify-content: center;
     padding: 0px 10px;
     font-weight: bold;
-    font-size: var(--font-size-medium);
+    font-size: 20px;
     height: 60px;
+    justify-content: center;
     cursor: pointer;
     text-decoration: none;
     background-color: white;
@@ -87,13 +55,13 @@ body {
     transition: background-color 0.3s;
 }
 
+.toggle-button {
+    width: var(--sidebar-width);
+}
+
 .header-button:hover {
     background-color: var(--hover-blue);
     color: white;
-}
-
-.toggle-button {
-    width: var(--sidebar-width);
 }
 
 .title {
@@ -103,39 +71,6 @@ body {
     text-decoration: none;
 }
 
-.header-button-container {
-    display: flex;
-    gap: 10px;
-    height: 100%
-}
-
-.header-button {
-    padding: 5px 10px;
-    font-weight: bold;
-    font-size: 20px;
-    cursor: pointer;
-    border: none;
-    padding: 20px;
-    text-decoration: none;
-    background-color: #E1193E;
-    color: white;
-}
-
-.play-button {
-    background-color: #008CBA;
-    color: white;
-    font-weight: bold;
-    text-decoration: none;
-    border: 1px solid black;
-    border-radius: 5px;
-    padding: 10px;
-    cursor: pointer;
-    font-size: 24px;
-    width: 150px;
-    align-items: center;
-    text-align: center;
-}
-
 /* Main Content Styles: Tables to input player info and choose categories */
 
 .main-container {
@@ -143,13 +78,6 @@ body {
     flex-direction: row;
     justify-content: space-between;
     align-items: flex-start;
-    width: 100%; /* Adjust based on the width of the lambda container */
-    height: calc(100vh - 60px);
-    margin-left: auto; /* Center align the content */
-    margin-top: 60px;
-    margin-right: auto;
-    position: relative;
-    max-height: 100vh;
 }
 
 /* Sidebar: For instructions*/
@@ -204,49 +132,31 @@ body {
     display: flex;
     flex-direction: column;
     width: 80%;
-    position: relative;
-    height: 100%;
-    margin-top: 0px;
     align-items: center;
-    justify-content: flex-start;
     gap: 40px;
-    bottom: 0;
-    margin-bottom: 0;
-    padding-right: 0;
+    padding: 20px;
     flex: 1;
-    box-sizing: border-box;
 }
 
 .table-container {
     display: flex;
     flex-direction: row;
-    height: 80%;
-    align-items: center;
-    justify-content: space-between;
-    position: relative;
-    width: 100%;
-    margin: 0;
-    padding: 0;
+    align-items: left;
+    flex: 1;
+    margin-left: 10px;
+    margin-top: 10px;
     gap: 10px;
-    box-sizing: border-box;
 }
 
 .player-container, .category-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-}
-
-.player-container {
-    width: 60%
-}
-
-.category-container {
-    width: 40%;
+    width: 50%;
 }
 
 .player-title, .category-title {
-    font-size: var(--font-size-large);
+    font-size: 24px;
     text-align: center;
     font-weight: bold;
     margin-bottom: 10px;
@@ -262,40 +172,63 @@ body {
     border: 1px solid black;
     padding: 8px;
     text-align: center;
-    font-size: var(--font-size-medium);;
+    font-size: 20px;
 }
 
 .category-table td {
-    background-color: #8792C5;
+    background-color: #8792c5;
 }
 
 .category-table th, .player-table th {
     font-weight: bold;
-    background-color: #008CBA;
+    background-color: var(--header-blue);
     color: white;
+}
+
+/* Player Table Row Styles */
+
+.color-cell {
+    width: 150px;
     text-align: center;
+    font-weight: bold;
+}
+
+.red-row {
+    background-color: var(--game-red) !important;
+}
+
+.yellow-row {
+    background-color: var(--game-yellow) !important;
+}
+
+.green-row {
+    background-color: var(--game-green) !important;
+}
+
+.blue-row {
+    background-color: var(--game-blue) !important;
 }
 
 /* Input Field Styles: Dropdown and text field*/
 
-.dropdown {
+.category-dropdown {
     width: 200px;
     padding: 8px;
-    font-size: var(--font-size-medium);
-    border: 1px solid #CCC;
-    border-radius: var(--border-radius);
+    font-size: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }
 
 input[type="text"], select {
-    font-size: var(--font-size-medium);
+    font-size: 20px;
     padding: 8px;
     width: 100%;
     box-sizing: border-box;
 }
 
 .invalid {
-    background-color: #F8D7DA;
-    border-color: #F5C6CB;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
 }
 
 /* Play Button Styles */
@@ -306,66 +239,58 @@ input[type="text"], select {
     font-weight: bold;
     text-decoration: none;
     border: 1px solid black;
-    border-radius: var(--border-radius);
+    border-radius: 5px;
     padding: 10px;
     cursor: pointer;
-    font-size: var(--font-size-large);
+    font-size: 24px;
     width: 150px;
+    align-items: center;
     text-align: center;
     transition: all 0.3s ease;
 }
 
 .play-button:hover {
     background-color: var(--hover-blue);
-    box-shadow: var(--box-shadow);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     transform: scale(1.1);
 }
 
 /* Lambda Character Styles */
 
 #lambda-container {
-    width: 20%;
-    height: 100%;
+    height: 100vh;
+    width: 400px;
     position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: center;
-    bottom: 0;
-    right: 0;
-    z-index: 0;
-    gap: 10px;
+    overflow: hidden;
 }
 
 .lambda {
     background-image: url('../images/lambda-happy.png');
-    background-size: contain;
-    background-repeat: no-repeat;
-    width: 100% !important;
-    height: auto;
-    max-width: 200px;
-    max-height: 200px;
-    margin-bottom: 0;
+    background-size: cover;
+    margin: 0 auto;
+    width: 200px;
+    height: 200px;
     position: absolute;
-    bottom: 0 !important;
-    animation: slideIn 1s ease-out forwards;
-    z-index: 4;
+    right: 20%;
+    bottom: 10%;
+    animation: slideIn 1s ease-out;
+    opacity: 1;
 }
 
 #speech-bubble {
     position: absolute;
-    bottom: 40%;
-    right: 1%;
+    right: 10%;
+    bottom: 45%;
     background: #fff;
     border: 2px solid black;
     padding: 5px;
-    border-radius: var(--border-radius);
+    border-radius: 5px;
     z-index: 2;
-    width: 100%;
+    width: 300px;
     font-size: 17px;
     text-align: center;
-    box-shadow: var(--box-shadow);
-    animation: slideIn 1s ease-out forwards;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    animation: slideIn 1s ease-out;
 }
 
 #speech-bubble ul {
@@ -391,12 +316,14 @@ input[type="text"], select {
     z-index: -1;
 }
 
+/* Large Circle */
 .circle-large {
     width: 400px;
     height: 400px;
     background-color: var(--game-red);
 }
 
+/* Medium Circle */
 .circle-medium {
     width: 250px;
     height: 250px;
@@ -410,9 +337,10 @@ input[type="text"], select {
     background-color: var(--game-blue);
 }
 
-/* Animation Styles */
+/* Animations */
 
-@keyframes popIn {  /* For input tables */
+/* Define the keyframes for the table bounce and grow effect */
+@keyframes popIn {
     0% {
         transform: scale(0.5);
         opacity: 0;
@@ -428,28 +356,42 @@ input[type="text"], select {
     }
 }
 
+/* Apply the animation to the table */
 table {
     animation: popIn 0.8s ease-out;
 }
 
-@keyframes slideIn {  /* For lambda and speech bubble */
+/* Keyframe animations and transition effects for Lambda */
+@keyframes slideIn {
     0% {
-        transform: translateX(100vw);
-        opacity: 0;
+        transform: translateX(150vw); /* Start off-screen to the right */
+        opacity: 0; /* Ensure it's invisible initially */
     }
     100% {
-        transform: translateX(0);
-        opacity: 1;
+        transform: translateX(0); /* End at the final position */
+        opacity: 1; /* Ensure it’s fully visible */
     }
 }
 
-@keyframes slideOut {  /* For lambda and speech bubble */
+/* Keyframe animations and transition effects */
+@keyframes slideOut {
     0% {
-        transform: translateX(0);
-        opacity: 1;
+        transform: translateX(0); /* Start off-screen to the right */
+        opacity: 1; /* Ensure it's invisible initially */
     }
     100% {
-        transform: translateX(150vw);
+        transform: translateX(150vw); /* End at the final position */
+        opacity: 0; /* Ensure it’s fully visible */
+    }
+}
+
+/* For speech bubble */
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
         opacity: 0;
     }
 }
