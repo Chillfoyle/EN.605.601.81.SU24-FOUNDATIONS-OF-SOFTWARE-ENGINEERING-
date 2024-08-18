@@ -5,16 +5,15 @@ class GameUIController {
         console.log("UI initialized")
         this.moveHandler = new MoveHandler(this);
         this.triviaManager = new TriviaManager(this);
-        console.log(document.getElementById("lambda"));
         this.lambda = new Lambda("lambda", "");
-        console.log(this.lambda);
+
         const self = this;
         this.clickCount = 0;
 
         window.onload = function() {
             const promptText = document.getElementById('player-prompt-text');
             const okButton = document.getElementById('ok-button');
-            console.log("loaded");
+
             // Wait for the slide-in animation to finish before showing the message
             this.lambda.addEventListener('animationend', function() {
                 // Display Lambda's message
@@ -44,36 +43,7 @@ class GameUIController {
                 });
             });
 
-            const exitButton = document.getElementById("exit-button");
-        const exitPopup = document.getElementById('exit-popup');
-        const confirmExitButton = document.getElementById('confirm-exit');
-        const cancelExitButton = document.getElementById('cancel-exit');
-
-        // Show the popup when "Exit Game" is clicked
-        exitButton.addEventListener('click', function() {
-            exitPopup.style.display = 'flex';
-        });
-
-        // Handle the "Yes" button click (exit the game)
-        confirmExitButton.addEventListener('click', function() {
-            // Logic to exit the game
-            window.location.href = '/'; // Redirect to an exit page or close the tab
-        });
-
-        // Handle the "No" button click (close the popup)
-        cancelExitButton.addEventListener('click', function() {
-            exitPopup.style.display = 'none';
-        });
-        }
-    }
-
-    // Initialization functions
-
-    setUpEventListeners() {
-    // How to handle button clicks
-
-        // Die roll event listener
-        document.getElementById("rollDieButton").addEventListener('click', () => this.moveHandler.handleDieRoll());
+        // Enable instructions toggle
 
         // Instructions toggle button event listener
         const instructionsContainer = document.querySelector('.instructions-container');
@@ -106,6 +76,42 @@ class GameUIController {
         });
     }
 
+        // Enable exit game button
+        const exitButton = document.getElementById("exit-button");
+        const exitPopup = document.getElementById('exit-popup');
+        const confirmExitButton = document.getElementById('confirm-exit');
+        const cancelExitButton = document.getElementById('cancel-exit');
+
+        // Show the popup when "Exit Game" is clicked
+        exitButton.addEventListener('click', function() {
+            exitPopup.style.display = 'flex';
+        });
+
+        // Handle the "Yes" button click (exit the game)
+        confirmExitButton.addEventListener('click', function() {
+            // Logic to exit the game
+            window.location.href = '/'; // Redirect to an exit page or close the tab
+        });
+
+        // Handle the "No" button click (close the popup)
+        cancelExitButton.addEventListener('click', function() {
+            exitPopup.style.display = 'none';
+        });
+    }
+
+    // Initialization functions
+
+    setUpEventListeners() {
+    // How to handle button clicks
+
+        // Die roll event listener
+        document.getElementById("rollDieButton").addEventListener('click', () => {
+            this.moveHandler.toggleDieEnabled(false);
+            this.moveHandler.handleDieRoll();
+        });
+
+    }
+
     async initializeGameScreen() {
     // Set up the game screen
         console.log("Fetching player information from GSM");
@@ -120,7 +126,6 @@ class GameUIController {
         this.players.forEach(player => {this.moveHandler.initializeToken(player)});
         console.log("Tokens placed on start. Starting the game");
         this.startPlayerTurn(true, prompt="first-turn");
-
     }
 
     displayPlayerNames() {
@@ -374,6 +379,7 @@ class GameUIController {
                 document.getElementById(`${data.token_color}-player-row`).style.background = "#8fe1ff";
 
                 this.moveHandler.setCurrentPlayerTokenId(data.token_color);
+                this.moveHandler.toggleDieEnabled(true);
                 if (showPrompt) {  // Prompt user to roll die
                     this.displayInGameMessage(prompt);
                 }

@@ -6,8 +6,13 @@ class MoveHandler {
     // Create MoveHandler class
         this.gameUIController = gameUIController;
         this.die = new Die();
+        this.toggleDieEnabled(false);
         this.squares = document.querySelectorAll(".game-board .square, .square-empty");
         this.tokens = [];
+    }
+
+    toggleDieEnabled(enabled) {
+        document.getElementById("rollDieButton").disabled = (!enabled)
     }
 
     setCurrentPlayerTokenId(token_color) {

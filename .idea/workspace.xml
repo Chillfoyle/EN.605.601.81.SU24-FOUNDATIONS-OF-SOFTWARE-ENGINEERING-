@@ -6,6 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="580d08a7-5876-40d9-a66b-c154442bd569" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/js/classes/GameUIController.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/classes/GameUIController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/js/classes/MoveHandler.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/classes/MoveHandler.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,16 +36,16 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;0708-target-increment-andrea&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Andre/Documents/GitHub&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "DefaultHtmlFileTemplate": "HTML File",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "17-08-target-increment-andrea-fix-merge-issues",
+    "last_opened_file_path": "C:/Users/Andre/Documents/GitHub"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Andre\Documents\GitHub\EN.605.601.81.SU24-FOUNDATIONS-OF-SOFTWARE-ENGINEERING-\static\css" />
