@@ -137,6 +137,7 @@ body, html {
     margin-left: 20px;
     margin-top: 20px;
     box-sizing: border-box;
+    position: relative;
 }
 
 .square {  /* Game board square */
@@ -161,36 +162,37 @@ body, html {
 /* Score Window Styles */
 
 .window {
-    position: absolute;
-    width: 10%;
-    height: 24%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    position: absolute;
+    width: 27%;
+    height: 27%;
+    border: 5px solid; /* General border; color applied per ID */
 }
 
 #red-window {
-    top: 22%;
-    left: 6%;
+    top: 12.5%;
+    left: 12.5%;
     border: 5px solid var(--game-red);
 }
 
 #yellow-window {
-    top: 22%;
-    left: 22.5%;
+    top: 12.5%;
+    right: 12.5%;
     border: 5px solid var(--game-yellow);
 }
 
 #green-window {
-    bottom: 15%;
-    left: 6%;
+    bottom: 12.5%;
+    left: 12.5%;
     border: 5px solid var(--game-green);
 }
 
 #blue-window {
-    bottom: 15%;
-    left: 22.5%;
+    bottom: 12.5%;
+    right: 12.5%;
     border: 5px solid var(--game-blue);
 }
 
