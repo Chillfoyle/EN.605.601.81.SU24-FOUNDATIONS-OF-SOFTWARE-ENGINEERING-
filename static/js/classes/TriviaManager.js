@@ -38,6 +38,7 @@ class TriviaManager {
             } else {
                 this.gameUIController.displayInGameMessage("correct-answer");
                 this.gameUIController.updatePlayerScore();
+                this.gameUIController.startPlayerTurn(false);
             }
             // Remove buttons and clear answer
 

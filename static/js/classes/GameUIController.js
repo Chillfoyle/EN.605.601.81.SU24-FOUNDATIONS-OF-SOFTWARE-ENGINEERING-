@@ -454,7 +454,6 @@ class GameUIController {
             case "correct-answer":
                 this.lambda.changeMood("happy");
                 let color = sessionStorage.getItem('currentColor');
-                this.checkWin
                 msg = `${this.currentPlayer.name} earned ${color}! Roll the die again.`;
                 break;
             case "wrong-answer":
