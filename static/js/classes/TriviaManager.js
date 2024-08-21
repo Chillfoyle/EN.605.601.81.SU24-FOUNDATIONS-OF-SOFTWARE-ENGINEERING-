@@ -31,6 +31,7 @@ class TriviaManager {
         const correctButton = document.getElementById("correct-button");
         correctButton.addEventListener('click', () => {
             console.log("clicked correct button");
+            console.log(`${this.gameUIController.currentPlayer.hasAllColors}`)
             console.log(`Player can win: ${this.gameUIController.currentPlayer.canWin}`);
             if (this.gameUIController.currentPlayer.canWin) {
                 console.log("Player wins");
@@ -153,7 +154,11 @@ clearCardContent() {
     handleCategoryButtonClick(event) {
         const button = event.target;
         let buttonColor = button.id.split('-')[0];
-        this.gameUIController.executeNextAction("ask question from category", buttonColor);
+        if (this.gameUIController.currentPlayer.canWin) {
+            this.gameUIController.executeNextAction("ask winning question from category", buttonColor);
+        } else {
+            this.gameUIController.executeNextAction("ask question from category", buttonColor);
+        }
         const buttons = document.querySelectorAll('.category-button');
         buttons.forEach(button => {button.disabled = true;});
     }

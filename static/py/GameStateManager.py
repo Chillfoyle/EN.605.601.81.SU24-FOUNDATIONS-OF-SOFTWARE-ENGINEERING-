@@ -106,8 +106,12 @@ class GameStateManager:
                 print(f"Category color: {self.category_colors[new_square]}")
                 next_action = "ask question from category"
             elif new_square == -1:  # Center square
+                print("On center square")
+                print(f"Player has all categories? {self.get_all_categories_earned()}")
+                print(f"{self.player_list[self.current_player_idx].get_colors_earned()}")
                 if self.get_all_categories_earned():
                     next_action = "ask winning question"
+                    print("Sending message to ask winning question")
                 else:
                     next_action = "ask question center"
 

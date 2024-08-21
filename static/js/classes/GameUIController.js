@@ -350,10 +350,9 @@ class GameUIController {
         if (response.ok) {
             const data = await response.json();
             this.currentPlayer.hasAllColors = data.all_colors;
-            console.log(`Player can win: ${this.currentPlayer.hasAllColors}`);
+            console.log(`Player now has all colors: ${this.currentPlayer.hasAllColors}`);
 
             // Fill the square in the player's score window with the category color
-            console.log(`${this.currentPlayer.color}-${newCategoryColor}-score-square`);
             const fillSquare = document.getElementById(`${this.currentPlayer.color}-${newCategoryColor}-score-square`);
             fillSquare.style.background = newCategoryColor;
         }
@@ -408,6 +407,11 @@ class GameUIController {
                 console.log("Next player's turn");
                 this.startPlayerTurn(true);
                 break;
+            case "ask winning question from category":
+                const winningQuestion = this.fetchQuestion(color);
+                sessionStorage.setItem('currentAnswer', winningQuestion.answer);
+                this.triviaManager.displayTriviaQuestion(winningQuestion, color);
+                break;
             case "ask question from category":
                 this.currentPlayer.canWin = false;
                 console.log(`Player landed on ${color} Category HQ`);
@@ -419,14 +423,17 @@ class GameUIController {
                 console.log("Player landed on center square")
                 this.displayInGameMessage("choose-category-prompt");
                 if (this.currentPlayer.hasAllColors) {
+                    console.log("Setting player canWin = true");
                     this.currentPlayer.canWin = true;
                 }
                 this.triviaManager.displayCategoryChoices();
                 break;
             case "ask winning question":
                 console.log("Asking the winning question...")
+                this.currentPlayer.canWin = true;
                 this.displayInGameMessage("opponents-choose-category-prompt");
                 this.triviaManager.displayCategoryChoices();
+                console.
                 break;
         }
     }
