@@ -123,10 +123,11 @@ class GameStateManager:
         current_player.update_colors_earned(new_color)
         print(f"Updated Score: {current_player.get_colors_earned()}")
 
-    def reset_player_colors_earned(self):
-        """Reset score for all players"""
+    def reset_game(self):
+        """Reset score and start location for all players"""
         for player in self.player_list:
             player.reset_colors_earned()
+            player.set_token_location((4, 4))
             print(f"Updated Score: {player.get_colors_earned()}")
 
     def get_question_from_cat(self, color):

@@ -7,8 +7,8 @@
     <list default="true" id="580d08a7-5876-40d9-a66b-c154442bd569" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/js/classes/GameUIController.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/classes/GameUIController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/js/classes/MoveHandler.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/classes/MoveHandler.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/js/classes/Die.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/classes/Die.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/py/GameStateManager.py" beforeDir="false" afterPath="$PROJECT_DIR$/static/py/GameStateManager.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
