@@ -142,6 +142,8 @@ class GameUIController {
             playerTable.appendChild(row);
             document.getElementById(`${player.token_color}-player`).innerText = player.name;
         });
+        const scoreSquares = document.querySelectorAll(".score-square");
+        scoreSquares.forEach(square => {square.style.background = "white";})
         console.log("Successfully displayed player names on screen");
     }
 
@@ -483,7 +485,7 @@ class GameUIController {
                 const okButton = document.getElementById('ok-button');
                 okButton.style.display = "block";
                 okButton.innerText = "Play Again";
-                okButton.addEventListener('click', function () {
+                okButton.addEventListener('click', () => {
                     this.resetGame();
                 });
                 break;
@@ -512,6 +514,7 @@ class GameUIController {
         });
 
         if (response.ok) {
+            console.log("Resetting game");
             this.initializeGameScreen()
         }
     }

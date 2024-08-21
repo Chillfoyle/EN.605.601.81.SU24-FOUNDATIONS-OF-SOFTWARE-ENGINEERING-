@@ -38,7 +38,7 @@ class MoveHandler {
 
     highlightMoveOptions(validDestinations) {
     // Put stars on all places player can move to
-
+        console.log(validDestinations);
         validDestinations.forEach(validLoc => {
             const star = document.createElement("div");
             star.classList.add("star");

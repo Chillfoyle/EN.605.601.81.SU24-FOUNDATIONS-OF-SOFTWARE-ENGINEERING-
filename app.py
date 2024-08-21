@@ -86,6 +86,7 @@ def setup_screen():
 
 @app.route('/get_players', methods=['GET'])
 def get_players():
+    game_state_manager.reset_player_colors_earned()
     players_info = game_state_manager.get_players_info()
     print(f"Players' Info {players_info}")
     return jsonify(players_info)
