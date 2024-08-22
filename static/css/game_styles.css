@@ -93,12 +93,16 @@ body, html {
     top: -100%; /* Hide off-screen */
     left: 0;
     width: 100%;
-    height: 100%; /* Or adjust as needed */
+    height: calc(100% - 20px); /* Or adjust as needed */
     background-color: white; /* Adjust for readability */
     z-index: 1000; /* Make sure it covers other content */
     transition: top 0.5s ease; /* Smooth sliding */
     overflow-y: auto;
     padding: 20px;
+    white-space: normal; /* Ensures text wraps within the container */
+    word-wrap: break-word; /* Breaks long words if necessary */
+    overflow-wrap: break-word; /* Ensures proper word wrapping */
+    box-sizing: border-box;
 }
 
 .instructions-visible {

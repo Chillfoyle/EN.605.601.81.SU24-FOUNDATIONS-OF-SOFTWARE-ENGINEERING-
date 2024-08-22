@@ -5,7 +5,67 @@
     <title>Trivial Compute Instructions</title>
 </head>
 <body>
-<h2>How to Play</h2>
-<p>Your instructions go here. You can add as much text as needed...</p>
+<p style="color: blue;"><b>Click the "Show/Hide Instructions" button at the top of the screen to close this window.</b></p>
+<h1>How to Play</h1>
+<p>Welcome to Trivial Compute! This is a digital board game that will help you
+learn while also having fun!</p>
+<h2>Goal</h2>
+<p>The goal of the game is to move around the game board and collect "colors"
+by answering trivia questions in each of the four categories. To win, you must
+return to the center square of the game board and answer a final question correctly.</p>
+<h2>Important Parts of the Game Screen</h2>
+<h3>Player Prompt Window and Roll Die Button</h3>
+<p>Lambda will tell you what to do on your turn! This window also has the die. Click the "Roll Die" button
+when Lambda tells you to roll the die.</p>
+<img src="../static/images/player-prompt-window.png" alt="Player Prompt Window"/>
+<h3>Turn Order Table</h3>
+<p>This table shows all the players' names and token colors. If your name is highlighted blue,
+it's your turn!</p>
+<img src="../static/images/turn-order-table.png" alt="Turn Order Table"/>
+<h3>Trivia Card Window and Buttons</h3>
+<p>When you are asked a question, the trivia card window will go up and show you a question.
+To show the answer, click the "Show Answer" button. Click "Correct" or "Not Correct" to let
+Lambda know if you got the answer right.</p>
+<p>If you land on the Center Square, you or your opponents should click one of the four Category Buttons
+to select a category.</p>
+<p>The buttons will be greyed out to let you know that it's not time to click them, and they will be
+    colorful when you can click them!</p>
+<img src="../static/images/trivia-card-buttons.png" alt="Trivia Card Buttons"/>
+<h2>Start</h2>
+<p>At the start of the game, your tokens will start on the center square.</p>
+<h2>Player Turns</h2>
+<ol>
+    <li>On your turn, click the "Roll Die" button to roll the die.</li>
+    <li>Stars will appear on the squares that your token can move to. Click a star
+    to move your token to that square.</li>
+    <li>Multiple tokens can be on the same square.</li>
+    <li>If you land on one of the four <b>Roll Again</b> squares, you can take another turn!</li>
+    <li>If you land on one of the four <b>Category HQ</b> squares, you will be asked a trivia question
+    from the category with the color of the square you landed on.</li>
+</ol>
+<h2>Answering Trivia Questions</h2>
+<ol>
+    <li>The trivia card window will slide up to reveal a trivia question from the category
+    you landed on or chose.</li>
+    <li>Answer the question out loud.</li>
+    <li>Click the "Show Answer" button to flip the card and reveal the answer.</li>
+    <li>Your opponents decide whether your answer is correct. If correct, they should click
+    the "Correct" button. If the answer is not correct, they should click the "Not Correct"
+    button. (If you are playing by yourself, you can decide whether your answer
+    was correct.)</li>
+    <li>If you answer the question correctly, that color will be added to your score window and
+    you will get to take another turn.</li>
+    <li>If you do not answer the question correctly, you will not earn the color, and it will
+    be the next player's turn.</li>
+    <li>You may move your token down the spokes of the board and cross through the center square.
+    If you land on the <b>Center Square</b> and you do <b>not</b> have all colors earned, then
+    you may pick a category by selecting one of the Category Buttons.</li>
+</ol>
+<h2>Winning the Game</h2>
+<p>Once you have earned all four colors, go to the Center Square of the game board.
+You must land exactly on this square. When you do, <b>your opponents</b> will choose a category
+for you to answer. They will click the corresponding Category Button. If you answer the question
+correctly, you win! If you do not answer it correctly, then you must move out of the
+Center Square on your next turn, then try again to land on the Center Square to get another chance to win.</p>
 </body>
 </html>

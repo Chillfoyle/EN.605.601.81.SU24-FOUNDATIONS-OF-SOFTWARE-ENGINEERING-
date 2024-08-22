@@ -6,9 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="580d08a7-5876-40d9-a66b-c154442bd569" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/js/classes/Die.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/classes/Die.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/py/GameStateManager.py" beforeDir="false" afterPath="$PROJECT_DIR$/static/py/GameStateManager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/css/game_styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/css/game_styles.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/doc/UserManual.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/static/doc/UserManual.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/instructions.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/instructions.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/setup_screen.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/setup_screen.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/trivial_compute.db" beforeDir="false" afterPath="$PROJECT_DIR$/trivial_compute.db" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
